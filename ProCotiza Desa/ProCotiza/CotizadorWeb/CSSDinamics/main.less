@@ -1,0 +1,235 @@
+﻿/*'BBV-P-412: GVARGAS: 07/11/2016 RQ F: LESS dinamico*/
+
+.-(@color); 
+.-(acura)  {
+	@colorFondo: #041E42;
+	@imagenUrl: "../img/acura.png";
+	@positionImagenY: 18px;
+	@colorLinkBloque: #ffffff;
+	@colorLinks: #ffffff;
+	@fondoLinks: #084191;
+	@fondoLinksHover: #062b60;
+
+	@FieldSetTitle: #041E42;
+	@buttonBBVA: #041E42;
+	@fondoMessage: #9fc4f9;
+	@ColorMessage: #000000;
+	@CotizadotTagP: #041E42;
+
+	@content: 'ProCotiza Acura';
+	@FondoNavBar : #ffffff;
+	@bgDefault      : #041e42;
+	@bgHighlight    : #073678;
+	@colDefault     : #ffffff;
+	@colHighlight   : #87b6f8;
+	@dropDown       : true;
+}
+.-(honda) {
+	@colorFondo: #CC0000; 
+	@imagenUrl: "../img/honda.png";
+	@positionImagenY: 24px;
+	@colorLinkBloque: #ffffff;
+	@colorLinks: #ffffff;
+	@fondoLinks: #ff6666;
+	@fondoLinksHover: #ff1a1a;
+	
+	@FieldSetTitle: #CC0000;
+	@buttonBBVA: #CC0000;
+	@fondoMessage: #ff9999;
+	@ColorMessage: #000000;
+	@CotizadotTagP: #CC0000;
+
+	@content: 'ProCotiza Honda';
+	@FondoNavBar : #ffffff;
+	@bgDefault      : #cc0000;
+	@bgHighlight    : #990000;
+	@colDefault     : #ffffff;
+	@colHighlight   : #ff9999;
+	@dropDown       : true;
+}
+.-(jaguar) {
+	@colorFondo: #141414;
+	@imagenUrl: "../img/jaguar.png";
+	@positionImagenY: 0px;
+	@colorLinkBloque: #ffffff;
+	@colorLinks: #ffffff;
+	@fondoLinks: #A7A9AC;
+	@fondoLinksHover: #404040;
+
+	@FieldSetTitle: #141414;
+	@buttonBBVA: #141414;
+	@fondoMessage: #999999;
+	@ColorMessage: #ffffff;
+	@CotizadotTagP: #ffffff;
+
+	@content: 'ProCotiza Jaguar';
+	@FondoNavBar : #ffffff;
+	@bgDefault      : #141414;
+	@bgHighlight    : #4d4d4d;
+	@colDefault     : #ffffff;
+	@colHighlight   : #a7a9ac;
+	@dropDown       : true;
+}
+.-(suzuki) {
+	@colorFondo: #003f87;
+	@imagenUrl: "../img/suzuki.png";
+	@positionImagenY: 5px;
+	@colorLinkBloque: #ffffff;
+	@colorLinks: #ffffff;
+	@fondoLinks: #1a85ff;
+	@fondoLinksHover: #0053b3;
+
+	@FieldSetTitle: #003f87;
+	@buttonBBVA: #003f87;
+	@fondoMessage: #80bbff;
+	@ColorMessage: #000000;
+	@CotizadotTagP: #000000;
+
+	@content: 'ProCotiza Suzuki';
+	@FondoNavBar : #ffffff;
+	@bgDefault      : #003f87;
+	@bgHighlight    : #003066;
+	@colDefault     : #ffffff;
+	@colHighlight   : #4da0ff;
+	@dropDown       : true;
+}
+
+/*Menu Antiguo*/
+	#Logo {
+		background-image: url("@{imagenUrl}") !important;
+		background-repeat: no-repeat !important;
+		background-position-y: @positionImagenY;
+	}
+
+	#divMenuAntiguo {
+		background-color: @colorFondo !important;
+	}
+
+	#accordion div {
+		background-color: @colorFondo !important;
+	}
+
+	#headerLOGO div {
+		border-color: #ffffff #ffffff @colorFondo #ffffff !important;
+	}
+
+	#accordion a {
+		color: @colorLinks !important;
+	}
+
+	#accordion ul {
+		background: @fondoLinks repeat !important;
+	}
+
+	#accordion ul li:hover {
+		background-color: @fondoLinksHover !important;
+	 }
+
+	#accordion div {
+		color: @colorLinkBloque !important;
+	}
+
+/*FieldSet, Buttons Cotizador & Consulta Cotizaciones*/
+	.fieldsetBBVA legend {
+		color: @FieldSetTitle !important;
+	}
+
+	.buttonBBVA2 {
+		background-color: @buttonBBVA !important;
+	}
+
+	.buttonSecBBVA2 {
+		color: @buttonBBVA !important;
+		border: 1px solid @buttonBBVA !important;
+	}
+
+	.messageCot {
+		background-color: @fondoMessage !important;
+		color: @ColorMessage !important;
+	}
+
+	.CotizadotTagP {
+		color: @CotizadotTagP !important;
+		font-weight: bold !important;
+	}
+
+/*NAVBAR BOOTSTRAP*/
+	/*Variables*/
+
+	#FondoNavBar {
+		background-color: @FondoNavBar !important;
+	}
+
+	/*a.navbar-brand {
+		display:none;
+	}*/
+
+	a.navbar-brand:after {
+		content: @content !important;
+	}
+
+
+
+	.ddm() when (@dropDown) {
+	  > li > .dropdown-menu {
+		  background-color: @bgDefault;
+		  > li {
+			> a {
+			  color: @colDefault;
+			  &:hover,  &:focus {
+				color: @colHighlight;
+				background-color: @bgHighlight; }}
+			> .divider {
+			  background-color: @bgHighlight;}}}
+	  .open .dropdown-menu > .active {
+		> a, > a:hover, > a:focus {
+		  color: @colHighlight;
+		  background-color: @bgHighlight; }}}
+	.navbar-default {
+	  background-color: @bgDefault;
+	  border-color: @bgHighlight;
+	  .navbar-brand {
+		color: @colDefault;
+		&:hover, &:focus {
+		  color: @colHighlight; }}
+	  .navbar-text {
+		color: @colDefault; }
+	  .navbar-nav {
+		> li {
+		  > a {
+			color: @colDefault;
+			&:hover,  &:focus {
+			  color: @colHighlight; }}}
+		.ddm;
+		> .active {
+		  > a, > a:hover, > a:focus {
+			color: @colHighlight;
+			background-color: @bgHighlight; }}
+		> .open {
+		  > a, > a:hover, > a:focus {
+			color: @colHighlight;
+			background-color: @bgHighlight; }}}
+	  .navbar-toggle {
+		border-color: @bgHighlight;
+		&:hover, &:focus {
+		  background-color: @bgHighlight; }
+		.icon-bar {
+		  background-color: @colDefault; }}
+	  .navbar-collapse,
+	  .navbar-form {
+		border-color: @colDefault; }
+	  .navbar-link {
+		color: @colDefault;
+		&:hover {
+		  color: @colHighlight; }}}
+	@media (max-width: 767px) {
+	  .navbar-default .navbar-nav .open .dropdown-menu {
+		> li > a {
+		  color: @colDefault;
+		  &:hover, &:focus {
+			color: @colHighlight; }}
+		> .active {
+		  > a, > a:hover, > a:focus {
+			color: @colHighlight;
+			background-color: @bgHighlight; }}}
+	}

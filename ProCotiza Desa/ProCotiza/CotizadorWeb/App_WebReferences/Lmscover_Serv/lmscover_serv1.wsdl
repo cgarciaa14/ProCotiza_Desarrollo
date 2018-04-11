@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/lmscover_serv1/Service1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/lmscover_serv1/Service1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service LMS - LMSCover</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/lmscover_serv1/Service1">
+      <s:element name="envia_cotizacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envio_cotiza" type="tns:Envio_cotizacion1" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Envio_cotizacion1">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Cotiza_1">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Cobertura_ADI" type="tns:ArrayOfCobertura_AD1" />
+              <s:element minOccurs="0" maxOccurs="1" name="Paquete_ADI" type="tns:ArrayOfPaquete_AD1" />
+              <s:element minOccurs="0" maxOccurs="1" name="Consideraciones_adicionalesI" type="tns:ArrayOfConsideraciones_adicionales" />
+              <s:element minOccurs="0" maxOccurs="1" name="Mensaje_de_error" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Usuario" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Guarda_cotizacionI" type="tns:Guarda_cotizacion" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Cotiza_1">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID_PAQUETE" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_ZONA" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_ESTADO" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_NUEVAS" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_EMPLEADO" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_OPERACION" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_PLAZO" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_TIPO_UNIDAD" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_USO" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_DESCRIPCION" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MODELO" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_AGENCIA" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_ROL" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_ASEGURADORA" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_FORMA_PAGO" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SUMA_ASEGURADA" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="SUMA_ACCESORIO" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="SUMA_EQUIPO_ESPECIAL" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="IVA" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_CLIENTE" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="VALOR_FACTURA" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PRIMA_TOTAL" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="NUMERO_CREDITO" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_TIPO_IVA" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="NUMERO_AGENCIA" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SALDO_INSOLUTO" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_PLAZO_FINANCIADO" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CODIGO_POSTAL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IDENTIFICADOR_CLIENTE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ID_TIPO_PERSONA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ID_COTIZACION_REF" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_PROMOCION" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MESES" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IDENTIFICADOR_VEHICULO_CLIENTE" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCobertura_AD1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Cobertura_AD1" nillable="true" type="tns:Cobertura_AD1" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Cobertura_AD1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Clave" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tipo_regla" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Valor_regla" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPaquete_AD1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Paquete_AD1" nillable="true" type="tns:Paquete_AD1" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Paquete_AD1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Clave" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tipo_regla" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Valor_regla" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfConsideraciones_adicionales">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Consideraciones_adicionales" nillable="true" type="tns:Consideraciones_adicionales" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Consideraciones_adicionales">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Clave" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tipo_regla" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Valor_regla" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Guarda_cotizacion">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NO_COTIZACION" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NOMBRE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="APELLIDO_P" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="APELLIDO_M" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TELEFONO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CODIGOPOSTAL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COLONIA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DOMICILIO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CIUDAD" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RFC" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SEXO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FECHA_NACIMIENTO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FECHA_DESDE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FECHA_HASTA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NOMBRE_YO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="APELLIDO_P_YO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="APELLIDO_M_YO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ID_PERSONA" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="envia_cotizacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envia_cotizacionResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_cotizacion2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envio_cotiza" type="tns:Envio_cotizacion1" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_cotizacion2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envia_cotizacion2Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_cotizacion3">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envio_cotiza" type="tns:Envio_cotizacion1" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_cotizacion3Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envia_cotizacion3Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_cotizacion_xml">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Campos_XML" type="tns:Campos_XML" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Campos_XML">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Metodo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL_XML" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="XML_ENTRADA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="XML_SALIDA" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="envia_cotizacion_xmlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envia_cotizacion_xmlResult" type="tns:Campos_XML" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_emision">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="emision" type="tns:Emision" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Emision">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID_COTIZACION" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="FECHA_DESDE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FECHA_HASTA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NOMB_ASEG_TER" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NUM_POL_TER" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ini_Vig_Terc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Fin_Vig_Terc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COD_ASENTAMIENTO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COD_POBLACION" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SERIE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MOTOR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PLACAS" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_PERSONA" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="NOMBRE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="APELLIDO_PATERNO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="APELLIDO_MATERNO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RFC" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FECHA_NACIMIENTO_CONSTITUCION" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_SEXO" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_ESTADO_CIVIL" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="PROFESION_GIRO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ACTIVIDAD_OBJETO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NACIONALIDAD" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="APODERADO_LEGAL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DOMICILIO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NUMERO_EXTERIOR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NUMERO_INTERIOR" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COLONIA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CP" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LADA" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TELEFONO" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_ESTADO" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_ENTIDAD" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_BENEFICIARIO_PREFERENTE" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ART140_PREGUNTA1" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ART140_PREGUNTA2" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ART140_PREGUNTA3" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="POLIZA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ERROR_EMISION" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="YO_NOMBRE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="YO_PATERNO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="YO_MATERNO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EMAIL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="YO_FECHA_NAC" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ENTIDAD" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NumeroContrato" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PAGO_TARJETA" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_TIPO_TARJETA" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_BANCO" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="NOMBRE_TITULAR_TARJETA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PATERNO_TITULAR_TARJETA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MATERNO_TITULAR_TARJETA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EMAIL_TITULAR_TARJETA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NUMERO_TARJETA" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_OPCION_TARJETA" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MES_VENCIMIENTO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AÑO_VENCIMIENTO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DIGITO_VERIFICADOR" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="envia_emisionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envia_emisionResult" type="tns:Emision" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_emision_xml">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Campos_XML" type="tns:Campos_XML" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_emision_xmlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envia_emision_xmlResult" type="tns:Campos_XML" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_reimpresion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="reimpresion" type="tns:Reimpresion" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Reimpresion">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="POLIZA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NUMERO_CREDITO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ERROR_REIMPRESION" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="envia_reimpresionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envia_reimpresionResult" type="tns:Reimpresion" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="compara_cotizacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Cotizacion" type="tns:Cotizacion_PDF" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Cotizacion_PDF">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID_COTIZACION1" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_COTIZACION2" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_COTIZACION3" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_COTIZACION4" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_COTIZACION5" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID_COTIZACION6" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ERROR_PDF" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="compara_cotizacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="compara_cotizacionResult" type="tns:Cotizacion_PDF" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RecuperaPoliza">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="objPoliza" type="tns:Poliza" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Poliza">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NumeroPoliza" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NumeroContrato" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NumeroCotizacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorPoliza" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RecuperaPolizaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RecuperaPolizaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Vista_Previa">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="emision" type="tns:Emision" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Vista_PreviaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Vista_PreviaResult" type="tns:Emision" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Activacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Activa" type="tns:Activacion" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Activacion">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID_COTIZACION" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="FECHA_DESDE" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FECHA_HASTA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="POLIZA" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ERROR_EMISION" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ActivacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ActivacionResult" type="tns:Activacion" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Campos_XML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CamposXML" type="tns:Campos_XML" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Campos_XMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Campos_XMLResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Cotiza_XML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cotizar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Cotiza_XMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Cotiza_XMLResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Emite_XML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cotizar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Emite_XMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Emite_XMLResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_cotizacion4">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envio_cotiza" type="tns:Envio_cotizacion1" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="envia_cotizacion4Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="envia_cotizacion4Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="envia_cotizacionSoapIn">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacionSoapOut">
+    <wsdl:part name="parameters" element="tns:envia_cotizacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacion2SoapIn">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion2" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacion2SoapOut">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion2Response" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacion3SoapIn">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion3" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacion3SoapOut">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion3Response" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacion_xmlSoapIn">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion_xml" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacion_xmlSoapOut">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion_xmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="envia_emisionSoapIn">
+    <wsdl:part name="parameters" element="tns:envia_emision" />
+  </wsdl:message>
+  <wsdl:message name="envia_emisionSoapOut">
+    <wsdl:part name="parameters" element="tns:envia_emisionResponse" />
+  </wsdl:message>
+  <wsdl:message name="envia_emision_xmlSoapIn">
+    <wsdl:part name="parameters" element="tns:envia_emision_xml" />
+  </wsdl:message>
+  <wsdl:message name="envia_emision_xmlSoapOut">
+    <wsdl:part name="parameters" element="tns:envia_emision_xmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="envia_reimpresionSoapIn">
+    <wsdl:part name="parameters" element="tns:envia_reimpresion" />
+  </wsdl:message>
+  <wsdl:message name="envia_reimpresionSoapOut">
+    <wsdl:part name="parameters" element="tns:envia_reimpresionResponse" />
+  </wsdl:message>
+  <wsdl:message name="compara_cotizacionSoapIn">
+    <wsdl:part name="parameters" element="tns:compara_cotizacion" />
+  </wsdl:message>
+  <wsdl:message name="compara_cotizacionSoapOut">
+    <wsdl:part name="parameters" element="tns:compara_cotizacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="RecuperaPolizaSoapIn">
+    <wsdl:part name="parameters" element="tns:RecuperaPoliza" />
+  </wsdl:message>
+  <wsdl:message name="RecuperaPolizaSoapOut">
+    <wsdl:part name="parameters" element="tns:RecuperaPolizaResponse" />
+  </wsdl:message>
+  <wsdl:message name="Vista_PreviaSoapIn">
+    <wsdl:part name="parameters" element="tns:Vista_Previa" />
+  </wsdl:message>
+  <wsdl:message name="Vista_PreviaSoapOut">
+    <wsdl:part name="parameters" element="tns:Vista_PreviaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActivacionSoapIn">
+    <wsdl:part name="parameters" element="tns:Activacion" />
+  </wsdl:message>
+  <wsdl:message name="ActivacionSoapOut">
+    <wsdl:part name="parameters" element="tns:ActivacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="Campos_XMLSoapIn">
+    <wsdl:part name="parameters" element="tns:Campos_XML" />
+  </wsdl:message>
+  <wsdl:message name="Campos_XMLSoapOut">
+    <wsdl:part name="parameters" element="tns:Campos_XMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="Cotiza_XMLSoapIn">
+    <wsdl:part name="parameters" element="tns:Cotiza_XML" />
+  </wsdl:message>
+  <wsdl:message name="Cotiza_XMLSoapOut">
+    <wsdl:part name="parameters" element="tns:Cotiza_XMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="Emite_XMLSoapIn">
+    <wsdl:part name="parameters" element="tns:Emite_XML" />
+  </wsdl:message>
+  <wsdl:message name="Emite_XMLSoapOut">
+    <wsdl:part name="parameters" element="tns:Emite_XMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacion4SoapIn">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion4" />
+  </wsdl:message>
+  <wsdl:message name="envia_cotizacion4SoapOut">
+    <wsdl:part name="parameters" element="tns:envia_cotizacion4Response" />
+  </wsdl:message>
+  <wsdl:portType name="Lorant_LmsCover1Soap">
+    <wsdl:operation name="envia_cotizacion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cotización</wsdl:documentation>
+      <wsdl:input message="tns:envia_cotizacionSoapIn" />
+      <wsdl:output message="tns:envia_cotizacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cotización</wsdl:documentation>
+      <wsdl:input message="tns:envia_cotizacion2SoapIn" />
+      <wsdl:output message="tns:envia_cotizacion2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion3">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cotización</wsdl:documentation>
+      <wsdl:input message="tns:envia_cotizacion3SoapIn" />
+      <wsdl:output message="tns:envia_cotizacion3SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion_xml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cotización XML</wsdl:documentation>
+      <wsdl:input message="tns:envia_cotizacion_xmlSoapIn" />
+      <wsdl:output message="tns:envia_cotizacion_xmlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="envia_emision">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Emisión</wsdl:documentation>
+      <wsdl:input message="tns:envia_emisionSoapIn" />
+      <wsdl:output message="tns:envia_emisionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="envia_emision_xml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cotización XML</wsdl:documentation>
+      <wsdl:input message="tns:envia_emision_xmlSoapIn" />
+      <wsdl:output message="tns:envia_emision_xmlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="envia_reimpresion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reimpresión</wsdl:documentation>
+      <wsdl:input message="tns:envia_reimpresionSoapIn" />
+      <wsdl:output message="tns:envia_reimpresionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="compara_cotizacion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cotizacion_PDF</wsdl:documentation>
+      <wsdl:input message="tns:compara_cotizacionSoapIn" />
+      <wsdl:output message="tns:compara_cotizacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RecuperaPoliza">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Información Pólizas</wsdl:documentation>
+      <wsdl:input message="tns:RecuperaPolizaSoapIn" />
+      <wsdl:output message="tns:RecuperaPolizaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Vista_Previa">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Vista_Previa</wsdl:documentation>
+      <wsdl:input message="tns:Vista_PreviaSoapIn" />
+      <wsdl:output message="tns:Vista_PreviaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Activacion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Activación</wsdl:documentation>
+      <wsdl:input message="tns:ActivacionSoapIn" />
+      <wsdl:output message="tns:ActivacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Campos_XML">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Campos XML</wsdl:documentation>
+      <wsdl:input message="tns:Campos_XMLSoapIn" />
+      <wsdl:output message="tns:Campos_XMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Cotiza_XML">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cotiza_XML</wsdl:documentation>
+      <wsdl:input message="tns:Cotiza_XMLSoapIn" />
+      <wsdl:output message="tns:Cotiza_XMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Emite_XML">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Emite_XML</wsdl:documentation>
+      <wsdl:input message="tns:Emite_XMLSoapIn" />
+      <wsdl:output message="tns:Emite_XMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion4">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cotización</wsdl:documentation>
+      <wsdl:input message="tns:envia_cotizacion4SoapIn" />
+      <wsdl:output message="tns:envia_cotizacion4SoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Lorant_LmsCover1Soap" type="tns:Lorant_LmsCover1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="envia_cotizacion">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion2">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion3">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion_xml">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion_xml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_emision">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_emision" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_emision_xml">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_emision_xml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_reimpresion">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_reimpresion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="compara_cotizacion">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/compara_cotizacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RecuperaPoliza">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/RecuperaPoliza" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Vista_Previa">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Vista_Previa" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Activacion">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Activacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Campos_XML">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Campos_XML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Cotiza_XML">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Cotiza_XML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Emite_XML">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Emite_XML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion4">
+      <soap:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion4" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Lorant_LmsCover1Soap12" type="tns:Lorant_LmsCover1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="envia_cotizacion">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion2">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion3">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion3" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion_xml">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion_xml" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_emision">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_emision" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_emision_xml">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_emision_xml" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_reimpresion">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_reimpresion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="compara_cotizacion">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/compara_cotizacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RecuperaPoliza">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/RecuperaPoliza" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Vista_Previa">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Vista_Previa" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Activacion">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Activacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Campos_XML">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Campos_XML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Cotiza_XML">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Cotiza_XML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Emite_XML">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/Emite_XML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="envia_cotizacion4">
+      <soap12:operation soapAction="http://tempuri.org/lmscover_serv1/Service1/envia_cotizacion4" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Lorant_LmsCover1">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service LMS - LMSCover</wsdl:documentation>
+    <wsdl:port name="Lorant_LmsCover1Soap" binding="tns:Lorant_LmsCover1Soap">
+      <soap:address location="https://grupo.lmsmexico.com.mx/lmscover_serv1/lmscover_serv1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Lorant_LmsCover1Soap12" binding="tns:Lorant_LmsCover1Soap12">
+      <soap12:address location="https://grupo.lmsmexico.com.mx/lmscover_serv1/lmscover_serv1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

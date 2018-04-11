@@ -1,0 +1,8 @@
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\SDManejaBD\bin\Debug\SDManejaBD.dll
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\SDManejaBD\bin\Debug\SDManejaBD.pdb
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\SDManejaBD\bin\Debug\SDManejaBD.xml
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\SDManejaBD\obj\Debug\SDManejaBD.Resources.resources
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\SDManejaBD\obj\Debug\SDManejaBD.vbproj.GenerateResource.Cache
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\SDManejaBD\obj\Debug\SDManejaBD.dll
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\SDManejaBD\obj\Debug\SDManejaBD.xml
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\SDManejaBD\obj\Debug\SDManejaBD.pdb

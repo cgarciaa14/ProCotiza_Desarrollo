@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SDManejaBD", "SDManejaBD\SDManejaBD.vbproj", "{50E4A25A-6562-45FD-A93C-ACD59AC937DD}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SNProcotiza", "SNProcotiza\SNProcotiza.vbproj", "{BD6463F7-29E0-4087-9105-94B72D236669}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CotizadorWeb", "CotizadorWeb", "{467EB75E-E882-4F1D-AA8F-FAD11AD134BE}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{50E4A25A-6562-45FD-A93C-ACD59AC937DD}|SDManejaBD.dll;{6719599A-3008-4053-865C-1B53B78B7C3D}|CargaExcel.dll;{5E081189-3557-46B8-847E-7050E25CCD5C}|WCF.dll;{BD6463F7-29E0-4087-9105-94B72D236669}|SNProcotiza.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/CotizadorWeb"
+		Debug.AspNetCompiler.PhysicalPath = "CotizadorWeb\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\CotizadorWeb\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/CotizadorWeb"
+		Release.AspNetCompiler.PhysicalPath = "CotizadorWeb\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\CotizadorWeb\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52961"
+		DefaultWebSiteLanguage = "Visual Basic"
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CargaExcel", "CargaExcel\CargaExcel.vbproj", "{6719599A-3008-4053-865C-1B53B78B7C3D}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WCF", "WCF\WCF.vbproj", "{5E081189-3557-46B8-847E-7050E25CCD5C}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://teleproteam.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = CargaExcel\\CargaExcel.vbproj
+		SccProjectName1 = CargaExcel
+		SccLocalPath1 = CargaExcel
+		SccProjectUniqueName2 = SDManejaBD\\SDManejaBD.vbproj
+		SccProjectName2 = SDManejaBD
+		SccLocalPath2 = SDManejaBD
+		SccProjectUniqueName3 = SNProcotiza\\SNProcotiza.vbproj
+		SccProjectName3 = SNProcotiza
+		SccLocalPath3 = SNProcotiza
+		SccProjectUniqueName4 = WCF\\WCF.vbproj
+		SccProjectName4 = WCF
+		SccLocalPath4 = WCF
+		SccWebProject5 = true
+		SccProjectUniqueName5 = CotizadorWeb
+		SccProjectName5 = CotizadorWeb
+		SccLocalPath5 = CotizadorWeb
+		SccProjectEnlistmentChoice5 = 2
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50E4A25A-6562-45FD-A93C-ACD59AC937DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50E4A25A-6562-45FD-A93C-ACD59AC937DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50E4A25A-6562-45FD-A93C-ACD59AC937DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50E4A25A-6562-45FD-A93C-ACD59AC937DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD6463F7-29E0-4087-9105-94B72D236669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD6463F7-29E0-4087-9105-94B72D236669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD6463F7-29E0-4087-9105-94B72D236669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD6463F7-29E0-4087-9105-94B72D236669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{467EB75E-E882-4F1D-AA8F-FAD11AD134BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{467EB75E-E882-4F1D-AA8F-FAD11AD134BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{467EB75E-E882-4F1D-AA8F-FAD11AD134BE}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{467EB75E-E882-4F1D-AA8F-FAD11AD134BE}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6719599A-3008-4053-865C-1B53B78B7C3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6719599A-3008-4053-865C-1B53B78B7C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6719599A-3008-4053-865C-1B53B78B7C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6719599A-3008-4053-865C-1B53B78B7C3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E081189-3557-46B8-847E-7050E25CCD5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E081189-3557-46B8-847E-7050E25CCD5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E081189-3557-46B8-847E-7050E25CCD5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E081189-3557-46B8-847E-7050E25CCD5C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

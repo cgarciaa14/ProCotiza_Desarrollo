@@ -1,0 +1,15 @@
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\WCF.dll
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\WCF.pdb
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\WCF.xml
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\SDManejaBD.dll
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\SNProcotiza.dll
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\SDManejaBD.pdb
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\SDManejaBD.xml
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\SNProcotiza.pdb
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\bin\Debug\SNProcotiza.xml
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\obj\Debug\WCF.vbprojResolveAssemblyReference.cache
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\obj\Debug\WCF.Resources.resources
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\obj\Debug\WCF.vbproj.GenerateResource.Cache
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\obj\Debug\WCF.dll
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\obj\Debug\WCF.xml
+C:\Users\CGARCIA\Documents\TFS\ProCotiza Desa\ProCotiza\WCF\obj\Debug\WCF.pdb

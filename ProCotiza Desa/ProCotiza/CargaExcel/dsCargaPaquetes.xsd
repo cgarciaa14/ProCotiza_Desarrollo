@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsCargaPaquetes" targetNamespace="http://tempuri.org/dsCargaPaquetes.xsd" xmlns:mstns="http://tempuri.org/dsCargaPaquetes.xsd" xmlns="http://tempuri.org/dsCargaPaquetes.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsCargaPaquetes" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsCargaPaquetes" msprop:Generator_UserDSName="dsCargaPaquetes">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PAQUETES" msprop:Generator_TableClassName="PAQUETESDataTable" msprop:Generator_TableVarName="tablePAQUETES" msprop:Generator_RowChangedName="PAQUETESRowChanged" msprop:Generator_TablePropName="PAQUETES" msprop:Generator_RowDeletingName="PAQUETESRowDeleting" msprop:Generator_RowChangingName="PAQUETESRowChanging" msprop:Generator_RowEvHandlerName="PAQUETESRowChangeEventHandler" msprop:Generator_RowDeletedName="PAQUETESRowDeleted" msprop:Generator_RowClassName="PAQUETESRow" msprop:Generator_UserTableName="PAQUETES" msprop:Generator_RowEvArgName="PAQUETESRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_PAQUETE" msprop:Generator_ColumnVarNameInTable="columnID_PAQUETE" msprop:Generator_ColumnPropNameInRow="ID_PAQUETE" msprop:Generator_ColumnPropNameInTable="ID_PAQUETEColumn" msprop:Generator_UserColumnName="ID_PAQUETE" type="xs:int" />
+              <xs:element name="ID_TIPO_OPERACION" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_OPERACION" msprop:Generator_ColumnPropNameInRow="ID_TIPO_OPERACION" msprop:Generator_ColumnPropNameInTable="ID_TIPO_OPERACIONColumn" msprop:Generator_UserColumnName="ID_TIPO_OPERACION" type="xs:int" />
+              <xs:element name="ID_MONEDA" msprop:Generator_ColumnVarNameInTable="columnID_MONEDA" msprop:Generator_ColumnPropNameInRow="ID_MONEDA" msprop:Generator_ColumnPropNameInTable="ID_MONEDAColumn" msprop:Generator_UserColumnName="ID_MONEDA" type="xs:int" />
+              <xs:element name="ID_CLASIFICACION_PROD" msprop:Generator_ColumnVarNameInTable="columnID_CLASIFICACION_PROD" msprop:Generator_ColumnPropNameInRow="ID_CLASIFICACION_PROD" msprop:Generator_ColumnPropNameInTable="ID_CLASIFICACION_PRODColumn" msprop:Generator_UserColumnName="ID_CLASIFICACION_PROD" type="xs:int" />
+              <xs:element name="NOMBRE" msprop:Generator_ColumnVarNameInTable="columnNOMBRE" msprop:Generator_ColumnPropNameInRow="NOMBRE" msprop:Generator_ColumnPropNameInTable="NOMBREColumn" msprop:Generator_UserColumnName="NOMBRE" type="xs:string" />
+              <xs:element name="PTJ_MAX_ACCESORIOS" msprop:Generator_ColumnVarNameInTable="columnPTJ_MAX_ACCESORIOS" msprop:Generator_ColumnPropNameInRow="PTJ_MAX_ACCESORIOS" msprop:Generator_ColumnPropNameInTable="PTJ_MAX_ACCESORIOSColumn" msprop:Generator_UserColumnName="PTJ_MAX_ACCESORIOS" type="xs:double" />
+              <xs:element name="ID_CALENDARIO" msprop:Generator_ColumnVarNameInTable="columnID_CALENDARIO" msprop:Generator_ColumnPropNameInRow="ID_CALENDARIO" msprop:Generator_ColumnPropNameInTable="ID_CALENDARIOColumn" msprop:Generator_UserColumnName="ID_CALENDARIO" type="xs:int" />
+              <xs:element name="ID_PERIODICIDAD" msprop:Generator_ColumnVarNameInTable="columnID_PERIODICIDAD" msprop:Generator_ColumnPropNameInRow="ID_PERIODICIDAD" msprop:Generator_ColumnPropNameInTable="ID_PERIODICIDADColumn" msprop:Generator_UserColumnName="ID_PERIODICIDAD" type="xs:int" />
+              <xs:element name="ID_TIPO_CALCULO" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_CALCULO" msprop:Generator_ColumnPropNameInRow="ID_TIPO_CALCULO" msprop:Generator_ColumnPropNameInTable="ID_TIPO_CALCULOColumn" msprop:Generator_UserColumnName="ID_TIPO_CALCULO" type="xs:int" />
+              <xs:element name="PRIMER_PAGO_IRREG" msprop:Generator_ColumnVarNameInTable="columnPRIMER_PAGO_IRREG" msprop:Generator_ColumnPropNameInRow="PRIMER_PAGO_IRREG" msprop:Generator_ColumnPropNameInTable="PRIMER_PAGO_IRREGColumn" msprop:Generator_UserColumnName="PRIMER_PAGO_IRREG" type="xs:int" />
+              <xs:element name="PERMITE_SEGURO_REGALADO" msprop:Generator_ColumnVarNameInTable="columnPERMITE_SEGURO_REGALADO" msprop:Generator_ColumnPropNameInRow="PERMITE_SEGURO_REGALADO" msprop:Generator_ColumnPropNameInTable="PERMITE_SEGURO_REGALADOColumn" msprop:Generator_UserColumnName="PERMITE_SEGURO_REGALADO" type="xs:int" />
+              <xs:element name="PERMITE_MONTO_SUBSIDIO" msprop:Generator_ColumnVarNameInTable="columnPERMITE_MONTO_SUBSIDIO" msprop:Generator_ColumnPropNameInRow="PERMITE_MONTO_SUBSIDIO" msprop:Generator_ColumnPropNameInTable="PERMITE_MONTO_SUBSIDIOColumn" msprop:Generator_UserColumnName="PERMITE_MONTO_SUBSIDIO" type="xs:int" />
+              <xs:element name="PERMITE_PTJ_SUBSIDIO" msprop:Generator_ColumnVarNameInTable="columnPERMITE_PTJ_SUBSIDIO" msprop:Generator_ColumnPropNameInRow="PERMITE_PTJ_SUBSIDIO" msprop:Generator_ColumnPropNameInTable="PERMITE_PTJ_SUBSIDIOColumn" msprop:Generator_UserColumnName="PERMITE_PTJ_SUBSIDIO" type="xs:int" />
+              <xs:element name="ID_TIPO_CALCULO_SEGURO" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_CALCULO_SEGURO" msprop:Generator_ColumnPropNameInRow="ID_TIPO_CALCULO_SEGURO" msprop:Generator_ColumnPropNameInTable="ID_TIPO_CALCULO_SEGUROColumn" msprop:Generator_UserColumnName="ID_TIPO_CALCULO_SEGURO" type="xs:int" />
+              <xs:element name="PERMITE_PAGOS_ESPECIALES" msprop:Generator_ColumnVarNameInTable="columnPERMITE_PAGOS_ESPECIALES" msprop:Generator_ColumnPropNameInRow="PERMITE_PAGOS_ESPECIALES" msprop:Generator_ColumnPropNameInTable="PERMITE_PAGOS_ESPECIALESColumn" msprop:Generator_UserColumnName="PERMITE_PAGOS_ESPECIALES" type="xs:int" />
+              <xs:element name="PERMITE_GRACIA_CAPITAL" msprop:Generator_ColumnVarNameInTable="columnPERMITE_GRACIA_CAPITAL" msprop:Generator_ColumnPropNameInRow="PERMITE_GRACIA_CAPITAL" msprop:Generator_ColumnPropNameInTable="PERMITE_GRACIA_CAPITALColumn" msprop:Generator_UserColumnName="PERMITE_GRACIA_CAPITAL" type="xs:short" />
+              <xs:element name="PERMITE_GRACIA_INTERES" msprop:Generator_ColumnVarNameInTable="columnPERMITE_GRACIA_INTERES" msprop:Generator_ColumnPropNameInRow="PERMITE_GRACIA_INTERES" msprop:Generator_ColumnPropNameInTable="PERMITE_GRACIA_INTERESColumn" msprop:Generator_UserColumnName="PERMITE_GRACIA_INTERES" type="xs:int" />
+              <xs:element name="ID_TIPO_SEGURO_VIDA" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_SEGURO_VIDA" msprop:Generator_ColumnPropNameInRow="ID_TIPO_SEGURO_VIDA" msprop:Generator_ColumnPropNameInTable="ID_TIPO_SEGURO_VIDAColumn" msprop:Generator_UserColumnName="ID_TIPO_SEGURO_VIDA" type="xs:int" />
+              <xs:element name="ID_TIPO_VENCIMIENTO" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_VENCIMIENTO" msprop:Generator_ColumnPropNameInRow="ID_TIPO_VENCIMIENTO" msprop:Generator_ColumnPropNameInTable="ID_TIPO_VENCIMIENTOColumn" msprop:Generator_UserColumnName="ID_TIPO_VENCIMIENTO" type="xs:int" />
+              <xs:element name="FACTOR_SEGURO_VIDA" msprop:Generator_ColumnVarNameInTable="columnFACTOR_SEGURO_VIDA" msprop:Generator_ColumnPropNameInRow="FACTOR_SEGURO_VIDA" msprop:Generator_ColumnPropNameInTable="FACTOR_SEGURO_VIDAColumn" msprop:Generator_UserColumnName="FACTOR_SEGURO_VIDA" type="xs:double" />
+              <xs:element name="CALCULAR_IVA_SEGURO_VIDA" msprop:Generator_ColumnVarNameInTable="columnCALCULAR_IVA_SEGURO_VIDA" msprop:Generator_ColumnPropNameInRow="CALCULAR_IVA_SEGURO_VIDA" msprop:Generator_ColumnPropNameInTable="CALCULAR_IVA_SEGURO_VIDAColumn" msprop:Generator_UserColumnName="CALCULAR_IVA_SEGURO_VIDA" type="xs:int" />
+              <xs:element name="INI_VIG" msdata:DateTimeMode="Local" msprop:Generator_ColumnVarNameInTable="columnINI_VIG" msprop:Generator_ColumnPropNameInRow="INI_VIG" msprop:Generator_ColumnPropNameInTable="INI_VIGColumn" msprop:Generator_UserColumnName="INI_VIG" type="xs:dateTime" />
+              <xs:element name="FIN_VIG" msdata:DateTimeMode="Local" msprop:Generator_ColumnVarNameInTable="columnFIN_VIG" msprop:Generator_ColumnPropNameInRow="FIN_VIG" msprop:Generator_ColumnPropNameInTable="FIN_VIGColumn" msprop:Generator_UserColumnName="FIN_VIG" type="xs:dateTime" />
+              <xs:element name="INCENTIVO_VENTAS" msprop:Generator_ColumnVarNameInTable="columnINCENTIVO_VENTAS" msprop:Generator_ColumnPropNameInRow="INCENTIVO_VENTAS" msprop:Generator_ColumnPropNameInTable="INCENTIVO_VENTASColumn" msprop:Generator_UserColumnName="INCENTIVO_VENTAS" type="xs:double" />
+              <xs:element name="NOPERIODOS" msprop:Generator_ColumnVarNameInTable="columnNOPERIODOS" msprop:Generator_ColumnPropNameInRow="NOPERIODOS" msprop:Generator_ColumnPropNameInTable="NOPERIODOSColumn" msprop:Generator_UserColumnName="NOPERIODOS" type="xs:int" />
+              <xs:element name="ID_PROMOCION" msprop:Generator_ColumnVarNameInTable="columnID_PROMOCION" msprop:Generator_ColumnPropNameInRow="ID_PROMOCION" msprop:Generator_ColumnPropNameInTable="ID_PROMOCIONColumn" msprop:Generator_UserColumnName="ID_PROMOCION" type="xs:int" />
+              <xs:element name="PTJ_PAGOS_ESPECIALES" msprop:Generator_ColumnVarNameInTable="columnPTJ_PAGOS_ESPECIALES" msprop:Generator_ColumnPropNameInRow="PTJ_PAGOS_ESPECIALES" msprop:Generator_ColumnPropNameInTable="PTJ_PAGOS_ESPECIALESColumn" msprop:Generator_UserColumnName="PTJ_PAGOS_ESPECIALES" type="xs:double" />
+              <xs:element name="PTJ_SUBSIDIO_ARMADORA" msprop:Generator_ColumnVarNameInTable="columnPTJ_SUBSIDIO_ARMADORA" msprop:Generator_ColumnPropNameInRow="PTJ_SUBSIDIO_ARMADORA" msprop:Generator_ColumnPropNameInTable="PTJ_SUBSIDIO_ARMADORAColumn" msprop:Generator_UserColumnName="PTJ_SUBSIDIO_ARMADORA" type="xs:double" />
+              <xs:element name="PTJ_SUBSIDIO_AGENCIA" msprop:Generator_ColumnVarNameInTable="columnPTJ_SUBSIDIO_AGENCIA" msprop:Generator_ColumnPropNameInRow="PTJ_SUBSIDIO_AGENCIA" msprop:Generator_ColumnPropNameInTable="PTJ_SUBSIDIO_AGENCIAColumn" msprop:Generator_UserColumnName="PTJ_SUBSIDIO_AGENCIA" type="xs:double" />
+              <xs:element name="PTJ_COMISION_VTASEG" msprop:Generator_ColumnVarNameInTable="columnPTJ_COMISION_VTASEG" msprop:Generator_ColumnPropNameInRow="PTJ_COMISION_VTASEG" msprop:Generator_ColumnPropNameInTable="PTJ_COMISION_VTASEGColumn" msprop:Generator_UserColumnName="PTJ_COMISION_VTASEG" type="xs:double" />
+              <xs:element name="PTJ_MIN_COMISION_VENDEDOR" msprop:Generator_ColumnVarNameInTable="columnPTJ_MIN_COMISION_VENDEDOR" msprop:Generator_ColumnPropNameInRow="PTJ_MIN_COMISION_VENDEDOR" msprop:Generator_ColumnPropNameInTable="PTJ_MIN_COMISION_VENDEDORColumn" msprop:Generator_UserColumnName="PTJ_MIN_COMISION_VENDEDOR" type="xs:double" />
+              <xs:element name="PTJ_MAX_COMISION_VENDEDOR" msprop:Generator_ColumnVarNameInTable="columnPTJ_MAX_COMISION_VENDEDOR" msprop:Generator_ColumnPropNameInRow="PTJ_MAX_COMISION_VENDEDOR" msprop:Generator_ColumnPropNameInTable="PTJ_MAX_COMISION_VENDEDORColumn" msprop:Generator_UserColumnName="PTJ_MAX_COMISION_VENDEDOR" type="xs:double" />
+              <xs:element name="PTJ_MIN_COMISION_AGENCIA" msprop:Generator_ColumnVarNameInTable="columnPTJ_MIN_COMISION_AGENCIA" msprop:Generator_ColumnPropNameInRow="PTJ_MIN_COMISION_AGENCIA" msprop:Generator_ColumnPropNameInTable="PTJ_MIN_COMISION_AGENCIAColumn" msprop:Generator_UserColumnName="PTJ_MIN_COMISION_AGENCIA" type="xs:double" />
+              <xs:element name="PTJ_MAX_COMISION_AGENCIA" msprop:Generator_ColumnVarNameInTable="columnPTJ_MAX_COMISION_AGENCIA" msprop:Generator_ColumnPropNameInRow="PTJ_MAX_COMISION_AGENCIA" msprop:Generator_ColumnPropNameInTable="PTJ_MAX_COMISION_AGENCIAColumn" msprop:Generator_UserColumnName="PTJ_MAX_COMISION_AGENCIA" type="xs:double" />
+              <xs:element name="VIA_CALC_SEG_VIDA" msprop:Generator_ColumnVarNameInTable="columnVIA_CALC_SEG_VIDA" msprop:Generator_ColumnPropNameInRow="VIA_CALC_SEG_VIDA" msprop:Generator_ColumnPropNameInTable="VIA_CALC_SEG_VIDAColumn" msprop:Generator_UserColumnName="VIA_CALC_SEG_VIDA" type="xs:int" />
+              <xs:element name="CERO_COMISION" msprop:Generator_ColumnVarNameInTable="columnCERO_COMISION" msprop:Generator_ColumnPropNameInRow="CERO_COMISION" msprop:Generator_ColumnPropNameInTable="CERO_COMISIONColumn" msprop:Generator_UserColumnName="CERO_COMISION" type="xs:int" />
+              <xs:element name="ID_PRODUCTO_UG" msprop:Generator_ColumnVarNameInTable="columnID_PRODUCTO_UG" msprop:Generator_ColumnPropNameInRow="ID_PRODUCTO_UG" msprop:Generator_ColumnPropNameInTable="ID_PRODUCTO_UGColumn" msprop:Generator_UserColumnName="ID_PRODUCTO_UG" type="xs:int" />
+              <xs:element name="ID_SUBPRODUCTO_UG" msprop:Generator_ColumnVarNameInTable="columnID_SUBPRODUCTO_UG" msprop:Generator_ColumnPropNameInRow="ID_SUBPRODUCTO_UG" msprop:Generator_ColumnPropNameInTable="ID_SUBPRODUCTO_UGColumn" msprop:Generator_UserColumnName="ID_SUBPRODUCTO_UG" type="xs:string" />
+              <xs:element name="ID_ESQUEMA" msprop:Generator_ColumnVarNameInTable="columnID_ESQUEMA" msprop:Generator_ColumnPropNameInRow="ID_ESQUEMA" msprop:Generator_ColumnPropNameInTable="ID_ESQUEMA" msprop:Generator_UserColumnName="ID_ESQUEMA" type="xs:string" />
+              <xs:element name="IMPORTEMING" msprop:Generator_ColumnVarNameInTable="columnIMPORTEMING" msprop:Generator_ColumnPropNameInRow="IMPORTEMING" msprop:Generator_ColumnPropNameInTable="IMPORTEMINGColumn" msprop:Generator_UserColumnName="IMPORTEMING" type="xs:double" />
+              <xs:element name="IMPORTEMAXG" msprop:Generator_ColumnVarNameInTable="columnIMPORTEMAXG" msprop:Generator_ColumnPropNameInRow="IMPORTEMAXG" msprop:Generator_ColumnPropNameInTable="IMPORTEMAXGColumn" msprop:Generator_UserColumnName="IMPORTEMAXG" type="xs:double" />
+              <xs:element name="ID_TIPO_PRODUCTO" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_PRODUCTO" msprop:Generator_ColumnPropNameInRow="ID_TIPO_PRODUCTO" msprop:Generator_ColumnPropNameInTable="ID_TIPO_PRODUCTOColumn" msprop:Generator_UserColumnName="ID_TIPO_PRODUCTO" type="xs:int" />
+              <xs:element name="ID_CANAL" msprop:Generator_ColumnVarNameInTable="columnID_CANAL" msprop:Generator_ColumnPropNameInRow="ID_CANAL" msprop:Generator_ColumnPropNameInTable="ID_CANALColumn" msprop:Generator_UserColumnName="ID_CANAL" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PERSONALIDAD" msprop:Generator_TableClassName="PERSONALIDADDataTable" msprop:Generator_TableVarName="tablePERSONALIDAD" msprop:Generator_RowChangedName="PERSONALIDADRowChanged" msprop:Generator_TablePropName="PERSONALIDAD" msprop:Generator_RowDeletingName="PERSONALIDADRowDeleting" msprop:Generator_RowChangingName="PERSONALIDADRowChanging" msprop:Generator_RowEvHandlerName="PERSONALIDADRowChangeEventHandler" msprop:Generator_RowDeletedName="PERSONALIDADRowDeleted" msprop:Generator_RowClassName="PERSONALIDADRow" msprop:Generator_UserTableName="PERSONALIDAD" msprop:Generator_RowEvArgName="PERSONALIDADRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_PAQUETE" msprop:Generator_ColumnVarNameInTable="columnID_PAQUETE" msprop:Generator_ColumnPropNameInRow="ID_PAQUETE" msprop:Generator_ColumnPropNameInTable="ID_PAQUETEColumn" msprop:Generator_UserColumnName="ID_PAQUETE" type="xs:int" />
+              <xs:element name="ID_PER_JURIDICA" msprop:Generator_ColumnVarNameInTable="columnID_PER_JURIDICA" msprop:Generator_ColumnPropNameInRow="ID_PER_JURIDICA" msprop:Generator_ColumnPropNameInTable="ID_PER_JURIDICAColumn" msprop:Generator_UserColumnName="ID_PER_JURIDICA" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SEGUROSPROD" msprop:Generator_TableClassName="SEGUROSPRODDataTable" msprop:Generator_TableVarName="tableSEGUROSPROD" msprop:Generator_RowChangedName="SEGUROSPRODRowChanged" msprop:Generator_TablePropName="SEGUROSPROD" msprop:Generator_RowDeletingName="SEGUROSPRODRowDeleting" msprop:Generator_RowChangingName="SEGUROSPRODRowChanging" msprop:Generator_RowEvHandlerName="SEGUROSPRODRowChangeEventHandler" msprop:Generator_RowDeletedName="SEGUROSPRODRowDeleted" msprop:Generator_RowClassName="SEGUROSPRODRow" msprop:Generator_UserTableName="SEGUROSPROD" msprop:Generator_RowEvArgName="SEGUROSPRODRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_PAQUETE" msprop:Generator_ColumnVarNameInTable="columnID_PAQUETE" msprop:Generator_ColumnPropNameInRow="ID_PAQUETE" msprop:Generator_ColumnPropNameInTable="ID_PAQUETEColumn" msprop:Generator_UserColumnName="ID_PAQUETE" type="xs:int" />
+              <xs:element name="ID_TIPO_SEGURO" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_SEGURO" msprop:Generator_ColumnPropNameInRow="ID_TIPO_SEGURO" msprop:Generator_ColumnPropNameInTable="ID_TIPO_SEGUROColumn" msprop:Generator_UserColumnName="ID_TIPO_SEGURO" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SEGUROSVIDA" msprop:Generator_TableClassName="SEGUROSVIDADataTable" msprop:Generator_TableVarName="tableSEGUROSVIDA" msprop:Generator_RowChangedName="SEGUROSVIDARowChanged" msprop:Generator_TablePropName="SEGUROSVIDA" msprop:Generator_RowDeletingName="SEGUROSVIDARowDeleting" msprop:Generator_RowChangingName="SEGUROSVIDARowChanging" msprop:Generator_RowEvHandlerName="SEGUROSVIDARowChangeEventHandler" msprop:Generator_RowDeletedName="SEGUROSVIDARowDeleted" msprop:Generator_RowClassName="SEGUROSVIDARow" msprop:Generator_UserTableName="SEGUROSVIDA" msprop:Generator_RowEvArgName="SEGUROSVIDARowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_PAQUETE" msprop:Generator_ColumnVarNameInTable="columnID_PAQUETE" msprop:Generator_ColumnPropNameInRow="ID_PAQUETE" msprop:Generator_ColumnPropNameInTable="ID_PAQUETEColumn" msprop:Generator_UserColumnName="ID_PAQUETE" type="xs:int" />
+              <xs:element name="ID_TIPO_SEGURO" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_SEGURO" msprop:Generator_ColumnPropNameInRow="ID_TIPO_SEGURO" msprop:Generator_ColumnPropNameInTable="ID_TIPO_SEGUROColumn" msprop:Generator_UserColumnName="ID_TIPO_SEGURO" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CONDICIONES" msprop:Generator_TableClassName="CONDICIONESDataTable" msprop:Generator_TableVarName="tableCONDICIONES" msprop:Generator_RowChangedName="CONDICIONESRowChanged" msprop:Generator_TablePropName="CONDICIONES" msprop:Generator_RowDeletingName="CONDICIONESRowDeleting" msprop:Generator_RowChangingName="CONDICIONESRowChanging" msprop:Generator_RowEvHandlerName="CONDICIONESRowChangeEventHandler" msprop:Generator_RowDeletedName="CONDICIONESRowDeleted" msprop:Generator_RowClassName="CONDICIONESRow" msprop:Generator_UserTableName="CONDICIONES" msprop:Generator_RowEvArgName="CONDICIONESRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_PAQUETE" msprop:Generator_ColumnVarNameInTable="columnID_PAQUETE" msprop:Generator_ColumnPropNameInRow="ID_PAQUETE" msprop:Generator_ColumnPropNameInTable="ID_PAQUETEColumn" msprop:Generator_UserColumnName="ID_PAQUETE" type="xs:int" />
+              <xs:element name="ID_PLAZO" msprop:Generator_ColumnVarNameInTable="columnID_PLAZO" msprop:Generator_ColumnPropNameInRow="ID_PLAZO" msprop:Generator_ColumnPropNameInTable="ID_PLAZOColumn" msprop:Generator_UserColumnName="ID_PLAZO" type="xs:int" />
+              <xs:element name="ID_PERIODICIDAD" msprop:Generator_ColumnVarNameInTable="columnID_PERIODICIDAD" msprop:Generator_ColumnPropNameInRow="ID_PERIODICIDAD" msprop:Generator_ColumnPropNameInTable="ID_PERIODICIDADColumn" msprop:Generator_UserColumnName="ID_PERIODICIDAD" type="xs:int" />
+              <xs:element name="PTJ_ENGANCHE_MIN" msprop:Generator_ColumnVarNameInTable="columnPTJ_ENGANCHE_MIN" msprop:Generator_ColumnPropNameInRow="PTJ_ENGANCHE_MIN" msprop:Generator_ColumnPropNameInTable="PTJ_ENGANCHE_MINColumn" msprop:Generator_UserColumnName="PTJ_ENGANCHE_MIN" type="xs:double" />
+              <xs:element name="TASA_NOMINAL" msprop:Generator_ColumnVarNameInTable="columnTASA_NOMINAL" msprop:Generator_ColumnPropNameInRow="TASA_NOMINAL" msprop:Generator_ColumnPropNameInTable="TASA_NOMINALColumn" msprop:Generator_UserColumnName="TASA_NOMINAL" type="xs:double" />
+              <xs:element name="TASA_NOMINAL_SEGURO" msprop:Generator_ColumnVarNameInTable="columnTASA_NOMINAL_SEGURO" msprop:Generator_ColumnPropNameInRow="TASA_NOMINAL_SEGURO" msprop:Generator_ColumnPropNameInTable="TASA_NOMINAL_SEGUROColumn" msprop:Generator_UserColumnName="TASA_NOMINAL_SEGURO" type="xs:double" />
+              <xs:element name="PTJ_SERV_FINAN" msprop:Generator_ColumnVarNameInTable="columnPTJ_SERV_FINAN" msprop:Generator_ColumnPropNameInRow="PTJ_SERV_FINAN" msprop:Generator_ColumnPropNameInTable="PTJ_SERV_FINANColumn" msprop:Generator_UserColumnName="PTJ_SERV_FINAN" type="xs:double" />
+              <xs:element name="PTJ_BLIND_DISCOUNT" msprop:Generator_ColumnVarNameInTable="columnPTJ_BLIND_DISCOUNT" msprop:Generator_ColumnPropNameInRow="PTJ_BLIND_DISCOUNT" msprop:Generator_ColumnPropNameInTable="PTJ_BLIND_DISCOUNTColumn" msprop:Generator_UserColumnName="PTJ_BLIND_DISCOUNT" type="xs:double" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="AGENCIAS" msprop:Generator_TableClassName="AGENCIASDataTable" msprop:Generator_TableVarName="tableAGENCIAS" msprop:Generator_RowChangedName="AGENCIASRowChanged" msprop:Generator_TablePropName="AGENCIAS" msprop:Generator_RowDeletingName="AGENCIASRowDeleting" msprop:Generator_RowChangingName="AGENCIASRowChanging" msprop:Generator_RowEvHandlerName="AGENCIASRowChangeEventHandler" msprop:Generator_RowDeletedName="AGENCIASRowDeleted" msprop:Generator_RowClassName="AGENCIASRow" msprop:Generator_UserTableName="AGENCIAS" msprop:Generator_RowEvArgName="AGENCIASRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_PAQUETE" msprop:Generator_ColumnVarNameInTable="columnID_PAQUETE" msprop:Generator_ColumnPropNameInRow="ID_PAQUETE" msprop:Generator_ColumnPropNameInTable="ID_PAQUETEColumn" msprop:Generator_UserColumnName="ID_PAQUETE" type="xs:int" />
+              <xs:element name="ID_AGENCIA" msprop:Generator_ColumnVarNameInTable="columnID_AGENCIA" msprop:Generator_ColumnPropNameInRow="ID_AGENCIA" msprop:Generator_ColumnPropNameInTable="ID_AGENCIAColumn" msprop:Generator_UserColumnName="ID_AGENCIA" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PRODUCTOS" msprop:Generator_TableClassName="PRODUCTOSDataTable" msprop:Generator_TableVarName="tablePRODUCTOS" msprop:Generator_RowChangedName="PRODUCTOSRowChanged" msprop:Generator_TablePropName="PRODUCTOS" msprop:Generator_RowDeletingName="PRODUCTOSRowDeleting" msprop:Generator_RowChangingName="PRODUCTOSRowChanging" msprop:Generator_RowEvHandlerName="PRODUCTOSRowChangeEventHandler" msprop:Generator_RowDeletedName="PRODUCTOSRowDeleted" msprop:Generator_RowClassName="PRODUCTOSRow" msprop:Generator_UserTableName="PRODUCTOS" msprop:Generator_RowEvArgName="PRODUCTOSRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_PAQUETE" msprop:Generator_ColumnVarNameInTable="columnID_PAQUETE" msprop:Generator_ColumnPropNameInRow="ID_PAQUETE" msprop:Generator_ColumnPropNameInTable="ID_PAQUETEColumn" msprop:Generator_UserColumnName="ID_PAQUETE" type="xs:int" />
+              <xs:element name="ID_TIPO_PRODUCTO" msprop:Generator_ColumnVarNameInTable="columnID_TIPO_PRODUCTO" msprop:Generator_ColumnPropNameInRow="ID_TIPO_PRODUCTO" msprop:Generator_ColumnPropNameInTable="ID_TIPO_PRODUCTOColumn" msprop:Generator_UserColumnName="ID_TIPO_PRODUCTO" type="xs:int" />
+              <xs:element name="ID_CLASIFICACION" msprop:Generator_ColumnVarNameInTable="columnID_CLASIFICACION" msprop:Generator_ColumnPropNameInRow="ID_CLASIFICACION" msprop:Generator_ColumnPropNameInTable="ID_CLASIFICACIONColumn" msprop:Generator_UserColumnName="ID_CLASIFICACION" type="xs:int" />
+              <xs:element name="ID_MARCA" msprop:Generator_ColumnVarNameInTable="columnID_MARCA" msprop:Generator_ColumnPropNameInRow="ID_MARCA" msprop:Generator_ColumnPropNameInTable="ID_MARCAColumn" msprop:Generator_UserColumnName="ID_MARCA" type="xs:int" />
+              <xs:element name="ID_SUBMARCA" msprop:Generator_ColumnVarNameInTable="columnID_SUBMARCA" msprop:Generator_ColumnPropNameInRow="ID_SUBMARCA" msprop:Generator_ColumnPropNameInTable="ID_SUBMARCAColumn" msprop:Generator_UserColumnName="ID_SUBMARCA" type="xs:int" />
+              <xs:element name="ID_VERSION" msprop:Generator_ColumnVarNameInTable="columnID_VERSION" msprop:Generator_ColumnPropNameInRow="ID_VERSION" msprop:Generator_ColumnPropNameInTable="ID_VERSIONColumn" msprop:Generator_UserColumnName="ID_VERSION" type="xs:int" />
+              <xs:element name="ID_ANIO" msprop:Generator_ColumnVarNameInTable="columnID_ANIO" msprop:Generator_ColumnPropNameInRow="ID_ANIO" msprop:Generator_ColumnPropNameInTable="ID_ANIOColumn" msprop:Generator_UserColumnName="ID_ANIO" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ASEGURADORAS" msprop:Generator_TableClassName="ASEGURADORASDataTable" msprop:Generator_TableVarName="tableASEGURADORAS" msprop:Generator_RowChangedName="ASEGURADORASRowChanged" msprop:Generator_TablePropName="ASEGURADORAS" msprop:Generator_RowDeletingName="ASEGURADORASRowDeleting" msprop:Generator_RowChangingName="ASEGURADORASRowChanging" msprop:Generator_RowEvHandlerName="ASEGURADORASRowChangeEventHandler" msprop:Generator_RowDeletedName="ASEGURADORASRowDeleted" msprop:Generator_RowClassName="ASEGURADORASRow" msprop:Generator_UserTableName="ASEGURADORAS" msprop:Generator_RowEvArgName="ASEGURADORASRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_PAQUETE" msprop:Generator_ColumnVarNameInTable="columnID_PAQUETE" msprop:Generator_ColumnPropNameInRow="ID_PAQUETE" msprop:Generator_ColumnPropNameInTable="ID_PAQUETEColumn" msprop:Generator_UserColumnName="ID_PAQUETE" type="xs:int" />
+              <xs:element name="ID_ASEGURADORA" msprop:Generator_ColumnVarNameInTable="columnID_ASEGURADORA" msprop:Generator_ColumnPropNameInRow="ID_ASEGURADORA" msprop:Generator_ColumnPropNameInTable="ID_ASEGURADORAColumn" msprop:Generator_UserColumnName="ID_ASEGURADORA" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:PAQUETES" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+    </xs:unique>
+    <xs:unique name="PERSONALIDAD">
+      <xs:selector xpath=".//mstns:PERSONALIDAD" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+      <xs:field xpath="mstns:ID_PER_JURIDICA" />
+    </xs:unique>
+    <xs:unique name="SEGUROSPRODKey1">
+      <xs:selector xpath=".//mstns:SEGUROSPROD" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+      <xs:field xpath="mstns:ID_TIPO_SEGURO" />
+    </xs:unique>
+    <xs:unique name="SEGUROSVIDAKey1">
+      <xs:selector xpath=".//mstns:SEGUROSVIDA" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+      <xs:field xpath="mstns:ID_TIPO_SEGURO" />
+    </xs:unique>
+    <xs:unique name="CONDICIONESKey1">
+      <xs:selector xpath=".//mstns:CONDICIONES" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+      <xs:field xpath="mstns:ID_PLAZO" />
+      <xs:field xpath="mstns:ID_PERIODICIDAD" />
+    </xs:unique>
+    <xs:unique name="AGENCIASKey1">
+      <xs:selector xpath=".//mstns:AGENCIAS" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+      <xs:field xpath="mstns:ID_AGENCIA" />
+    </xs:unique>
+    <xs:unique name="PRODUCTOSKey1">
+      <xs:selector xpath=".//mstns:PRODUCTOS" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+      <xs:field xpath="mstns:ID_TIPO_PRODUCTO" />
+      <xs:field xpath="mstns:ID_CLASIFICACION" />
+      <xs:field xpath="mstns:ID_MARCA" />
+      <xs:field xpath="mstns:ID_SUBMARCA" />
+      <xs:field xpath="mstns:ID_VERSION" />
+      <xs:field xpath="mstns:ID_ANIO" />
+    </xs:unique>
+    <xs:unique name="ASEGURADORASKey1">
+      <xs:selector xpath=".//mstns:ASEGURADORAS" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+      <xs:field xpath="mstns:ID_ASEGURADORA" />
+    </xs:unique>
+    <xs:keyref name="FK_PAQUETES_ASEGURADORAS" refer="Constraint1" msprop:rel_Generator_UserChildTable="ASEGURADORAS" msprop:rel_Generator_ChildPropName="GetASEGURADORASRows" msprop:rel_Generator_UserRelationName="FK_PAQUETES_ASEGURADORAS" msprop:rel_Generator_RelationVarName="relationFK_PAQUETES_ASEGURADORAS" msprop:rel_Generator_UserParentTable="PAQUETES" msprop:rel_Generator_ParentPropName="PAQUETESRow">
+      <xs:selector xpath=".//mstns:ASEGURADORAS" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+    </xs:keyref>
+    <xs:keyref name="FK_PAQUETES_PRODUCTOS" refer="Constraint1" msprop:rel_Generator_UserChildTable="PRODUCTOS" msprop:rel_Generator_ChildPropName="GetPRODUCTOSRows" msprop:rel_Generator_UserRelationName="FK_PAQUETES_PRODUCTOS" msprop:rel_Generator_RelationVarName="relationFK_PAQUETES_PRODUCTOS" msprop:rel_Generator_UserParentTable="PAQUETES" msprop:rel_Generator_ParentPropName="PAQUETESRow">
+      <xs:selector xpath=".//mstns:PRODUCTOS" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+    </xs:keyref>
+    <xs:keyref name="FK_PAQUETES_AGENCIAS" refer="Constraint1" msprop:rel_Generator_UserChildTable="AGENCIAS" msprop:rel_Generator_ChildPropName="GetAGENCIASRows" msprop:rel_Generator_UserRelationName="FK_PAQUETES_AGENCIAS" msprop:rel_Generator_RelationVarName="relationFK_PAQUETES_AGENCIAS" msprop:rel_Generator_UserParentTable="PAQUETES" msprop:rel_Generator_ParentPropName="PAQUETESRow">
+      <xs:selector xpath=".//mstns:AGENCIAS" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+    </xs:keyref>
+    <xs:keyref name="PAQUETES_CONDICIONES" refer="Constraint1" msprop:rel_Generator_UserChildTable="CONDICIONES" msprop:rel_Generator_ChildPropName="GetCONDICIONESRows" msprop:rel_Generator_UserRelationName="PAQUETES_CONDICIONES" msprop:rel_Generator_RelationVarName="relationPAQUETES_CONDICIONES" msprop:rel_Generator_UserParentTable="PAQUETES" msprop:rel_Generator_ParentPropName="PAQUETESRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:CONDICIONES" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+    </xs:keyref>
+    <xs:keyref name="PAQUETES_SEGUROSVIDA" refer="Constraint1" msprop:rel_Generator_UserChildTable="SEGUROSVIDA" msprop:rel_Generator_ChildPropName="GetSEGUROSVIDARows" msprop:rel_Generator_UserRelationName="PAQUETES_SEGUROSVIDA" msprop:rel_Generator_RelationVarName="relationPAQUETES_SEGUROSVIDA" msprop:rel_Generator_UserParentTable="PAQUETES" msprop:rel_Generator_ParentPropName="PAQUETESRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:SEGUROSVIDA" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+    </xs:keyref>
+    <xs:keyref name="FK_PAQUETES_SEGUROSPROD" refer="Constraint1" msprop:rel_Generator_UserChildTable="SEGUROSPROD" msprop:rel_Generator_ChildPropName="GetSEGUROSPRODRows" msprop:rel_Generator_UserRelationName="FK_PAQUETES_SEGUROSPROD" msprop:rel_Generator_RelationVarName="relationFK_PAQUETES_SEGUROSPROD" msprop:rel_Generator_UserParentTable="PAQUETES" msprop:rel_Generator_ParentPropName="PAQUETESRow">
+      <xs:selector xpath=".//mstns:SEGUROSPROD" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+    </xs:keyref>
+    <xs:keyref name="FK_PAQUETES_PERSONALIDAD" refer="Constraint1" msprop:rel_Generator_UserChildTable="PERSONALIDAD" msprop:rel_Generator_ChildPropName="GetPERSONALIDADRows" msprop:rel_Generator_UserRelationName="FK_PAQUETES_PERSONALIDAD" msprop:rel_Generator_RelationVarName="relationFK_PAQUETES_PERSONALIDAD" msprop:rel_Generator_UserParentTable="PAQUETES" msprop:rel_Generator_ParentPropName="PAQUETESRow">
+      <xs:selector xpath=".//mstns:PERSONALIDAD" />
+      <xs:field xpath="mstns:ID_PAQUETE" />
+    </xs:keyref>
+  </xs:element>
+</xs:schema>

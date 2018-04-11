@@ -1,0 +1,124 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+CargaExcel
+</name>
+</assembly>
+<members>
+<member name="P:CargaExcel.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:CargaExcel.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:CargaExcel.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PAQUETESDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PERSONALIDADDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.SEGUROSPRODDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.SEGUROSVIDADataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.CONDICIONESDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.AGENCIASDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PRODUCTOSDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.ASEGURADORASDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PAQUETESRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PERSONALIDADRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.SEGUROSPRODRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.SEGUROSVIDARow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.CONDICIONESRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.AGENCIASRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PRODUCTOSRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.ASEGURADORASRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PAQUETESRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PERSONALIDADRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.SEGUROSPRODRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.SEGUROSVIDARowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.CONDICIONESRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.AGENCIASRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.PRODUCTOSRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes.ASEGURADORASRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:CargaExcel.dsCargaPaquetes">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+</members>
+</doc>

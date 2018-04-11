@@ -1,0 +1,65 @@
+﻿/*BBVA-P-412 RQ06: AMR: 20/09/2016 Administración de Planes de Financiamiento: Promociones*/
+/*BBV-P-412  RQ-E  gvargas  10/12/2016 Se aliminaron propiedades que no se usan, referencias a imagenes. */
+/*BBV-P-412  RQ D	 gvargas   03/11/2016 Mod CSS antiguos segun version de AM.*/
+
+#accordion {
+ list-style: none;
+ padding: 0 0 0 0;
+ width: 150px;
+ margin: 0;
+ }
+
+ #accordion div
+{
+    display: block;
+    font-weight: normal;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0;
+    background-color: #094FA4 /*#375d84 294865*/;
+    background-image: url('../img/arrow_down.png');
+    background-position: right center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #eff2f5;
+}
+
+ #accordion ul
+{
+    list-style-type: none;
+    display: none;
+    background: #eff2f5 repeat;
+    position: relative;
+    padding-left: 20px;
+    background-image: url('../img/stripes.png');
+}
+
+ #accordion ul li {
+ font-weight: normal;
+ cursor: auto;
+ padding: 1px;
+ width: 190px;
+ height: 15px;
+ font-size:12px;
+ color: #375d84;
+ display:block;
+ }
+
+ #accordion ul li:hover {
+ background-color: #d6dfec;
+ position:relative;
+ width: 127px;
+ left:-20px;
+ font-weight: normal;
+ cursor: auto;
+ padding-left:20px;
+ font-size:12px;
+ color: #375d84;
+ display:block;
+ }
+
+ #accordion a {
+ text-decoration: none;
+ color: #375d84;
+ }

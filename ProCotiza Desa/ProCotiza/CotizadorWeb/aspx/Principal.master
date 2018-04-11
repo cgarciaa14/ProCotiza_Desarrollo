@@ -1,0 +1,320 @@
+﻿<%@ Master Language="VB" CodeFile="Principal.master.vb" Inherits="aspx_Principal" %>
+<%--BBVA-P-412 RQ06: AMR: 20/09/2016 Administración de Planes de Financiamiento: Promociones--%> 
+<%--  BBV-P-412  RQ-E    gvargas   12/10/2016 Actualizacion de referencias. --%>
+<%--  				     gvargas   12/10/2016 Menu horizontal y vetical --%>
+<%--  BBV-P-412  RQ-WSD  gvargas   25/10/2016 Actualizacion de referencias. --%>
+<%--  BBV-P-412  RQ D	 gvargas   03/11/2016 Mod clases CSS manu(NavBar). --%>
+<%--  BBV-P-412  RQ F    gvargas   07/11/2016 Cambios CSS dinamico. --%>
+<%--  BBV-P-412 BUG-PC-05   MARREDONDO  11/11/2016 Se oculta scroll vertical --%>
+<%--  BUGPC07 17/11/2016: GVARGAS: Correccion bugs SQL Injection--%>
+<%--  BUGPC16 24/11/2016: GVARGAS: Correccion Error Date Picker--%>
+<%--BUG-PC-25 MAUT 15/12/2016 Se corrige opciones del menú--%>
+<%--  BBV-P-412:RQ LOGIN GVARGAS: 23/12/2016 Actualizacion REST Service iv_ticket & userID--%>
+<%--  BUG-PD-13  GVARGAS  28/02/2017  Switch To Prodesk--%>
+<%--  BUG-PC-88 GVARGAS 06/07/2017  Switch To ProDesk final--%>
+<%--  BUG-PC-169 GVARGAS 14/03/2018 Correcion Redirect--%>
+
+<!DOCTYPE HTML>
+ 
+<html>
+<head id="Head1" runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Procotiza</title>
+    <style type="text/css">@import url(../ExternalScripts/bootstrap.min.css );</style>
+    <script type="text/javascript" src="../ExternalScripts/jquery.min.js"></script>
+    
+    <style type="text/css">@import url(../ExternalScripts/jquery-ui.css );</style>
+    <script type="text/javascript" src="../ExternalScripts/jquery-ui.js"></script>
+    <style type="text/css">@import url(../css/navbar.css); </style>
+    <style type="text/css">@import url(../css/procotiza.css); </style>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../ExternalScripts/jquery.cookie.js"></script>
+
+    <script type="text/javascript" src="../ExternalScripts/bootstrap.min.js"></script>
+    <style type="text/css">@import url(../css/Menu.css );</style>
+    <script type="text/javascript" charset="UTF-8">
+        function changeApp() {
+            var settings = { type: "POST", url: "", contentType: "application/json; charset=utf-8", dataType: "json", success: null, failure: null };
+            settings.url = "../aspx/Default.aspx/cambioApp";
+            settings.success = successfully;
+            settings.failure = function (response) { alert("Error al cambiar de aplicacion"); }
+            $.ajax(settings);
+        }
+
+        function successfully(response) {
+            var item = $.parseJSON(response.d);
+            if (item.ok.toString() == "SI") {
+                window.location.replace(item.urlDestino.toString()); 
+            } else {
+                alert(item.ok.toString()); 
+            }     
+        }
+
+        function pickerSettins() {
+            $.datepicker.setDefaults($.datepicker.regional['es-MX']);
+            var settings = { showOn: "button", buttonImage: "../img/calendar.png", buttonImageOnly: true, buttonText: "Select fecha", dateFormat: "yy-mm-dd",
+                showAnim: "slide", changeMonth: true, changeYear: true, showOtherMonths: true, selectOtherMonths: true, autoSize: true, yearRange: "-50:+50"
+            };
+            $("[id$=txtFecIni]").datepicker(settings);
+            $("[id$=txtFecFin]").datepicker(settings);
+        }
+
+        function pickerSettins2() {
+            $.datepicker.setDefaults($.datepicker.regional['es']);
+            var settings = { showOn: "button", buttonImage: "../img/calendar.png", buttonImageOnly: true, buttonText: "Seleccione fecha", dateFormat: "yy-mm-dd",
+                showAnim: "slide", changeMonth: true, changeYear: true, showOtherMonths: true, selectOtherMonths: true, autoSize: true, constrainInput: true
+            };
+            $("[id$=txtIniVig]").datepicker(settings);
+            $("[id$=txtFinVig]").datepicker(settings);
+        }
+
+        function pickerSettins3() {
+            $.datepicker.setDefaults($.datepicker.regional['es-MX']);
+            var settings = { showOn: "button", buttonImage: "../img/calendar.png", buttonImageOnly: true, buttonText: "Select fecha", dateFormat: "yy-mm-dd",
+                showAnim: "slide", changeMonth: true, changeYear: true, showOtherMonths: true, selectOtherMonths: true, autoSize: true, constrainInput: true
+            };
+            $("[id$=txtFecNacCliente]").datepicker(settings);
+            $("[id$=txtFecNactCoa]").datepicker(settings);
+        }
+
+        function switchPRD() {
+            var domain = document.location.origin.toString();
+            var paths = document.location.pathname.toString().split("/")
+
+            var settings = {
+                type: "POST",
+                url: "../aspx/Default.aspx/OutToProDesk",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: "{ 'url' : '" + domain + "/" + paths[1] + "/" + "' }",
+                success: function OnSuccessRedirect(response) {
+                    window.open(response.d.toString(), 'ProDesk', '');
+                    //window.location.href = response.d.toString();
+                }
+            };
+            $.ajax(settings);
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var CookieSet = $.cookie("menu");
+
+            if (CookieSet == null) {
+                $.cookie("menu", "OLD", { expires: 365, path: "/" });
+                $("#nuevoMenu").hide();
+                $("#divMenuAntiguo").show();
+                $("#ArticleContainer").css("margin-left", "150px");
+            } else {
+                var menuStat = $.cookie("menu");
+                if (menuStat == "OLD") {
+                    $("#nuevoMenu").hide();
+                    $("#divMenuAntiguo").show();
+                    $("#headerLOGO").show();
+                    $("#ArticleContainer").css("margin-left", "150px");
+                } else {
+                    $("#nuevoMenu").show();
+                    $("#divMenuAntiguo").hide();
+                    $("#headerLOGO").hide();
+                    $("#ArticleContainer").css("margin-left", "0px");
+                }
+            }
+
+            $("#prd1").on("click", function (e) { switchPRD(); });
+
+            $("#prd2").on("click", function (e) { switchPRD(); });
+
+            $("a[name='menuAnterior']").on("click", function (e) {
+                $("#nuevoMenu").hide();
+                $("#divMenuAntiguo").show();
+                $("#headerLOGO").show();
+                $.cookie("menu", "OLD");
+                $("#ArticleContainer").css("margin-left", "150px");
+            });
+
+            $("a[name='menuNuevo']").on("click", function (e) {
+                $("#nuevoMenu").show();
+                $("#divMenuAntiguo").hide();
+                $("#headerLOGO").hide();
+                $.cookie("menu", "NEW");
+                $("#ArticleContainer").css("margin-left", "0px");
+            });
+
+            $("#btn").click(function () {
+                var isVisible = $(".navbar-collapse").is(":visible");
+                if (isVisible) {
+                    $(".navbar-collapse").collapse('hide');
+                }
+            })
+
+            $(".navbar-nav li a").click(function (event) {
+                $(".dropdown-toggle").dropdown();
+            });
+
+            $(window).bind("scroll", function () {
+                var IsOpen = $("#a2").attr("aria-expanded");
+                var IsOpenC = $("#bs-example-navbar-collapse-1").attr("aria-expanded");
+                if (IsOpenC == null) {
+                    IsOpenC = false;
+                }
+
+                if (IsOpen == null) {
+                    IsOpen = false;
+                }
+                if ($(window).scrollTop() > 94444) {
+                    if ((!IsOpen) && (!IsOpenC)) {
+                        $("#nav").removeClass("navbar navbar-default").addClass("navbar navbar-default navbar-fixed-top");
+                    }
+                    else if ((!IsOpen) && (IsOpenC)) {
+                        $("#nav").removeClass("navbar navbar-default").addClass("navbar navbar-default navbar-fixed-top");
+                    }
+                    else if ((IsOpen) && (IsOpenC)) {
+                        $("#nav").removeClass("navbar navbar-default navbar-fixed-top").addClass("navbar navbar-default");
+                    }
+                    else {
+                        $("#nav").removeClass("navbar navbar-default").addClass("navbar navbar-default navbar-fixed-top");
+                    }
+                } else {
+                    $("#nav").removeClass("navbar navbar-default navbar-fixed-top").addClass("navbar navbar-default");
+                }
+            });
+			
+			            $("input").on("keyup", function (e) {
+                var myID = e.currentTarget.id;
+
+                var str = $("#" + myID.toString()).val();
+                str = str.split(" ");
+                var nochars = ["WHERE", "ALTER", "CREATE", "DROP", "SELECT", "UPDATE", "SET", "INSERT", "DELETE", "="];
+                var changechars = ["", "", "", "", "", "", "", "", "", ""];
+                var alerts = "";
+                var strUpper = "";
+
+                if (nochars.length == changechars.length) {
+                    for (ii = 0; ii < str.length; ii++) {
+                        strUpper = str[ii].toString().toUpperCase();
+                        for (i = 0; i < nochars.length; i++) {
+                            if (nochars[i] == strUpper) {
+                                alerts = str[ii];
+                                str.splice(ii, 1);
+                                break;
+                            }
+                        }
+                        if (alerts != "") { break; }
+                    }
+                } else { alert("Error al validar"); }
+
+                if (alerts != "") {
+                    str = str.join(" ");
+                    $("#" + myID.toString()).val(str);
+                    alert(alerts + " , es una palabra reservada.");
+                }
+            });
+        });
+    </script>
+    <%--BUG-PC-25 MAUT 15/12/2016 Se cambia la fuente--%>
+    <style runat="server" id="LessCSS" type="text/css" />
+    <style type="text/css">
+        dropdown-toggle, .navbar-brand, .dropdown-menu > li > a, .navbar-nav > li > a {
+            font-size: 12px !important;
+        }
+    </style>
+</head>
+<body style="overflow-y:hidden;">
+    <form id="form1" runat="server" role="form">
+        <asp:ContentPlaceHolder id="head" runat="server">
+        </asp:ContentPlaceHolder>
+		<div class="container-fluid">
+          <header id="headerLOGO" class="row">
+			<div id="Logo" class="col-md-12" style="background-image: url(../img/img_cab_ConsumerFinance.jpg); background-repeat: no-repeat; min-height:95px; height:95px; background-color:#ffffff; border:1px solid; border-color: #ffffff #ffffff #094FA4 #ffffff;" />
+		  </header>
+		  <nav id="nuevoMenu" class="row" style="padding:0; display:none;">
+              <div id="FondoNavBar" class="col-md-12" style="background-color:#ffffff;">        
+                <nav id="nav" class="navbar navbar-default" role="navigation" style="margin-bottom:0;">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header" style="height: 52px;">
+                            <button id="btn" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <%--<ul class="nav navbar-nav">--%>
+                                <%=CargaMenu%>
+                            <%--</ul><ul class="nav navbar-nav navbar-right"><li><a href="../hola.aspx">CAMBIAR MENU<span class="sr-only">(current)</span></a></li></ul>--%>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+              </div>
+            </nav>
+<%--            <div id="divMenuAntiguo" class="table-responsive">
+                <table class="table" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                        <td style="padding:0;">
+                            <%=CargaMenuAntiguo%>
+                </td>
+            </tr>
+        </table>
+            </div>--%>
+    <div id="divMenuAntiguo" style="display:none; position:absolute; width:150px; height:80%; left:0px; top:104px; background-color:#094FA4; padding-left:0px; padding-top:22px !important;">
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+				<td>
+                    <%=CargaMenuAntiguo%>
+				</td>
+			</tr>
+		</table>        
+    </div>
+        <section class="row" style="min-width: 80%; max-width: 90%;">
+              <article class="col-md-12" id="ArticleContainer">
+                  <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">        
+                  </asp:ContentPlaceHolder>
+              </article>
+		  </section>
+		</div>
+    
+    <%--ENCABEZADO--%>
+<%--    <div style="position:absolute; width:1350px; height:95px; left:0%; top:0%; background-color:#294865;">
+    </div>--%>
+
+    <%--MENU--%>
+    <%--<div style="position:absolute; width:150px; height:570px; left:0px; top:74px; background-color:#294865; padding-left:0px; padding-top:22px;">--%>
+<%--        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+				<td>
+                    <%=CargaMenu%>
+				</td>
+			</tr>
+		</table> --%>       
+    <%--</div>--%>
+
+    <%--CENTRO--%>    
+    <%--<div style="position:absolute; width:1200px; height:565px; left:155px; top:101px; overflow:auto;">--%>
+<%--        <div style="width:1200px; height:565px; left:155px; top:101px; overflow:auto;">
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+        </div>--%>
+    </form>
+    <script type="text/javascript">
+        function CargaPantalla(url) {
+            parent.frames[2].location = url;
+        }
+	</script>
+
+    <script type="text/javascript">
+        $("#accordion > li > div").click(function () {
+            if (false == $(this).next().is(':visible')) {
+                $('#accordion ul').slideUp(300);
+            }
+            $(this).next().slideToggle(300);
+        });
+    </script>
+</body>
+</html>
