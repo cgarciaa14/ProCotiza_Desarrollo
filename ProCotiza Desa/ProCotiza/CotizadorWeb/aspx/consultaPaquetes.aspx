@@ -37,8 +37,8 @@
                     <td style="text-align:right">ID Plan:</td>
                     <%--BUG-PC-40:PVARGAS:27/01/2017:SE AGREGA LA FUNCION PARA VALIDAR SOLO NUMEROS--%>
                     <td style="width:27%;"  ><asp:TextBox runat="server" ID="txtidpaq" CssClass="txt3BBVA"  Width="190px" onkeypress="return ValCarac(event,7);"></asp:TextBox></td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td style="text-align:right">Alianza: </td>
+                    <td style="width:27%";><asp:DropDownList ID="ddlAlianza" runat="server" CssClass="selectBBVA"></asp:DropDownList></td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td></tr>
             	</tr>

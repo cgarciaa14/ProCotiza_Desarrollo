@@ -3,6 +3,7 @@
 Public Class clsCiudad
     Inherits clsSession
     'BUG-PC-161:CGARCIA: 27/02/2018; SE AGREGA FILTRO DE CIUDAD
+    'BUG-PC-198: CGARCIA: 23/05/2018: SE VALIDA DUPLICADO DE ID DE MUNICIPIOS Y FILTRO DE CUIDADES DEJA DE DEPENDER DE MUNICIPIO
 #Region "Variables"
 
     Private intEFD_CL_CVE As Integer = 0
@@ -106,9 +107,9 @@ Public Class clsCiudad
             ArmaParametros(strParamStored, TipoDato.Entero, "Opcion", intOper.ToString)
             Select Case intOper
                 Case 1 ' consulta ciudad
-                    If intCIU_CL_CIUDAD > -1 Then
-                        ArmaParametros(strParamStored, TipoDato.Entero, "CIU_CL_CIUDAD", intCIU_CL_CIUDAD.ToString)
-                    End If
+                    'If intCIU_CL_CIUDAD > -1 Then
+                    '    ArmaParametros(strParamStored, TipoDato.Entero, "CIU_CL_CIUDAD", intCIU_CL_CIUDAD.ToString)
+                    'End If
                     If intEFD_CL_CVE > 0 Then
                         ArmaParametros(strParamStored, TipoDato.Entero, "EFD_CL_CVE", intEFD_CL_CVE.ToString)
                     End If

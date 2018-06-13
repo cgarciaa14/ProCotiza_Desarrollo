@@ -1,5 +1,6 @@
 ﻿'BUG-PC-148: JMENDIETA  29/01/2018:Se crea la clase que consulta informacion en base de datos para seguro de daños
 'BUG-PC-171: CGARCIA: 02/04/2018: SE AGREGAN DOS VARIABLES DE CONSULTA
+'BUG-PC-190: JMENDIETA: 10/05/2018: En opcion 1 se agrega parametros de broker y agencia
 Imports SDManejaBD
 
 Public Class clsSeguroDanios
@@ -14,7 +15,7 @@ Public Class clsSeguroDanios
     Private paqueteId As Integer
     Private _TipoSeg As Integer
     Private _TipoProd As Integer
-
+    Private _IdAgencia As Integer 'BUG-PC-190
 
     Public Property ErrorSeguroDanios() As String
         Get
@@ -78,6 +79,16 @@ Public Class clsSeguroDanios
             paqueteId = value
         End Set
     End Property
+
+    'BUG-PC-190
+    Public Property IdAgencia() As Integer
+        Get
+            Return _IdAgencia
+        End Get
+        Set(ByVal value As Integer)
+            _IdAgencia = value
+        End Set
+    End Property
 #End Region
 
     Public Function ObtenDatosDanios(ByVal opcion As Integer) As DataSet
@@ -94,6 +105,8 @@ Public Class clsSeguroDanios
             Select Case opcion
                 Case 1
                     ArmaParametros(strParamStored, TipoDato.Entero, "TipoProd", _TipoProd)
+                    ArmaParametros(strParamStored, TipoDato.Entero, "idBroker", brokerId.ToString) 'BUG-PC-190
+                    ArmaParametros(strParamStored, TipoDato.Entero, "idAgencia", _IdAgencia)
                 Case 2
                     ArmaParametros(strParamStored, TipoDato.Entero, "idCobertura", strCoverage)
                     ArmaParametros(strParamStored, TipoDato.Entero, "idBroker", brokerId.ToString)

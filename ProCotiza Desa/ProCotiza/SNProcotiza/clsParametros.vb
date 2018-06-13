@@ -1,8 +1,10 @@
 ﻿'BBVA-P-412: 22/07/2016: AMR: RQ18 Cambio por Agregar Version y Año del Auto.
 'BUG-PC-154: CGARCIA: 16/02/2018: SE AGREGA OPCION 8 EN MANEJA_PARAMETROS PARA CARGAR PARAMETROS DE COTIZACION DE DAÑOS
+'RQ-PC8: CGARCIA: 09/05/2018: SE CREA MODULO DE COBERTURAS
 Imports SDManejaBD
 
 Public Class clsParametros
+#Region "variables"
     Private strErrParam As String = ""
 
     Private intParam As Integer = -1
@@ -14,13 +16,15 @@ Public Class clsParametros
     Private strUsuReg As String = ""
     Private intPaquete As Integer = 0
     Private intIdAgencia As Integer = 0
+#End Region
 
-
-    Sub New()
-    End Sub
-
+#Region "Propiedades"
     Sub New(ByVal intCveParam As Integer)
         CargaParametro(intCveParam)
+    End Sub
+
+    Sub New()
+        ' TODO: Complete member initialization 
     End Sub
 
     Public ReadOnly Property ErrorParametros() As String
@@ -106,6 +110,9 @@ Public Class clsParametros
             intIdAgencia = value
         End Set
     End Property
+#End Region
+
+#Region "Metodos"
 
     Public Sub CargaParametro(ByVal intPar As Integer)
         Dim dtsParam As New DataSet
@@ -185,4 +192,9 @@ Public Class clsParametros
             strErrParam = ex.Message
         End Try
     End Function
+#End Region
+
+
+
+
 End Class

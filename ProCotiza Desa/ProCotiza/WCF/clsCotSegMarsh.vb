@@ -6,6 +6,7 @@
 'RQ-MN2-3: RHERNANDEZ: 08/09/17: SE MODIFICA COTIZACION DE SEGUROS MARSH PARA QUE CUANDO LA ASEGURADORA SEA MULTICOTIZACION EL TIPO POLIZA SE ENVIE VACIO
 'AUTOMIK-TASK-312:RHERNANDEZ:22/11/2017:Implementacion servicio MARSH a calculadora
 'BUG-PC-156: RHERNANDEZ: 08/02/2018: Se corrige salida de cotizacion del seguro al fallar el servicio en un plazo
+'AUTOMIK-BUG-453: RHERNANDEZ: 17/05/18: SE MODIFICA SERVICIO DE CALCULO DE SEGUROS PARA COTIZAR UN SOLO PLAZO
 Imports System.Text
 Imports WCF.clsDeserialMarsh
 Imports System.Net
@@ -179,7 +180,7 @@ Public Class clsCotSegMarsh
                                 ByVal carunitType As Integer, ByVal unitPriceamount As Decimal, ByVal stateId As Integer,
                                 ByVal accessorySum As Decimal, ByVal policyType As Integer, ByVal insuranceType As String, ByVal idclasif As Integer,
                                 ByVal Idmarca As Integer, ByVal Idsubmarca As Integer, ByVal Idversion As Integer, ByVal IdAnio As Integer,
-                                ByVal insurerId As Integer, ByVal idagencia As Integer, ByVal PaqueteId As Integer, Optional ByVal automikRequest As Boolean = 0, Optional headers As WebHeaderCollection = Nothing) As DataSet
+                                ByVal insurerId As Integer, ByVal idagencia As Integer, ByVal PaqueteId As Integer, Optional ByVal automikRequest As Boolean = 0, Optional headers As WebHeaderCollection = Nothing, Optional IsMulticotizacion As Integer = 1, Optional idplazo As Integer = 0) As DataSet
 
 
         Dim dts As New DataSet()
@@ -249,6 +250,13 @@ Public Class clsCotSegMarsh
             End If
 
             dts = Obten_Plazos(PaqueteId)
+            If IsMulticotizacion = 0 Then
+                Dim rows As DataRow() = (From x In dts.Tables(0).AsEnumerable().Cast(Of DataRow)() Where x.Field(Of Integer)("ID_PLAZO") <> idplazo).ToArray()
+                For Each row As DataRow In rows
+                    dts.Tables(0).Rows.Remove(row)
+                Next
+                dts.AcceptChanges()
+            End If
             If dts.Tables.Count > 0 Then
                 If dts.Tables(0).Rows.Count > 0 Then
                     For i As Integer = 0 To dts.Tables(0).Rows.Count - 1

@@ -162,6 +162,16 @@ Partial Class aspx_copiaPaquete
             maxtasa = dataset.Tables(1).Rows(0).Item("maxtasa")
             maxPlazo = dataset.Tables(1).Rows(0).Item("maxplazo")
             minPlazo = dataset.Tables(1).Rows(0).Item("minplazo")
+            'RQ-PC7: CGARCIA: 02/04/2018: SE MODIFICA EL PAYLOAD DEL WS
+            Dim strTasaNominal As String
+            Dim strPorcentajeNominal As String
+            For index As Integer = 0 To dataset.Tables(0).Rows.Count - 1 Step 1
+                If maxPlazo = CInt(dataset.Tables(0).Rows(index).Item("PLAZO").ToString) Then
+                    strTasaNominal = CStr(dataset.Tables(0).Rows(index).Item("TASA_NOMINAL_DOS").ToString)
+                    strPorcentajeNominal = CStr(dataset.Tables(0).Rows(index).Item("PTJ_SERV_FINAN_DOS").ToString)
+                End If
+
+            Next
 
             Dim newId As Integer = 0
             Dim dtsCopy As New DataSet
@@ -170,9 +180,9 @@ Partial Class aspx_copiaPaquete
             If dtsCopy.Tables.Count > 0 AndAlso dtsCopy.Tables(0).Rows.Count > 0 Then
                 newId = dtsCopy.Tables(0).Rows(0).Item("ID_PAQUETE")
             End If
-
+            'RQ-PC7: CGARCIA: 02/04/2018: SE MODIFICA EL PAYLOAD DEL WS
             'manda los datos del paquete al WS
-            If ConsulWS(newId, ddlsubprod, cmbTipoVenc, txtimpmaxg, txtimpming, txtIniVig, cmbPeriodicidad, ddlprod, txtFinVig, maxPlazo, minPlazo, maxtasa) Then
+            If ConsulWS(newId, ddlsubprod, cmbTipoVenc, txtimpmaxg, txtimpming, txtIniVig, cmbPeriodicidad, ddlprod, txtFinVig, maxPlazo, minPlazo, maxtasa, strTasaNominal, strPorcentajeNominal) Then
                 MandaWS = True
             End If
 
@@ -185,7 +195,7 @@ Partial Class aspx_copiaPaquete
 
     Private Function ConsulWS(PaqId As Integer, ddlsubprod As Integer, cmbTipoVenc As Integer, txtimpmaxg As String,
                               txtimpming As String, txtIniVig As String, cmbPeriodicidad As Integer, ddlprod As Integer,
-                              txtFinVig As String, maxPlazo As Integer, minPlazo As Integer, maxtasa As Double) As Boolean
+                              txtFinVig As String, maxPlazo As Integer, minPlazo As Integer, maxtasa As Double, strTasaNominal As String, strPorcentajeNominal As String) As Boolean
         ConsulWS = False
 
         Dim dts As DataSet = New DataSet()
@@ -230,13 +240,13 @@ Partial Class aspx_copiaPaquete
 
                 loanBASE.iLoanDetail.loanCar.packageId = New String("0"c, 9 - Len(PaqId.ToString)) & PaqId.ToString 'PaqId
                 loanBASE.iLoanDetail.loanCar.packageDescription = txtNom.Text.Trim()
-
+                'RQ-PC7: CGARCIA: 02/04/2018: SE MODIFICA EL PAYLOAD DEL WS
                 Dim rate As New rate()
 
-                rate.percentage = "0000"
+                rate.percentage = strTasaNominal
                 loanBASE.refinancing.rate.Add(rate)
                 rate = New rate
-                rate.percentage = "1111"
+                rate.percentage = strPorcentajeNominal
                 loanBASE.refinancing.rate.Add(rate)
 
                 Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()

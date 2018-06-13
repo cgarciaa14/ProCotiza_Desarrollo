@@ -1,4 +1,5 @@
 ﻿'RQ-PC5: JMENDIETA  27/01/2018: Se crea la clase que genera DataTable
+'BUG-PC-187: JMENDIETA: 26/04/2017 Se mapea el campos de lateFee en la columna de RECARGO.
 Public Class clsDeserialMarshMulti
     Private _strError As String = String.Empty
 
@@ -174,7 +175,7 @@ Public Class clsDeserialMarshMulti
                     R("SEGURO_VIDA") = String.Empty
                     R("OBSERVACIONES") = String.Empty
                     R("PRIMA_TOTAL_SG") = 0
-                    R("RECARGO") = 0
+                    R("RECARGO") = Math.Truncate(quote.lateFee.amount * 100) / 100 '0 BUG-PC-187
                     dtt.Rows.Add(R)
                 End If
             Next

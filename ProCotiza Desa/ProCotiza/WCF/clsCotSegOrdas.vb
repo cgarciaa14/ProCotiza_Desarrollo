@@ -3,9 +3,12 @@
 'BUG-PC-81: RHERNANDEZ: 29/06/17: SE EVALUA EL TIPO DE SEGURO PARA CONTADO Y FINANCIADO
 'BUG-PC-84: RHERNANDEZ: 11/07/17: SE AGREGA FUNCIONALIDAD PARA MULTIANUAL FINANCIADO
 'AUTOMIK-TASK-309:RHERNANDEZ:22/11/2017:Implementacion servicio ORDAS a calculadora
+'BUG-PC-192: DCORNEJO: 08/05/2018: SE CREA STOREDPROCESURE Y CLASE PARA OBTENER VALORES EN CotizaOrdas y cotizaGarantia
+'AUTOMIK-BUG-453: RHERNANDEZ: 17/05/18: SE MODIFICA SERVICIO DE CALCULO DE SEGUROS PARA COTIZAR UN SOLO PLAZO
 Imports System.Text
 Imports WCF.clsDeserialOrdas
 Imports System.Net
+Imports SNProcotiza
 
 Public Class clsCotSegOrdas
 
@@ -171,13 +174,15 @@ Public Class clsCotSegOrdas
                                 ByVal accessorySum As Double, ByVal coverageId As String, ByVal idProduct As String,
                                 ByVal insuredAmount As Double, ByVal relationName As Integer, ByVal state As Integer,
                                 ByVal zipCode As String, ByVal insurerId As Integer, ByVal currency As Integer,
-                                ByVal PaymentType As Integer, ByVal PaqueteId As Integer, Optional ByVal automikRequest As Boolean = 0, Optional headers As WebHeaderCollection = Nothing) As DataSet
+                                ByVal PaymentType As Integer, ByVal PaqueteId As Integer, Optional ByVal idAgencia As Integer = 0,
+                                Optional ByVal automikRequest As Boolean = 0, Optional headers As WebHeaderCollection = Nothing, Optional IsMulticotizacion As Integer = 1, Optional idplazo As Integer = 0) As DataSet
 
         Dim dts As New DataSet()
         Dim json As New JSON()
         Dim IDQuote As New DataTable()
         Dim dttrecibos As New DataTable()
         Dim result As New DataSet()
+        Dim clsDatosOrdas As New clsDatosOrdas()
 
         Dim relation As Integer = 0
 
@@ -230,7 +235,77 @@ Public Class clsCotSegOrdas
 
 
         Try
+            'obten accessoryDescription
+            Dim accessory As String = String.Empty
+            Dim dsaccessoryDescription As New DataSet()
+            clsDatosOrdas.Descriptionaccessory = accessory
+            dsaccessoryDescription = clsDatosOrdas.ObtenDatosOrdas(1)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsaccessoryDescription)) AndAlso dsaccessoryDescription.Tables.Count > 0 AndAlso dsaccessoryDescription.Tables(0).Rows.Count > 0 Then
+                accessory = dsaccessoryDescription.Tables(0).Rows(0).Item("accessoryDescription").ToString()
+            Else
+                _strError = "No se encontro Descripcion."
+                Return Nothing
+            End If
 
+            'obten agencyNumber
+            Dim Numberagency As String = String.Empty
+            Dim dsagencyNumber As New DataSet()
+            clsDatosOrdas.NumberAgency = Numberagency
+            dsagencyNumber = clsDatosOrdas.ObtenDatosOrdas(1)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsagencyNumber)) AndAlso dsagencyNumber.Tables.Count > 0 AndAlso dsagencyNumber.Tables(0).Rows.Count > 0 Then
+                Numberagency = dsagencyNumber.Tables(0).Rows(0).Item("agencyNumber").ToString()
+            Else
+                _strError = "No se encontro Descripcion."
+                Return Nothing
+            End If
+
+            'obten idAdditionalPack
+            Dim AdditionalPack As Integer
+            Dim dsidAdditionalPack As New DataSet()
+            clsDatosOrdas.AdditionalPackid = AdditionalPack
+            dsidAdditionalPack = clsDatosOrdas.ObtenDatosOrdas(1)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsidAdditionalPack)) AndAlso dsidAdditionalPack.Tables.Count > 0 AndAlso dsidAdditionalPack.Tables(0).Rows.Count > 0 Then
+                AdditionalPack = dsidAdditionalPack.Tables(0).Rows(0).Item("idAdditionalPack").ToString()
+            Else
+                _strError = "No se encontro Paquete Adicional."
+                Return Nothing
+            End If
+
+            'obten idAdditionalPaymentWay
+            Dim AdditionalPaymentWay As Integer
+            Dim dsidAdditionalPaymentWay As New DataSet()
+            clsDatosOrdas.AdditionalPaymentWayid = AdditionalPaymentWay
+            dsidAdditionalPaymentWay = clsDatosOrdas.ObtenDatosOrdas(1)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsidAdditionalPaymentWay)) AndAlso dsidAdditionalPaymentWay.Tables.Count > 0 AndAlso dsidAdditionalPaymentWay.Tables(0).Rows.Count > 0 Then
+                AdditionalPaymentWay = dsidAdditionalPaymentWay.Tables(0).Rows(0).Item("idAdditionalPaymentWay").ToString()
+            Else
+                _strError = "No se encontro idAdditionalPaymentWay."
+                Return Nothing
+            End If
+
+            'obten idAdditionalTerm
+            Dim AdditionalTerm As Integer
+            Dim dsidAdditionalTerm As New DataSet()
+            clsDatosOrdas.AdditionalTermid = AdditionalTerm
+            dsidAdditionalTerm = clsDatosOrdas.ObtenDatosOrdas(1)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsidAdditionalTerm)) AndAlso dsidAdditionalTerm.Tables.Count > 0 AndAlso dsidAdditionalTerm.Tables(0).Rows.Count > 0 Then
+                AdditionalTerm = dsidAdditionalTerm.Tables(0).Rows(0).Item("idAdditionalTerm").ToString()
+            Else
+                _strError = "No se encontro idAdditionalTerm."
+                Return Nothing
+            End If
+
+            'obten idAdditionalTerm
+            Dim SeveralTerms As Integer
+            Dim dsgenerateSeveralTerms As New DataSet()
+            clsDatosOrdas.AdditionalTermid = SeveralTerms
+            dsgenerateSeveralTerms = clsDatosOrdas.ObtenDatosOrdas(1)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsgenerateSeveralTerms)) AndAlso dsgenerateSeveralTerms.Tables.Count > 0 AndAlso dsgenerateSeveralTerms.Tables(0).Rows.Count > 0 Then
+                SeveralTerms = dsgenerateSeveralTerms.Tables(0).Rows(0).Item("generateSeveralTerms").ToString()
+            Else
+                _strError = "No se encontro idAdditionalTerm."
+                Return Nothing
+            End If
 
             _userID = System.Configuration.ConfigurationManager.AppSettings.Item("useridOrdas")
             _password = System.Configuration.ConfigurationManager.AppSettings.Item("passwordOrdas")
@@ -243,12 +318,20 @@ Public Class clsCotSegOrdas
             End If
 
             dts = Obten_Plazos(PaqueteId)
+
+            If IsMulticotizacion = 0 Then
+                Dim rows As DataRow() = (From x In dts.Tables(0).AsEnumerable().Cast(Of DataRow)() Where x.Field(Of Integer)("ID_PLAZO") <> idplazo).ToArray()
+                For Each row As DataRow In rows
+                    dts.Tables(0).Rows.Remove(row)
+                Next
+                dts.AcceptChanges()
+            End If
             If dts.Tables.Count > 0 Then
                 If dts.Tables(0).Rows.Count > 0 Then
                     For i As Integer = 0 To dts.Tables(0).Rows.Count - 1
                         json.quote.complement.user.id = _userID
                         json.quote.complement.user.credentials.accessPassword = _password
-                        json.quote.iQuote.VehicleQuote.accessoryDescription = "CON BASE A FACTURA"
+                        json.quote.iQuote.VehicleQuote.accessoryDescription = accessory
                         json.quote.iQuote.VehicleQuote.idVehicle = idveh ''"HO1503A073932"
                         json.quote.iQuote.VehicleQuote.driver.extendedData.age = edad ''35
                         json.quote.iQuote.VehicleQuote.driver.extendedData.gender = gender '1
@@ -256,18 +339,26 @@ Public Class clsCotSegOrdas
                         json.quote.coverageId = Obtencoverage(brokerid, coverageId)  '"4216"
                         json.quote.idProduct = ObtenProduct(brokerid, idProduct) '"1" '?? nuevo - seminuevo - uber/taxi
                         json.quote.termId = IIf(PaymentType = 30 Or PaymentType = 31, "12", dts.Tables(0).Rows(i).Item("VALOR")) '' "12"
-                        json.quote.agencyNumber = "19" ''19 ''3739
+                        If (idAgencia = 0) Then
+                            json.quote.agencyNumber = idAgencia 'obtener del ddlagencia caso automic
+                        Else
+                            json.quote.agencyNumber = Numberagency ''19 ''3739 obtener en Sp
+                        End If
                         json.quote.insurerId = Obteninsurer(brokerid, insurerId) ' "0"
                         json.quote.insuredAmount.amount = insuredAmount ''450000
                         json.quote.prospect.extendedData_prspct.fiscalSituation.relationName = relation '1 ''tipo de personalidad
                         json.quote.prospect.legalAddress.state = state ''9
                         json.quote.prospect.legalAddress.zipCode = zipCode '"09430"
 
-                        json.quote.idAdditionalPack = 0
+                        json.quote.idAdditionalPack = AdditionalPack 'Obterner en Sp
+
                         json.quote.idPaymentType = tipopago ' multianual fraccionado 1 --> cualquier otro 9
-                        json.quote.idAdditionalPaymentWay = -1
-                        json.quote.idAdditionalTerm = 0
-                        json.quote.generateSeveralTerms = 0
+                        json.quote.idAdditionalPaymentWay = AdditionalPaymentWay 'Obterner en Sp
+
+                        json.quote.idAdditionalTerm = AdditionalTerm 'Obterner en Sp
+
+                        json.quote.generateSeveralTerms = SeveralTerms 'Obterner en Sp
+
                         json.quote.currency.id = currency '1
 
                         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
@@ -470,12 +561,14 @@ Public Class clsCotSegOrdas
                                     ByVal accessorySum As Double, ByVal coverageId As String, ByVal idProduct As String,
                                     ByVal insuredAmount As Double, ByVal relationName As Integer, ByVal state As Integer,
                                     ByVal zipCode As String, ByVal insurerId As Integer, ByVal currency As Integer,
-                                    ByVal PaymentType As Integer, ByVal PaqueteId As Integer, coverage() As String) As DataSet
+                                    ByVal PaymentType As Integer, ByVal PaqueteId As Integer, coverage() As String,
+                                    Optional ByVal idagencia As Integer = 0) As DataSet
 
 
         Dim dttrecibosgar As New DataTable()
         Dim result As New DataSet()
         Dim json As New JSON()
+        Dim clsDatosOrdas As New clsDatosOrdas()
 
         Dim cover As String = String.Empty
         Dim term As String = String.Empty
@@ -520,6 +613,163 @@ Public Class clsCotSegOrdas
         End If
 
         Try
+
+            ' obten accessoryDescription
+            Dim accessory As String = String.Empty
+            Dim dsaccessoryDescription As New DataSet()
+            clsDatosOrdas.Descriptionaccessory = accessory
+            dsaccessoryDescription = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsaccessoryDescription)) AndAlso dsaccessoryDescription.Tables.Count > 0 AndAlso dsaccessoryDescription.Tables(0).Rows.Count > 0 Then
+                accessory = dsaccessoryDescription.Tables(0).Rows(0).Item("accessoryDescription").ToString() 'BUG-PC-186
+            Else
+                _strError = "No se encontro el tipo de uso."
+                Return Nothing
+            End If
+
+            ' obten Edad
+            Dim _edad As Integer = 0
+            Dim dsedad As New DataSet()
+            clsDatosOrdas.Edad = _edad
+            dsedad = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsedad)) AndAlso dsedad.Tables.Count > 0 AndAlso dsedad.Tables(0).Rows.Count > 0 Then
+                _edad = dsedad.Tables(0).Rows(0).Item("age").ToString()
+            Else
+                _strError = "No se encontro la Edad."
+                Return Nothing
+            End If
+
+            ' obten Genero
+            Dim genereo As Integer = 0
+            Dim dsgender As New DataSet()
+            clsDatosOrdas.Genero = genereo
+            dsgender = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsgender)) AndAlso dsgender.Tables.Count > 0 AndAlso dsgender.Tables(0).Rows.Count > 0 Then
+                genereo = dsgender.Tables(0).Rows(0).Item("gender").ToString()
+            Else
+                _strError = "No se encontro la Genero."
+                Return Nothing
+            End If
+
+            ' obten idProduct
+            Dim Productid As Integer
+            Dim dsidProduct As New DataSet()
+            clsDatosOrdas.Productoid = Productid
+            dsidProduct = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsidProduct)) AndAlso dsgender.Tables.Count > 0 AndAlso dsidProduct.Tables(0).Rows.Count > 0 Then
+                Productid = dsidProduct.Tables(0).Rows(0).Item("idProduct").ToString()
+            Else
+                _strError = "No se encontro el idProduct."
+                Return Nothing
+            End If
+
+            'obten agencyNumber
+            Dim Numberagency As String = String.Empty
+            Dim dsagencyNumber As New DataSet()
+            clsDatosOrdas.NumberAgency = Numberagency
+            dsagencyNumber = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsagencyNumber)) AndAlso dsagencyNumber.Tables.Count > 0 AndAlso dsagencyNumber.Tables(0).Rows.Count > 0 Then
+                Numberagency = dsagencyNumber.Tables(0).Rows(0).Item("agencyNumber").ToString()
+            Else
+                _strError = "No se encontro Descripcion."
+                Return Nothing
+            End If
+
+            ' obten insurerId
+            Dim insurer As String = String.Empty
+            Dim dsinsurerId As New DataSet()
+            clsDatosOrdas.Idinsurer = insurer
+            dsinsurerId = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsinsurerId)) AndAlso dsinsurerId.Tables.Count > 0 AndAlso dsinsurerId.Tables(0).Rows.Count > 0 Then
+                insurer = dsinsurerId.Tables(0).Rows(0).Item("insurerId").ToString()
+            Else
+                _strError = "No se encontro el insurerId."
+                Return Nothing
+            End If
+
+            ' obten state
+            Dim estado As Integer
+            Dim dsestado As New DataSet()
+            clsDatosOrdas.Estado = estado
+            dsestado = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsestado)) AndAlso dsestado.Tables.Count > 0 AndAlso dsestado.Tables(0).Rows.Count > 0 Then
+                estado = dsestado.Tables(0).Rows(0).Item("state").ToString()
+            Else
+                _strError = "No se encontro el Estado."
+                Return Nothing
+            End If
+
+            ' obten zipcode
+            Dim codigoPostal As String = String.Empty
+            Dim dscodigoPostal As New DataSet()
+            clsDatosOrdas.CodigoPostal = codigoPostal
+            dscodigoPostal = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dscodigoPostal)) AndAlso dscodigoPostal.Tables.Count > 0 AndAlso dscodigoPostal.Tables(0).Rows.Count > 0 Then
+                codigoPostal = dscodigoPostal.Tables(0).Rows(0).Item("zipCode").ToString()
+            Else
+                _strError = "No se encontro el Estado."
+                Return Nothing
+            End If
+
+            'obten idAdditionalPack
+            Dim AdditionalPack As Integer
+            Dim dsidAdditionalPack As New DataSet()
+            clsDatosOrdas.AdditionalPackid = AdditionalPack
+            dsidAdditionalPack = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsidAdditionalPack)) AndAlso dsidAdditionalPack.Tables.Count > 0 AndAlso dsidAdditionalPack.Tables(0).Rows.Count > 0 Then
+                AdditionalPack = dsidAdditionalPack.Tables(0).Rows(0).Item("idAdditionalPack").ToString()
+            Else
+                _strError = "No se encontro Paquete Adicional."
+                Return Nothing
+            End If
+
+            'obten idAdditionalPack
+            Dim PaymentTypeid As Integer
+            Dim dsidPaymentType As New DataSet()
+            clsDatosOrdas.PaymentTypeid = PaymentTypeid
+            dsidPaymentType = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsidPaymentType)) AndAlso dsidPaymentType.Tables.Count > 0 AndAlso dsidPaymentType.Tables(0).Rows.Count > 0 Then
+                PaymentTypeid = dsidPaymentType.Tables(0).Rows(0).Item("idPaymentType").ToString()
+            Else
+                _strError = "No se encontro Paquete Adicional."
+                Return Nothing
+            End If
+
+            'obten idAdditionalPaymentWay
+            Dim AdditionalPaymentWay As Integer
+            Dim dsidAdditionalPaymentWay As New DataSet()
+            clsDatosOrdas.AdditionalPaymentWayid = AdditionalPaymentWay
+            dsidAdditionalPaymentWay = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsidAdditionalPaymentWay)) AndAlso dsidAdditionalPaymentWay.Tables.Count > 0 AndAlso dsidAdditionalPaymentWay.Tables(0).Rows.Count > 0 Then
+                AdditionalPaymentWay = dsidAdditionalPaymentWay.Tables(0).Rows(0).Item("idAdditionalPaymentWay").ToString()
+            Else
+                _strError = "No se encontro idAdditionalPaymentWay."
+                Return Nothing
+            End If
+
+            'obten idAdditionalTerm
+            Dim AdditionalTerm As Integer
+            Dim dsidAdditionalTerm As New DataSet()
+            clsDatosOrdas.AdditionalTermid = AdditionalTerm
+            dsidAdditionalTerm = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsidAdditionalTerm)) AndAlso dsidAdditionalTerm.Tables.Count > 0 AndAlso dsidAdditionalTerm.Tables(0).Rows.Count > 0 Then
+                AdditionalTerm = dsidAdditionalTerm.Tables(0).Rows(0).Item("idAdditionalTerm").ToString()
+            Else
+                _strError = "No se encontro idAdditionalTerm."
+                Return Nothing
+            End If
+
+            'obten generateSeveralTerms
+            Dim SeveralTerms As Integer
+            Dim dsgenerateSeveralTerms As New DataSet()
+            clsDatosOrdas.AdditionalTermid = SeveralTerms
+            dsgenerateSeveralTerms = clsDatosOrdas.ObtenDatosOrdas(2)
+            If String.IsNullOrEmpty(clsDatosOrdas.ErrorSeguroOrdas) AndAlso (Not IsNothing(dsgenerateSeveralTerms)) AndAlso dsgenerateSeveralTerms.Tables.Count > 0 AndAlso dsgenerateSeveralTerms.Tables(0).Rows.Count > 0 Then
+                SeveralTerms = dsgenerateSeveralTerms.Tables(0).Rows(0).Item("generateSeveralTerms").ToString()
+            Else
+                _strError = "No se encontro idAdditionalTerm."
+                Return Nothing
+            End If
+
             For Each value As String In coverage
                 s = value
                 arr = s.Split(",")
@@ -532,26 +782,30 @@ Public Class clsCotSegOrdas
 
                 json.quote.complement.user.id = _userID
                 json.quote.complement.user.credentials.accessPassword = _password
-                json.quote.iQuote.VehicleQuote.accessoryDescription = "CON BASE A FACTURA"
+                json.quote.iQuote.VehicleQuote.accessoryDescription = accessory 'Obterner en Sp
                 json.quote.iQuote.VehicleQuote.idVehicle = idveh
-                json.quote.iQuote.VehicleQuote.driver.extendedData.age = 35
-                json.quote.iQuote.VehicleQuote.driver.extendedData.gender = 1
+                json.quote.iQuote.VehicleQuote.driver.extendedData.age = _edad '35'Obterner en Sp
+                json.quote.iQuote.VehicleQuote.driver.extendedData.gender = genereo '1'Obterner en Sp
                 json.quote.iQuote.VehicleQuote.accessorySum.amount = accessorySum
                 json.quote.coverageId = cover
-                json.quote.idProduct = 20 ' nuevo = 20 - seminuevo = 23
+                json.quote.idProduct = Productid ' nuevo = 20 - seminuevo = 23 'Obterner en Sp
                 json.quote.termId = term
-                json.quote.agencyNumber = "19" ''19
-                json.quote.insurerId = "32"
+                If (idagencia = 0) Then
+                    json.quote.agencyNumber = idagencia 'obtener del ddlagencia caso automic
+                Else
+                    json.quote.agencyNumber = Numberagency ''19 ''3739 obtener en Sp
+                End If
+                json.quote.insurerId = insurer '32'Obterner en Sp
                 json.quote.insuredAmount.amount = insuredAmount
                 json.quote.prospect.extendedData_prspct.fiscalSituation.relationName = relation '1 ''tipo de personalidad
-                json.quote.prospect.legalAddress.state = 9 'state
-                json.quote.prospect.legalAddress.zipCode = "06900" '"09430" 'zipCode
+                json.quote.prospect.legalAddress.state = estado '9 'state 'Obterner en Sp
+                json.quote.prospect.legalAddress.zipCode = codigoPostal '"06900" '"09430" 'zipCode 'Obterner en Sp
 
-                json.quote.idAdditionalPack = -1
-                json.quote.idPaymentType = 9
-                json.quote.idAdditionalPaymentWay = -1
-                json.quote.idAdditionalTerm = -1
-                json.quote.generateSeveralTerms = 0
+                json.quote.idAdditionalPack = AdditionalPack '-1 'Obterner en Sp
+                json.quote.idPaymentType = PaymentTypeid '9 'Obterner en Sp
+                json.quote.idAdditionalPaymentWay = AdditionalPaymentWay '-1 'Obterner en Sp
+                json.quote.idAdditionalTerm = AdditionalTerm '-1 'Obterner en Sp
+                json.quote.generateSeveralTerms = SeveralTerms '0 'Obterner en Sp
                 json.quote.currency.id = currency
 
                 Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()

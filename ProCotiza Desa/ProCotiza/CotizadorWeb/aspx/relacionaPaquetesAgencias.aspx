@@ -10,6 +10,7 @@
 <%--BUG-PC-137 29/12/2017 DCORNEJO SE MODIFICO EL DISEÑO DEL OBJETO--%>
 <%--BUG-PC-146 24/01/2018 DCORNEJO SE MODIFICO EL DISEÑO DEL OBJETO--%>
 <%--BUG-PC-160: 26/02/2018: CGARCIA: SE AGREGA CONTROL PARA CARGA DE ESQUEMAS--%>
+<%--RQ-PC9: 18/05/2018: DCORNEJO: SE AGREGA AutoPostBack="true" en ddlEsquem--%>
 
 <%--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -74,7 +75,7 @@
                                 <%--BUG-PC-160: 26/02/2018: CGARCIA: SE AGREGA CONTROL PARA CARGA DE ESQUEMAS--%>
                                 <td style="text-align: right;">Esquema</td>
                                 <td>
-                                    <asp:DropDownList ID="ddlEsquem" runat="server" CssClass="selectBBVA"></asp:DropDownList>
+                                    <asp:DropDownList runat="server" ID="ddlEsquem" CssClass="selectBBVA" AutoPostBack="true"></asp:DropDownList>
                                 </td>
                             </tr>
                         </table>

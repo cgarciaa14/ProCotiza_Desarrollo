@@ -5,6 +5,8 @@
 'BUG-PD-68: RHERNANDEZ: 02/06/17: SE MODIFICA LA CLASE PARA PERMITIR GUARDAR EL DATO DE TIPO DE USO DEL SEGURO y PROBLEMA DE ENVIO DE SEGURO DE VIDA A SEGXFACT.
 'BUG-PC-72: RHERNANDEZ: 08/06/17: SE ARREGLA PROBLEMA DE PERDIDA DE RECIBOS AL GUARDAR COTIZACIONES DE SEGUROS POR FACTOR Y SE GUARDA EDO DEL SEGURO PARA EMISION DE SEGUROS BANCOMER
 'BUG-PC-147: RHERNANDEZ: 19/02/18: SE AGREGA VARIABLE QUE CON TENDRA EL IDQUOTE DEL SEGURO DE VIDA BBVA
+'BUG-PC-177: JMENDIETA: 16/04/2017 Se agrega opcion 7.
+'BUG-PC-195: RHERNANDEZ: 18/05/2018: Se corrigue problema al guardar cotizacion por factor
 Imports SDManejaBD
 
 Public Class clsSeguro
@@ -40,6 +42,9 @@ Public Class clsSeguro
     Private strNumCotizacion As String = String.Empty
     'SEG_DS_NOM_COT_VIDA VARCHAR(50)
     Private strNumCotizacionvida As String = String.Empty
+    'TIPO_SEGURO
+    Private IntSegDanios As Integer = 0
+
 
 
     'Inicia Monto Plazos seguros
@@ -333,6 +338,20 @@ Public Class clsSeguro
 
 
 
+    ''' <summary>
+    ''' Id Tipo Seguro de Danios
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property _IntSegDanios() As String
+        Get
+            Return IntSegDanios
+        End Get
+        Set(ByVal value As String)
+            IntSegDanios = value
+        End Set
+    End Property
 
     'Inicia Monto Plazos seguros
     ''' <summary>
@@ -840,7 +859,12 @@ Public Class clsSeguro
                     If strnombrerec.Trim.Length > 0 Then ArmaParametros(strParamStored, TipoDato.Cadena, "nombre", strnombrerec)
                     ArmaParametros(strParamStored, TipoDato.Entero, "AnioGratis", IntAnioGratis.ToString)
                     ArmaParametros(strParamStored, TipoDato.Doble, "decSegVida", decSegVida)
+                    ArmaParametros(strParamStored, TipoDato.Entero, "tiposeg", IntSegDanios)
+                    ArmaParametros(strParamStored, TipoDato.Doble, "id_prod", intProducto)
                     ArmaParametros(strParamStored, TipoDato.Cadena, "strNumCotizacionvida", strNumCotizacionvida.ToString)
+                Case 7 'BUG-PC-177
+                    ArmaParametros(strParamStored, TipoDato.Entero, "intClaveCotizacion", intClaveCotizacion)
+                    ArmaParametros(strParamStored, TipoDato.Cadena, "codigopostal", CodigoPostal)
             End Select
             'RQ06
             ManejaSeguro = objSD.EjecutaStoredProcedure(IIf(intOper = 6, "procCalculoSegXFactor", "spManejaSeguro"), strErrCotiza, strParamStored)

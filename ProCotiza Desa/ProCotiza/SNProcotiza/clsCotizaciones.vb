@@ -19,6 +19,8 @@
 'RQMN2-2.3: ERODRIGUEZ : 30/10/2017:  Se agrego funcion para calculat cat dos.
 'BUG-PC-125  RIGLESIAS: 14/11/2017:      Sa agrego nuevo combolist para indemnización  
 'RQ-PI7-PC7: CGARCIA: 09/01/2017: SE MODIFICA CLASE PARA MANDAR EN SERVICIO DE COTIZACION EL ID DE COBERTURAS QUE ARROJA EL WS DE SUBPLANES.
+'AUTOMIK-BUG-453: RHERNANDEZ: 17/05/18: SE MODIFICA LA CLASE PARA QUE EN EL MULTICOTIZADOR SOLO COTICE 1 PLAZO
+'BUG-PC-197: CGARCIA: 22/05/2018: SE AGREGA CLASIFICACION DEL PRODUCTO EN LA OPCION 28 DE CARGA DE COBERTURAS.
 Imports System.Data
 Imports SDManejaBD
 
@@ -26,6 +28,7 @@ Public Class clsCotizaciones
     Inherits clsSession
 
 #Region "Variables"
+
     Private strErrCotiza As String = ""
 
     Private intCotiza As Integer = 0
@@ -198,6 +201,9 @@ Public Class clsCotizaciones
     Private _idSubMarca As Integer
     'erodriguez
     Private dblTasaCatDos As Double = 0.0
+
+    'PARAMETRO MULTICOTIZACION (SOLO APLICABLE A AUTOMIK)
+    Private init_IsMulticotizacion As Integer = 1
 
 #End Region
 
@@ -1539,6 +1545,15 @@ Public Class clsCotizaciones
         End Set
     End Property
 
+    Public Property IsMulticotizacion() As Integer
+        Get
+            Return init_IsMulticotizacion
+        End Get
+        Set(value As Integer)
+            init_IsMulticotizacion = value
+        End Set
+    End Property
+
 
 
 #End Region
@@ -2052,6 +2067,7 @@ Public Class clsCotizaciones
                 Case 28 'Obtiene tipo de Cobertura
                     ArmaParametros(strParamStored, TipoDato.Entero, "idAlianza", IDAlianza.ToString)
                     ArmaParametros(strParamStored, TipoDato.Entero, "idCotPaso", intCotiza.ToString)
+                    ArmaParametros(strParamStored, TipoDato.Entero, "idClasif", IDClasificacionProd.ToString) 'BUG-PC-197
                 Case 29 'Accesorios
                     ArmaParametros(strParamStored, TipoDato.Entero, "idCotPaso", intCotiza.ToString)
                     ArmaParametros(strParamStored, TipoDato.Entero, "idAccesorio", IDAccesorio.ToString)
@@ -2420,7 +2436,7 @@ Public Class clsCotizaciones
 
                 'BUG-PC-50 MAPH 28/03/2016 Comisión por apertura en el CAT
                 If Not dtsFiltros.Tables(0).Rows(0).Item("COMAPERT") Is Nothing Then
-                    dblMtoGastos += (Convert.ToDouble(dtsFiltros.Tables(0).Rows(0).Item("COMAPERT").ToString()) / (1 + (Convert.ToDouble(dtsFiltros.Tables(0).Rows(0).Item("TASA_IVA").ToString())) / 100))
+                    dblMtoGastos += Convert.ToDouble(dtsFiltros.Tables(0).Rows(0).Item("COMAPERT").ToString())
                 End If
 
                 'Al capital le quitamos el monto de los gastos que afectan al CAT
@@ -2633,6 +2649,10 @@ Public Class clsCotizaciones
             ArmaParametros(strParamStored, TipoDato.Doble, "MtoGarantia", dbMtoGarantia.ToString)
             ArmaParametros(strParamStored, TipoDato.Entero, "TipoSegVida", IDAplicacionSeguroVida.ToString)
             ArmaParametros(strParamStored, TipoDato.Doble, "ID_prod", IDProducto)
+            If IsMulticotizacion = 0 Then
+                ArmaParametros(strParamStored, TipoDato.Entero, "IsMulticotiza", IsMulticotizacion)
+                ArmaParametros(strParamStored, TipoDato.Doble, "ValorPlazo", ValorPlazo)
+            End If
             LlenaGrid = objSD.EjecutaStoredProcedure("spMulticotiza", strErrCotiza, strParamStored)
 
         Catch ex As Exception

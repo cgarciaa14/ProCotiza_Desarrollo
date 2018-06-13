@@ -10,6 +10,7 @@ Imports SNProcotiza
 'BUG-PC-98: RHERNANDEZ: 31/07/17: SE CAMBIAN PARAMETROS PARA COTIZAR SEGUROS DEL AUTO BBVA PARA TIPO DE PRODUCTO MOTO
 'RQ-PI7-PC7: CGARCIA: 09/01/2017: SE MODIFICA CLASE PARA MANDAR EN SERVICIO DE COTIZACION EL ID DE COBERTURAS QUE ARROJA EL WS DE SUBPLANES.
 'BUG-PC-149: CGARCIA: 22/01/2018: SE BANDEREA SEGURO DAÑOS
+'AUTOMIK-BUG-453: RHERNANDEZ: 17/05/18: SE MODIFICA SERVICIO DE CALCULO DE SEGUROS PARA COTIZAR UN SOLO PLAZO
 Public Class clsCotSegBBVA
     Private _strError As String = String.Empty
 
@@ -345,7 +346,7 @@ Public Class clsCotSegBBVA
         End Try
     End Function
 
-    Public Function CotizaBBVADaños2(ByVal brokerid As Integer, ByVal model As String, ByVal Id_Externo As String, ByVal version As String, ByVal precio As String, ByVal paqueteid As Integer, ByVal aseg As Integer, ByVal coverageId As String, ByVal idedo As Integer, ByVal edo As String, ByVal tipo_seg As String, ByVal cobertura As Integer, ByVal mtoacc As String, ByVal tipoprod As Integer, Optional ByVal automikRequest As Boolean = 0, Optional headers As WebHeaderCollection = Nothing) As DataSet
+    Public Function CotizaBBVADaños2(ByVal brokerid As Integer, ByVal model As String, ByVal Id_Externo As String, ByVal version As String, ByVal precio As String, ByVal paqueteid As Integer, ByVal aseg As Integer, ByVal coverageId As String, ByVal idedo As Integer, ByVal edo As String, ByVal tipo_seg As String, ByVal cobertura As Integer, ByVal mtoacc As String, ByVal tipoprod As Integer, Optional ByVal automikRequest As Boolean = 0, Optional headers As WebHeaderCollection = Nothing, Optional IsMulticotizacion As Integer = 1, Optional idplazo As Integer = 0) As DataSet
 
         Dim dts As New DataSet()
         Dim dtb As New DataTable
@@ -356,7 +357,7 @@ Public Class clsCotSegBBVA
         If dtDeduc.Tables.Count > 0 AndAlso dtDeduc.Tables(0).Rows.Count > 0 AndAlso dtDeduc.Tables(0).Rows(0).Item("VALOR") <> String.Empty Then
             muestraDeduc = CInt(dtDeduc.Tables(0).Rows(0).Item("VALOR").ToString)
         Else
-            muestraDeduc = 0            
+            muestraDeduc = 0
         End If
         Dim resulbbva As New DataSet
         dtb.Columns.Add("ID_PAQUETE")
@@ -438,6 +439,15 @@ Public Class clsCotSegBBVA
             Dim dtsaseg As New DataSet()
             dtsaseg = Obten_Aseguradora(brokerid, aseg)
             dts = Obten_Plazos(paqueteid)
+
+            If IsMulticotizacion = 0 Then
+                Dim rows As DataRow() = (From x In dts.Tables(0).AsEnumerable().Cast(Of DataRow)() Where x.Field(Of Integer)("ID_PLAZO") <> idplazo).ToArray()
+                For Each row As DataRow In rows
+                    dts.Tables(0).Rows.Remove(row)
+                Next
+                dts.AcceptChanges()
+            End If
+
             If dts.Tables.Count > 0 Then
                 If dts.Tables(0).Rows.Count > 0 Then
                     totreg = dts.Tables(0).Rows.Count

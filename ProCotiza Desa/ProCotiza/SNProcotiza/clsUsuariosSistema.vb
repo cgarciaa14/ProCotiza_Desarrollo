@@ -3,6 +3,7 @@
 'BBV-P-412:GVARGAS:27/10/2016 RQ WSE: Agregadas propiedades a la clase
 'BUG-PC-103: JBEJAR:21/08/2017 CAMBIO 
 'BUG-PC-140: DCORNEJO:20/12/2017 CAMBIO EN ACTUALIZA PARAMETRO SE AGREGO LA SIGUIENTE LINEA ArmaParametros(strParamStored, TipoDato.Cadena, "usuReg", strUsuReg)
+'RQ-PC9: DCORNEJO: 15/05/2018: SE AGREGAN COMBOS PARA LA PANTALLA relacionaAgenciaUsuario consulta la opc 11,12,13
 Imports SDManejaBD
 
 Public Class clsUsuariosSistema
@@ -31,6 +32,15 @@ Public Class clsUsuariosSistema
     Private strCorreo As String = ""
     Private intUsuInterno As Integer = 0
     Private strFecha_Reg As String = String.Empty
+    'RQ-PC9 DCORNEJO
+    Private strAlianza As String = String.Empty
+    Private intIDAlianza As Integer = -1
+    Private strGrupo As String = String.Empty
+    Private intIDGrupo As Integer = -1
+    Private strDivision As String = String.Empty
+    Private intIDDivision As Integer = -1
+    Private strEntidad As String = String.Empty
+    Private intIDEntidad As Integer = -1
 
 
     Sub New()
@@ -212,6 +222,72 @@ Public Class clsUsuariosSistema
             strFecha_Reg = value
         End Set
     End Property
+    'RQ-PC9 DCORNEJO
+    Public Property Alianza() As String
+        Get
+            Return strAlianza
+        End Get
+        Set(value As String)
+            strAlianza = value
+        End Set
+    End Property
+
+    Public Property IDAlianza() As Integer
+        Get
+            Return intIDAlianza
+        End Get
+        Set(value As Integer)
+            intIDAlianza = value
+        End Set
+    End Property
+    Public Property Grupo() As String
+        Get
+            Return strGrupo
+        End Get
+        Set(value As String)
+            strGrupo = value
+        End Set
+    End Property
+    Public Property IDGrupo() As Integer
+        Get
+            Return intIDGrupo
+        End Get
+        Set(value As Integer)
+            intIDGrupo = value
+        End Set
+    End Property
+    Public Property Division() As String
+        Get
+            Return strDivision
+        End Get
+        Set(value As String)
+            strDivision = value
+        End Set
+    End Property
+    Public Property IDDivision() As Integer
+        Get
+            Return intIDDivision
+        End Get
+        Set(value As Integer)
+            intIDDivision = value
+        End Set
+    End Property
+    Public Property Entidad() As String
+        Get
+            Return strEntidad
+        End Get
+        Set(value As String)
+            strEntidad = value
+        End Set
+    End Property
+    Public Property IDEntidad() As Integer
+        Get
+            Return intIDEntidad
+        End Get
+        Set(value As Integer)
+            intIDEntidad = value
+        End Set
+    End Property
 
     Public Sub CargaUsuario(Optional ByVal intUsu As Integer = 0)
         Dim dtsRes As New DataSet
@@ -232,7 +308,7 @@ Public Class clsUsuariosSistema
                         strFecCambioPwd = dtsRes.Tables(0).Rows(0).Item("FEC_CAMBIO_PWD")
                         strFecha_Reg = dtsRes.Tables(0).Rows(0).Item("FEC_REG")
                     Else
-                        strErrUsuario = "No se encontró información para poder cargar el usuario"
+                        strErrUsuario = "No se encontrï¿½ informaciï¿½n para poder cargar el usuario"
                     End If
                 End If
             Else
@@ -321,15 +397,32 @@ Public Class clsUsuariosSistema
                     If intUsuario > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idUsuario", intUsuario.ToString)
                     If Trim(strAgencia).Length > 0 Then ArmaParametros(strParamStored, TipoDato.Cadena, "agencia", strAgencia)
                     If intIDAgencia > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idagencia", intIDAgencia.ToString)
+                    'RQ-PC9 DCORNEJO
+                    If intIDAlianza > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idalianza", intIDAlianza.ToString)
+                    If intIDGrupo > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idgrupo", intIDGrupo.ToString)
+                    If intIDDivision > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "iddivision", intIDDivision.ToString)
+                    If intIDEntidad > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "identidad", intIDEntidad.ToString)
+
                 Case 12 ''Borra Agencia
                     If intUsuario > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idUsuario", intUsuario.ToString)
                     If Trim(strAgencia).Length > 0 Then ArmaParametros(strParamStored, TipoDato.Cadena, "agencia", strAgencia)
                     If intIDAgencia > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idagencia", intIDAgencia.ToString)
+                    'RQ-PC9 DCORNEJO
+                    If intIDAlianza > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idalianza", intIDAlianza.ToString)
+                    If intIDGrupo > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idgrupo", intIDGrupo.ToString)
+                    If intIDDivision > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "iddivision", intIDDivision.ToString)
+                    If intIDEntidad > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "identidad", intIDEntidad.ToString)
+
                 Case 13 ''Inserta Asigna Agencia
                     If intUsuario > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idUsuario", intUsuario.ToString)
                     If Trim(strAgencia).Length > 0 Then ArmaParametros(strParamStored, TipoDato.Cadena, "agencia", strAgencia)
                     If intIDAgencia > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idagencia", intIDAgencia.ToString)
                     ArmaParametros(strParamStored, TipoDato.Cadena, "usuReg", strUsuReg)
+                    'RQ-PC9 DCORNEJO
+                    If intIDAlianza > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idalianza", intIDAlianza.ToString)
+                    If intIDGrupo > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idgrupo", intIDGrupo.ToString)
+                    If intIDDivision > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "iddivision", intIDDivision.ToString)
+                    If intIDEntidad > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "identidad", intIDEntidad.ToString)
                 Case 14 ''Consulta Cotizador
                     If intUsuario > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idUsuario", intUsuario.ToString)
                 Case 15 ''Consulta Cotizador-Vendedores

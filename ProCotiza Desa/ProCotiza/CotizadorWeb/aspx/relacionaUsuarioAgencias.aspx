@@ -9,6 +9,7 @@
 <%--BUG-PC-110 25/09/2017 ERODRIGUEZ Se corrigio validacion para numeros y letras en agencia--%>
 <%--BUG-PC-137 29/12/2017 DCORNEJO SE MODIFICO EL DISEÑO DEL OBJETO--%>
 <%--BUG-PC-146 24/01/2018 DCORNEJO SE MODIFICO EL DISEÑO DEL OBJETO PARA OBTENER LOS ESTILOS DE LESS-JAGUAR--%>
+<%--RQ-PC9 15/05/2018: DCORNEJO: SE AGREGARON COMBOS ALIANZA, GRUPO,DIVISION, ESTADO--%>
 <%--<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>--%>
@@ -36,7 +37,32 @@
                             <asp:TextBox ID="txtUsuario" runat="server" CssClass="txx3BBVA" Enabled="false"></asp:TextBox>
                         </td>
                         <td style="width:1%; text-align:right;">Agencia:</td>
-                        <td style="width:27%;"><asp:TextBox ID="txtage" runat="server" CssClass="txt3BBVA" MaxLength="50" Width="194px" Onkeypress="return ValCarac(event,12);" onkeyup="ReemplazaAcentos(event, this.id, this.value);"></asp:TextBox></td>
+                        <td style="width:27%;">
+                            <asp:TextBox ID="txtage" runat="server" CssClass="txt3BBVA" MaxLength="50" Width="194px" Onkeypress="return ValCarac(event,12);" onkeyup="ReemplazaAcentos(event, this.id, this.value);">
+                            </asp:TextBox>
+                        </td>
+                         <td style="width:1%; text-align:right;">Alianza:</td>
+                        <td style="width:27%;">
+                            <asp:DropDownList runat="server" ID="cmbAlianza" CssClass="selectBBVA" AutoPostBack="true">
+                                <%--<asp:ListItem Value="-1" Text="<SELECCIONAR>" Selected="True"></asp:ListItem>--%>
+                            </asp:DropDownList></td>
+                    </tr>
+                    <tr>
+                        <td style="width:1%; text-align:right;">Grupo:</td>
+                        <td style="width:27%;">
+                            <asp:DropDownList ID="cmbGrupo" runat="server" AutoPostBack="true" CssClass="selectBBVA">
+                                <%--<asp:ListItem Value="-1" Text="<SELECCIONAR>" Selected="True"></asp:ListItem>--%>
+                            </asp:DropDownList></td>
+                        <td style="width:1%; text-align:right;">Division:</td>
+                        <td style="width:27%;">
+                            <asp:DropDownList ID="cmbDivision" runat="server" AutoPostBack="true" CssClass="selectBBVA">
+                                <%--<asp:ListItem Value="-1" Text="<SELECCIONAR>" Selected="True"></asp:ListItem>--%>
+                            </asp:DropDownList></td>
+                        <td style="width:1%; text-align:right;">Estado:</td>
+                        <td style="width:27%;">
+                            <asp:DropDownList ID="cmbEstado" runat="server" AutoPostBack="true" CssClass="selectBBVA">
+                                <%--<asp:ListItem Value="-1" Text="<SELECCIONAR>" Selected="True"></asp:ListItem>--%>
+                            </asp:DropDownList></td>
             	    </tr>
 	        </table>
             </center>
@@ -64,19 +90,25 @@
                             <td>
                                     <asp:GridView ID="grvConsulta" runat="server" AutoGenerateColumns="false" 
                                                   AllowPaging="true" PageSize="20" Width="100%" BorderWidth="0px" 
-                                                  DataKeyNames="ID_AGENCIA, ASIG" EmptyDataText ="No se encontró información con los parámetros proporcionados.">
+                                                  DataKeyNames="ID_AGENCIA,ASIG,ID_ALIANZA" EmptyDataText ="No se encontró información con los parámetros proporcionados.">
                                         <HeaderStyle CssClass="GridHeader"/> 
                                 <RowStyle CssClass="GridItem"/> 
                                 <PagerStyle HorizontalAlign="Center" CssClass="GridPager"/>
                                         <Columns>
                                             <asp:BoundField DataField="NOMBRE" HeaderText="Agencia" ItemStyle-Width="27%" ItemStyle-HorizontalAlign="Center"/>
+                                            <asp:BoundField DataField="ID_AGENCIA" HeaderText="" Visible = "false" />
+                                            <asp:BoundField DataField="ASIG" HeaderText="" Visible = "false"/>
+                                            <%--RQ-PC9: DCORNEJO--%>
+                                            <asp:BoundField DataField="ALIANZA" HeaderText="Alianza" ItemStyle-Width="27%" ItemStyle-HorizontalAlign="Center"/>
+                                            <asp:BoundField DataField="GRUPO" HeaderText="Grupo" ItemStyle-Width="27%" ItemStyle-HorizontalAlign="Center"/>
+                                            <asp:BoundField DataField="DIVISION" HeaderText="Division" ItemStyle-Width="27%" ItemStyle-HorizontalAlign="Center"/>
+                                            <asp:BoundField DataField="EFD_DS_ENTIDAD" HeaderText="Estado" ItemStyle-Width="27%" ItemStyle-HorizontalAlign="Center"/>
+
                                             <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="10px" ControlStyle-Width="10px">
                                                 <ItemTemplate>
                                                     <asp:ImageButton ID="ImageButton1" runat="server" CssClass="resul" CommandName="UsuarioId" CommandArgument="<%# CType(Container,GridViewRow).RowIndex %>" AlternateText="Relación"/>
                                                 </ItemTemplate>                                            
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="ID_AGENCIA" HeaderText="" Visible = "false" />
-                                            <asp:BoundField DataField="ASIG" HeaderText="" Visible = "false"/>
                                         </Columns>              
                                      </asp:GridView>
                             </td>

@@ -95,6 +95,7 @@ Public Class clsProcGenerales
             objCmb.DataSource = dtsSource.Tables(0)
             objCmb.DataTextField = strCol
             objCmb.DataValueField = strVal
+            objCmb.DataMember = "Hola"
             objCmb.DataBind()
 
             'If blnAgregaBlanco Then

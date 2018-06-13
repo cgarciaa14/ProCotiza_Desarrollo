@@ -1,4 +1,8 @@
 ﻿'RQ-PC5: JMENDIETA  27/01/2018: Se crea la clase que consume el servicio quote
+'BUG-PC-174: JMENDIETA: 04/04/2017 Para el valor de stateId se enviara solamente el valor sin agregar un 0
+'BUG-PC-175: JMENDIETA: 09/04/2017 Se agrega funcionalidad para cotizar un unico plazo a partir de un parametro de sistema.
+'BUG-PC-177: JMENDIETA: 16/04/2017 Validacion de codigo posta y se obtiene a que entidad federativa pertenece.
+'BUG-PC-186: JMENDIETA: 26/04/2017 Se devuelve el error del servicio, se manda la cobertura seleccionada en el cotizador y se elimina el casteo a entero de tipo de uso mandando el idExterno de base de datos.
 Imports WCF.clsDeserialMarshMulti
 Imports System.Text
 Imports System.Net
@@ -10,6 +14,8 @@ Public Class clsCotSegMarshMulti
     Private _URL As String = String.Empty
     Private _userID As String = String.Empty
     Private _password As String = String.Empty
+    Private _usalimitePlazo As Boolean = False
+    Private _idPlazo As String
 
     Public ReadOnly Property urlMARSH As String
         Get
@@ -69,7 +75,29 @@ Public Class clsCotSegMarshMulti
         End Set
     End Property
 
+    'BUG-PC-175 INI
+    Public Property usaLimitePlazo() As Boolean
+        Get
+            Return _usalimitePlazo
+        End Get
+        Set(ByVal value As Boolean)
+            _usalimitePlazo = value
+        End Set
+    End Property
+
+    Public Property IdPlazo() As String
+        Get
+            Return _idPlazo
+        End Get
+        Set(ByVal value As String)
+            _idPlazo = value
+        End Set
+    End Property
+    'BUG-PC-175 FIN
+
     Private wsDelay As Integer = 0
+
+    Private codigoEFederativa As String
 
     Sub New()
 
@@ -227,7 +255,7 @@ Public Class clsCotSegMarshMulti
             clsDatosMarsh.UseTypeId = service
             dsServiceType = clsDatosMarsh.ObtenDatosMarsh(1)
             If String.IsNullOrEmpty(clsDatosMarsh.ErrorSeguroDanios) AndAlso (Not IsNothing(dsServiceType)) AndAlso dsServiceType.Tables.Count > 0 AndAlso dsServiceType.Tables(0).Rows.Count > 0 Then
-                serviceType = Integer.Parse(dsServiceType.Tables(0).Rows(0).Item("ID_EXTERNO")).ToString()
+                serviceType = dsServiceType.Tables(0).Rows(0).Item("ID_EXTERNO").ToString() 'BUG-PC-186
             Else
                 _strError = "No se encontro el tipo de uso."
                 Return Nothing
@@ -322,13 +350,52 @@ Public Class clsCotSegMarshMulti
                 wsDelay = Convert.ToInt32(dsDelay.Tables(0).Rows(0).Item("VALOR"))
             End If
 
+            'BUG-PC-175 INI
+            'Obtener configuracion para cotizar un plazo unico o multiplazos
+            Dim dsParametros As New DataSet()
+            clsDatosMarsh.ParametroId = 212
+            dsParametros = clsDatosMarsh.ObtenDatosMarsh(7)
+            If (Not String.IsNullOrEmpty(clsDatosMarsh.ErrorSeguroDanios)) OrElse (IsNothing(dsParametros)) OrElse dsParametros.Tables.Count = 0 OrElse dsParametros.Tables(0).Rows.Count = 0 Then
+                _usalimitePlazo = False
+            Else
+                _usalimitePlazo = Convert.ToBoolean(Convert.ToInt16(dsParametros.Tables(0).Rows(0).Item("VALOR")))
+            End If
+            'BUG-PC-175 FIN
+
+            'BUG-PC-177 INI
+            Dim dsInfoCodPostal As New DataSet()
+            clsDatosMarsh.CodigoPostal = zipCode
+            dsInfoCodPostal = clsDatosMarsh.ObtenDatosMarsh(8)
+            If String.IsNullOrEmpty(clsDatosMarsh.ErrorSeguroDanios) AndAlso (Not IsNothing(dsInfoCodPostal)) AndAlso dsInfoCodPostal.Tables.Count > 0 AndAlso dsInfoCodPostal.Tables(0).Rows.Count > 0 Then
+                codigoEFederativa = dsInfoCodPostal.Tables(0).Rows(0).Item("EFD_CL_CVE").ToString.Trim
+            Else
+                _strError = "El codigo postal no existe."
+                Return Nothing
+            End If
+            'BUG-PC-177 FIN
+
+
             'Obten_Plazos
             Dim dsPlazos As New DataSet()
             clsDatosMarsh.PaqueteId = PaqueteId
             dsPlazos = clsDatosMarsh.ObtenDatosMarsh(6)
             If (String.IsNullOrEmpty(clsDatosMarsh.ErrorSeguroDanios)) AndAlso (Not IsNothing(dsPlazos)) AndAlso dsPlazos.Tables.Count > 0 AndAlso dsPlazos.Tables(0).Rows.Count > 0 Then
 
-                For Each plazo As DataRow In dsPlazos.Tables(0).Rows
+                'BUG-PC-175 INI
+                Dim lstplazo = (From dr In dsPlazos.Tables(0).AsEnumerable Select New With { _
+                              Key .ID_PLAZO = dr.Field(Of Integer)("ID_PLAZO"), _
+                              Key .DESCRIPCION = dr.Field(Of String)("DESCRIPCION"), _
+                              Key .VALOR = dr.Field(Of Integer)("VALOR")
+                              }).ToList()
+
+                If _usalimitePlazo Then
+                    If lstplazo.Exists(Function(x) x.ID_PLAZO = _idPlazo) Then
+                        lstplazo = lstplazo.Where(Function(x) x.ID_PLAZO = _idPlazo).ToList()
+                    End If
+                End If
+                'BUG-PC-175 FIN
+
+                For Each plazo In lstplazo 'BUG-PC-175 FIN
 
                     Dim quote As New quote()
 
@@ -342,11 +409,11 @@ Public Class clsCotSegMarshMulti
                     quote.iQuote.VehicleQuote.car.plates = dsPlates.Tables(0).Rows(0).Item("ID_EXTERNO") ' "MB115135"
                     quote.iQuote.VehicleQuote.car.unitType = IIf(carunitType = 63, "01", "02") '"01" ''NUEVO/SEMINUEVO
                     quote.iQuote.VehicleQuote.car.unitPrice.amount = unitPriceamount.ToString '' "138279.81"
-                    quote.iQuote.VehicleQuote.car.stateId = IIf(stateId.ToString.Length < 2, "0" & stateId.ToString, stateId.ToString) '"30"
+                    quote.iQuote.VehicleQuote.car.stateId = codigoEFederativa 'BUG-PC-174 BUG-PC-177
                     quote.iQuote.VehicleQuote.accessorySum.amount = accessorySum '"0.00"
-                    quote.policyType = "" 'IIf(idExternoAseguradora = "0", "", Typepolicy) ' "AMPLIA"
+                    quote.policyType = Typepolicy 'IIf(idExternoAseguradora = "0", "", Typepolicy) ' "AMPLIA" BUG-PC-186
                     quote.insuranceType = insuranceType ' "MULTIANUAL FRACCIONADO"
-                    quote.term = plazo.Item("VALOR") '"18"
+                    quote.term = plazo.VALOR
                     quote.agencyNumber = idagencia.ToString  'idagencia  ' "3458"
                     quote.insurerId = idExternoAseguradora ' "2841"
                     quote.prospect.birthDate = "1980-05-08" '"1973-05-18"
@@ -413,19 +480,16 @@ Public Class clsCotSegMarshMulti
                     res2 = Replace(res2, "errorInfoId", "errorId")
                     Dim jresult As Marsh = serializer.Deserialize(Of Marsh)(res2)
 
+                    'Dim _newResult = jresult.quotes.Where(Function(x) x.policyTypeId.Trim.ToUpper = Typepolicy.Trim.ToUpper).ToList()
 
-                    'If jresult.errorInfo.errorId.ToString().Trim() = "0" Then
+                    'BUG-PC-186
+                    IDQuote = objDes.Deserealize(jresult.quotes, lstAseguradora, plazo.VALOR)
+                    dttrecibos = objDes.RecibosMarsh(jresult.quotes)
 
-                    Dim _newResult = jresult.quotes.Where(Function(x) x.policyTypeId.Trim.ToUpper = Typepolicy.Trim.ToUpper).ToList()
-
-                    IDQuote = objDes.Deserealize(_newResult, lstAseguradora, plazo.Item("VALOR"))
-                    dttrecibos = objDes.RecibosMarsh(_newResult)
-
-                    'End If 
-
-                    'If Not String.IsNullOrEmpty(jresult.errorInfo.description) Then
-                    '    _strError = jresult.errorInfo.description
-                    'End If
+                    If (Not jresult.errorInfo.errorId = "0") AndAlso (Not String.IsNullOrEmpty(jresult.errorInfo.description)) Then
+                        _strError = jresult.errorInfo.description
+                        Exit For
+                    End If
 
 
                     For Each row As DataRow In IDQuote.Rows

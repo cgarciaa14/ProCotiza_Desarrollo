@@ -7,6 +7,7 @@
 'BUG-PC-85 GVARGAS 05/07/2017 consumerID_Extranet
 'BUG-PC-84 RHERNANDEZ: 11/07/17: SE GUARDA CONSUMER ID EN VARIABLE PARA FUTURAS PRUEBAS A SERVIDORES
 'RQ-MN2-6: RHERNANDEZ: 15/09/17: SE REPLICAN CLASES A PRODESKNET PARA EL CONTROL DE SERVICIOS HTTPS DE DESARROLLO
+'AUTOMIK-TASK-379: RHERNANDEZ: 06/02/2018 : Configuración para usuario Automik en la obtención del iv_ticket, contraseña y consumerID
 
 'V 1.0.1 Agregados metodos GET, POST, PUT, PATCH Y DELETE
 'V 2.0.1 Validacion de errores segun HTTP Status
@@ -30,6 +31,7 @@ Public Class RESTful
     Private _bodyHTML As String = String.Empty
     Private _userID As String = String.Empty
     Private _iv_ticket As String = String.Empty
+    Private _password As String = System.Configuration.ConfigurationManager.AppSettings("automikPassword")
     Private _tsec As String = String.Empty
     Private _counterConnection As Integer = 0
     Private _Interval As Integer = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings("Interval").ToString())
@@ -92,9 +94,9 @@ Public Class RESTful
         End Set
     End Property
 
-    Public Sub RESTful()
-        _automikRequest = False
-    End Sub
+    'Public Sub RESTful()
+    '    _automikRequest = False
+    'End Sub
 
     Private Function Connection(ByVal verbo As String) As String
         Dim json As String
@@ -207,10 +209,14 @@ Public Class RESTful
     Public Sub GetTsec()
 
         Dim header As headerTsec = New headerTsec()
-        header.authentication.userID = Me._userID
 
+        Dim authenticationDataBody As authenticationDataBody = New authenticationDataBody()
         'If (Me._userID = System.Configuration.ConfigurationManager.AppSettings("GENERIC_userID").ToString()) Then
         If Not Me._automikRequest Then
+            header.authentication.authenticationType = "00"
+            header.authentication.userID = Me._userID
+            authenticationDataBody.idAuthenticationData = "iv_ticketService"
+            authenticationDataBody.authenticationData.Add(Me._iv_ticket)
             If Me._userID.IndexOf("EXT") <> -1 Then
                 header.authentication.consumerID = System.Configuration.ConfigurationManager.AppSettings("GENERIC_consumerID").ToString()
             Else
@@ -218,14 +224,14 @@ Public Class RESTful
             End If
             Me._consumerID = header.authentication.consumerID
         Else
-            header.authentication.consumerID = Me._consumerID
+            header.authentication.authenticationType = "04"
+            authenticationDataBody.idAuthenticationData = "password"
+            authenticationDataBody.authenticationData.Add(Me._password)
+            header.authentication.userID = System.Configuration.ConfigurationManager.AppSettings("automikUserID").ToString()
+            header.authentication.consumerID = System.Configuration.ConfigurationManager.AppSettings("automikConsumerID").ToString()
         End If
 
-        header.authentication.authenticationType = "00"
 
-        Dim authenticationDataBody As authenticationDataBody = New authenticationDataBody()
-        authenticationDataBody.idAuthenticationData = "iv_ticketService"
-        authenticationDataBody.authenticationData.Add(Me._iv_ticket)
 
         header.authentication.authenticationData.Add(authenticationDataBody)
         header.backendUserRequest.userId = ""

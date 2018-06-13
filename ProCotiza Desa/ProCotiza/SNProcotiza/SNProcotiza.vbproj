@@ -77,11 +77,13 @@
     <Compile Include="clsBancos.vb" />
     <Compile Include="clsBrokerSeguros.vb" />
     <Compile Include="clsCiudad.vb" />
+    <Compile Include="clsCoberturas.vb" />
     <Compile Include="clsCodigoPostal.vb" />
     <Compile Include="clsConstantes.vb" />
     <Compile Include="clsCotizaciones.vb" />
     <Compile Include="clsDaniosDinamico.vb" />
     <Compile Include="clsDatosMarshMulti.vb" />
+    <Compile Include="clsDatosOrdas.vb" />
     <Compile Include="clsDetallePerfil.vb" />
     <Compile Include="clsDivisiones.vb" />
     <Compile Include="clsEmpresas.vb" />

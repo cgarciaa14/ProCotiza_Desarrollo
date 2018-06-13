@@ -7,6 +7,8 @@
 <%--RQ-MN2-6: RHERNANDEZ: 15/09/17: SE AGREGAN NUEVOS FILTROS PARA LA OPCION 11 DE CONSULTA PAQUETES-PRODUCTOS--%>
 <%--BUG-PC-137 29/12/2017 DCORNEJO SE MODIFICO EL DISEÑO DEL OBJETO--%>
 <%--BUG-PC-146 24/01/2018 DCORNEJO SE MODIFICO EL DISEÑO DEL OBJETO--%>
+<%--'RQ-PC9: CGARCIA: 21/05/2018: SE CRA FILTRO DE ALIANZA--%>
+<%--'BUG-PC-204: CGARCIA: 06/06/2018: SE REVERSA FILTRO RQ-PC9--%>
 <%--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -57,6 +59,12 @@
                         <td>
                             <asp:TextBox ID="txtNom" runat="server" CssClass="txt3BBVA" MaxLength="50" Onkeypress="return validarNro('A1',event);"></asp:TextBox></td>
                     </tr>
+                    <%--<tr>
+                        <td style="text-align: right;">Alianza: </td>
+                        <td>
+                            <asp:DropDownList ID="ddlAlianza" runat="server" CssClass="selectBBVA" AutoPostBack="true"></asp:DropDownList>
+                        </td>
+                    </tr>--%>
                 </table>
                 <table class="resulbbva">
                     <tr>
@@ -92,6 +100,8 @@
                                     <asp:BoundField DataField="AÑO" HeaderText="Modelo" ItemStyle-HorizontalAlign="Center" />
                                     <asp:BoundField DataField="CLASIF" HeaderText="Clasificación" ItemStyle-HorizontalAlign="Center" />
                                     <asp:BoundField DataField="IDBROKER" HeaderText="Broker" ItemStyle-HorizontalAlign="Center" />
+                                    <%--<asp:BoundField DataField="ALIANZA" HeaderText="Alianza" ItemStyle-HorizontalAlign="Center" />--%>
+                                   <%-- <asp:BoundField DataField="AGENCIA" HeaderText="Agencia" ItemStyle-HorizontalAlign="Center" />--%>
                                     <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:ImageButton ID="ImageButton1" runat="server" CssClass="resul" CommandName="ProdID" CommandArgument="<%# CType(Container,GridViewRow).RowIndex %>" AlternateText="Relación" />

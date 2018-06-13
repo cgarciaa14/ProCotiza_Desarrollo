@@ -1,5 +1,6 @@
 ﻿'RQ-PI7-PC6: CGARCIA: 19/10/2017: SE CREA PANTALLA PARA CREAR, ACTUALIZAR DOMICILIOS
 'BUG-PC-161: CGARCIA: 27/02/2018: SE AGREGA FILTRO DE BUSQUEDA OPCIONAL EN CIUDAD
+'BUG-PC-198: CGARCIA: 23/05/2018: SE VALIDA DUPLICADO DE ID DE MUNICIPIOS Y FILTRO DE CUIDADES DEJA DE DEPENDER DE MUNICIPIO
 Imports System.Data
 Imports SNProcotiza
 
@@ -120,9 +121,10 @@ Partial Class aspx_manejaCodigoPostal
                     End If
                     'combo ciudad
                 Case 3
-                    _idCiudad = fn_Ciudad()
+                    'BUG-PC-198:
+                    '_idCiudad = fn_Ciudad()
                     clsCiudad._intEFD_CL_CVE = cmbNvoEntidadFederativa.SelectedValue
-                    clsCiudad._intCIU_CL_CIUDAD = _idCiudad
+                    'clsCiudad._intCIU_CL_CIUDAD = _idCiudad
                     dtsRes = clsCiudad.ManejaCiudad(1)
 
                     If (Not IsNothing(dtsRes) AndAlso dtsRes.Tables.Count > 0 AndAlso dtsRes.Tables(0).Rows.Count > 0) Then
@@ -237,7 +239,9 @@ Partial Class aspx_manejaCodigoPostal
 
     Protected Sub cmbNvoEntidadFederativa_SelectedIndexChanged1(sender As Object, e As EventArgs)
         'Dim ddl2 As DropDownList = DirectCast(grvInserta.Rows(0).Cells(2).FindControl("cmbCiudad"), DropDownList)
+        'BUG-PC-198:
         CargaCombos(2)
+        CargaCombos(3)
     End Sub
 
     Private Function ValidaControles(ByVal ddl1 As DropDownList, ByVal ddl2 As DropDownList, ByVal ddl3 As DropDownList, txt1 As TextBox, index As Integer) As Boolean
@@ -417,7 +421,8 @@ Partial Class aspx_manejaCodigoPostal
     End Class
 
     Protected Sub cmbNvoMunicipio_SelectedIndexChanged(sender As Object, e As EventArgs)
-        CargaCombos(3)
+        'BUG-PC-198:
+        'CargaCombos(3)
     End Sub
 
     Public Function fn_Ciudad() As Integer
@@ -435,4 +440,5 @@ Partial Class aspx_manejaCodigoPostal
 
         Return idCiudad
     End Function
+
 End Class

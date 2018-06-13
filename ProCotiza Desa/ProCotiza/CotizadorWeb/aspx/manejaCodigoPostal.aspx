@@ -4,6 +4,7 @@
 <%--BUG-PC-137 21/12/2017 DCORNEJO SE MODIFICO EL DISEÑO DEL OBJETO--%>
 <%--BUG-PC-146 18/01/2018 DCORNEJO SE MODIFICO EL DISEÑO DEL OBJETO PARA OBTENER LOS ESTILOS DE LESS-JAGUAR--%>
 <%--BUG-PC-161: 27/02/2018: CGARCIA: SE CAMBIAN VALIDACIONES DE AGREGAR COLONIAS--%>
+<%--BUG-PC-198: CGARCIA: 23/05/2018: SE VALIDA DUPLICADO DE ID DE MUNICIPIOS Y FILTRO DE CUIDADES DEJA DE DEPENDER DE MUNICIPIO--%>
 <script runat="server">
 
     Protected Sub grvInserta_RowCreated(sender As Object, e As GridViewRowEventArgs)
@@ -93,6 +94,7 @@
             
         }
 
+   
     </script>
 
     <div style="position: relative; top: 15px;">
@@ -143,8 +145,8 @@
                             <%--<td>&nbsp;</td>--%>
                             
                             <td style="width:8%; text-align:right;">Municipio:<span style="color: Red;">*</span></td>  
-                            <td style="width:27%;">
-                                <asp:DropDownList ID="cmbNvoMunicipio" runat="server" CssClass="selectBBVA" OnSelectedIndexChanged="cmbNvoMunicipio_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
+                            <td style="width:27%;"> <%--OnSelectedIndexChanged="cmbNvoMunicipio_SelectedIndexChanged" AutoPostBack="true"--%> <%--'BUG-PC-198:--%>
+                                <asp:DropDownList ID="cmbNvoMunicipio" runat="server" CssClass="selectBBVA" ></asp:DropDownList></td>
                            <%-- <td>&nbsp;</td>--%>
 
                             <td style="width:10%; text-align:right;">Ciudad:<span style="color: Red;">*</span> </td>

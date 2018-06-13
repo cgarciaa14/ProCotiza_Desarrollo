@@ -223,7 +223,7 @@ Public Class clsCotSegVidaBBVA
             json.technicalInformation.technicalChannel = "8"
             json.technicalInformation.technicalSubChannel = "8"
             json.technicalInformation.branchOffice = "CONSUMER FINANCE"
-            json.technicalInformation.managementUnit = IIf(tipoProducto = 2, "VINCF006", "VINCF005") 'RQ-PD30: 2->MOTOCICLETAS:VINCF004 autos-> VINCF003 "VINCF002" 
+            json.technicalInformation.managementUnit = IIf(tipoProducto = 2, "VINCF004", "VINCF003") 'RQ-PD30: 2->MOTOCICLETAS:VINCF004 autos-> VINCF003 "VINCF002"  ---"VINCF006", "VINCF005"
             json.technicalInformation.user = "CARLOS"
             json.technicalInformation.technicalIdSession = "3232-3232"
             json.technicalInformation.idRequest = "1212-121212-12121-212"
@@ -232,7 +232,7 @@ Public Class clsCotSegVidaBBVA
             json.id = ""
             json.productPlan.productCode = "4044"
             json.productPlan.planReview = "001"
-            json.productPlan.planCode.id = IIf(tipoProducto = 2, "044", "041") 'RQ-PD30: 2->MOTOCICLETAS:047 autos-> 046  "041"
+            json.productPlan.planCode.id = IIf(tipoProducto = 2, "047", "046") 'RQ-PD30: 2->MOTOCICLETAS:047 autos-> 046  "041" ---"044", "041"
 
             json.productPlan.bouquetCode = "VGPU"
 

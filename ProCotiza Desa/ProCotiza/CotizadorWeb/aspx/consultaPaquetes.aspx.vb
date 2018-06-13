@@ -8,6 +8,7 @@
 Imports System.Data
 Imports CargaExcel
 Imports System.Net
+Imports SNProcotiza
 
 Partial Class aspx_consultaPaquetes
     Inherits System.Web.UI.Page
@@ -33,6 +34,8 @@ Partial Class aspx_consultaPaquetes
             BuscaDatos()
             LimpiaFiltros()
         End If
+
+
     End Sub
 
     Public Sub LimpiaError()
@@ -70,6 +73,7 @@ Partial Class aspx_consultaPaquetes
     Private Function CargaCombos(ByVal intOpc As Integer) As Boolean
         Dim objCombo As New clsProcGenerales
         Dim dtsRes As New DataSet
+        Dim objAlianza As New clsAlianzas
         Try
             CargaCombos = False
 
@@ -101,6 +105,24 @@ Partial Class aspx_consultaPaquetes
                             MensajeError(strErr)
                             Exit Function
                         End If
+                    End If
+
+                    'como de alianzas
+                    objAlianza.IDEstatus = 2
+                    objAlianza.Alianza = String.Empty
+                    dtsRes = objAlianza.ManejaAlianza(1)
+
+                    If objAlianza.ErrorAlianza.Trim = String.Empty Then
+                        If (Not IsNothing(dtsRes) AndAlso dtsRes.Tables.Count > 0 AndAlso dtsRes.Tables(0).Rows.Count > 0) Then
+                            objCombo.LlenaCombos(dtsRes, "ALIANZA", "ID_ALIANZA", ddlAlianza, strErr, True)
+                        Else
+                            MensajeError(strErr)
+                            Exit Function
+
+                        End If
+                    Else
+                        MensajeError(strErr)
+                        Exit Function
                     End If
             End Select
             CargaCombos = True
@@ -181,6 +203,10 @@ Partial Class aspx_consultaPaquetes
         If e.CommandName = "paqAseg" Then
             Script = "AbrePopup('relacionaPaquetesAseguradoras.aspx?idPaq=" & e.CommandArgument & "&tipoRel=1',300,100,800,550)"
         End If
+
+        If e.CommandName = "RelCob" Then
+            Script = "AbrePopup('relacionaPaquetesProductos.aspx?idPaq=" & e.CommandArgument & "&tipoRel=1',300,100,920,550)"
+        End If
     End Sub
 
     Protected Sub ddlestatus_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlestatus.SelectedIndexChanged
@@ -231,6 +257,7 @@ Partial Class aspx_consultaPaquetes
                 Else
                     divrelPaqAseg.Visible = True
                 End If
+
             End If
 
         Catch ex As Exception

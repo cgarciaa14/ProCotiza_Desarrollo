@@ -13,6 +13,7 @@
 <%--  BUG-PD-13  GVARGAS  28/02/2017  Switch To Prodesk--%>
 <%--  BUG-PC-88 GVARGAS 06/07/2017  Switch To ProDesk final--%>
 <%--  BUG-PC-169 GVARGAS 14/03/2018 Correcion Redirect--%>
+<%--  BUG-PC-182 DCORNEJO 24/04/2018 Correcion Redirect se quita el salto a otra ventana--%>
 
 <!DOCTYPE HTML>
  
@@ -91,8 +92,8 @@
                 dataType: "json",
                 data: "{ 'url' : '" + domain + "/" + paths[1] + "/" + "' }",
                 success: function OnSuccessRedirect(response) {
-                    window.open(response.d.toString(), 'ProDesk', '');
-                    //window.location.href = response.d.toString();
+                    //window.open(response.d.toString(), 'ProDesk', '');
+                    window.location.href = response.d.toString();
                 }
             };
             $.ajax(settings);

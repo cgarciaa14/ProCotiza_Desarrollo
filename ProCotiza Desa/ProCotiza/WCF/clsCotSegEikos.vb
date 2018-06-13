@@ -2,6 +2,7 @@
 'BUG-PC-52 AMR 21/04/2017 Cambios Eikos y Marsh.
 'BUG-PC-81: RHERNANDEZ: 29/06/17: SE EVALUA EL TIPO DE SEGURO PARA CONTADO Y FINANCIADO
 'AUTOMIK-TASK-310:RHERNANDEZ:22/11/2017:Implementacion servicio EIKOS a calculadora
+'AUTOMIK-BUG-453: RHERNANDEZ: 17/05/18: SE MODIFICA SERVICIO DE CALCULO DE SEGUROS PARA COTIZAR UN SOLO PLAZO
 Imports System.Text
 Imports System.Net
 
@@ -12,6 +13,9 @@ Public Class clsCotSegEikos
     Private _URL As String = String.Empty
     Private _userID As String = String.Empty
     Private _password As String = String.Empty
+    Private _BrokerABA As Integer
+
+#Region "Propiedades"
 
     Public ReadOnly Property urlEIKOS As String
         Get
@@ -27,6 +31,15 @@ Public Class clsCotSegEikos
 
             Return urlService
         End Get
+    End Property
+
+    Public Property BrokerABA As Integer
+        Get
+            Return _BrokerABA
+        End Get
+        Set(value As Integer)
+            _BrokerABA = value
+        End Set
     End Property
 
     Public ReadOnly Property StrError As String
@@ -70,6 +83,7 @@ Public Class clsCotSegEikos
             _password = value
         End Set
     End Property
+#End Region
 
 #Region "payload"
     Public Class JSON
@@ -174,11 +188,10 @@ Public Class clsCotSegEikos
     End Sub
 
     Public Function CotizaEikos(ByVal brokerid As Integer, ByVal carmodel As Integer, ByVal cartype As Integer, ByVal caruseType As Integer, ByVal description As String,
-                                ByVal unitType As Integer, ByVal carstateId As Integer, ByVal downPaymentamount As Decimal, ByVal accessorySum As Decimal,
-                                ByVal coverageId As Integer, ByVal insurerId As Integer,
-                                ByVal agencyNumber As Integer, ByVal zipCode As String,
-                                ByVal insuredAmountamount As Decimal, ByVal PaqueteId As Integer, ByVal iduser As Integer, ByVal name As String,
-                                ByVal middleName As String, ByVal lastName As String, ByVal mothersLastName As String, ByVal SegType As Integer, Optional ByVal automikRequest As Boolean = 0, Optional headers As WebHeaderCollection = Nothing) As DataSet
+                                ByVal unitType As Integer, ByVal carstateId As Integer, ByVal downPaymentamount As Decimal, ByVal accessorySum As Decimal, ByVal insuredAmountamount As Decimal,
+                                ByVal coverageId As Integer, ByVal insurerId As Integer, ByVal agencyNumber As Integer, ByVal zipCode As String, ByVal PaqueteId As Integer, ByVal iduser As Integer,
+                                ByVal name As String, ByVal middleName As String, ByVal lastName As String, ByVal mothersLastName As String, ByVal SegType As Integer,
+                                Optional ByVal automikRequest As Boolean = 0, Optional headers As WebHeaderCollection = Nothing, Optional IsMulticotizacion As Integer = 1, Optional idplazo As Integer = 0) As DataSet
 
         Dim dts As New DataSet()
         Dim json As New JSON()
@@ -230,6 +243,13 @@ Public Class clsCotSegEikos
             Dim totreg As Integer = 0
 
             dts = Obten_Plazos(PaqueteId)
+            If IsMulticotizacion = 0 Then
+                Dim rows As DataRow() = (From x In dts.Tables(0).AsEnumerable().Cast(Of DataRow)() Where x.Field(Of Integer)("ID_PLAZO") <> idplazo).ToArray()
+                For Each row As DataRow In rows
+                    dts.Tables(0).Rows.Remove(row)
+                Next
+                dts.AcceptChanges()
+            End If
             If dts.Tables.Count > 0 Then
                 If dts.Tables(0).Rows.Count > 0 Then
                     totreg = dts.Tables(0).Rows.Count
@@ -248,7 +268,7 @@ Public Class clsCotSegEikos
                         json.quote.coverageId = Obten_coverageId(brokerid, coverageId) '"2" ''Cobertura
                         json.quote.idPaymentType = "1" ''Contado / Financiado
                         json.quote.termId = IIf(SegType = 30 Or SegType = 31, "12", dts.Tables(0).Rows(i).Item("VALOR").ToString) ' "36" ''termId ''Plazo
-                        json.quote.agencyNumber = "3793" 'agencyNumber.ToString '"3793" ''ID_Agencia
+                        json.quote.agencyNumber = agencyNumber.ToString '"3793" ''ID_Agencia
                         json.quote.insurerId = dtsaseg.Tables(0).Rows(0).Item("IDEXTERNO").ToString '"101" ''ID_Aseguradora
                         json.quote.prospect.name = name ''"JOSE"
                         json.quote.prospect.middleName = middleName

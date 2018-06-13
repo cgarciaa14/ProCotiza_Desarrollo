@@ -3,6 +3,8 @@
 'BUG-PC-48 JRHM 17/02/17 SE CORRIGE PROBLEMA DE PAGEINDEX DE RELACION PAQUETE-PRODUCTO
 'BUG-PC-65:MPUESTO:19/05/2017:CORRECCION DE ADICION Y BORRADO DE RELACION PAQUETES-PRODUCTOS
 'RQ-MN2-6: RHERNANDEZ: 15/09/17: SE AGREGAN NUEVOS FILTROS PARA LA OPCION 11 DE CONSULTA PAQUETES-PRODUCTOS
+'RQ-PC9: CGARCIA: 21/05/2018: SE CRA FILTRO DE ALIANZA
+'BUG-PC-204: CGARCIA: 06/06/2018: SE REVERSA FILTRO RQ-PC9
 Imports System.Data
 Imports SNProcotiza
 
@@ -46,6 +48,7 @@ Partial Class aspx_relacionaPaquetesProductos
         Dim objAgencias As New clsAgencias
         Dim objCombo As New clsProcGenerales
         Dim dtsRes As New DataSet
+        Dim objAlianza As New clsAlianzas
 
         Try
             CargaCombos = False
@@ -108,7 +111,25 @@ Partial Class aspx_relacionaPaquetesProductos
                         MensajeError(strErr)
                         Exit Function
                     End If
+                    'RQ-PC9: FILTRO ALIANZA
+                    'como de alianzas
+                    'Dim _str As String
+                    'objAlianza.IDEstatus = 2
+                    'objAlianza.Alianza = String.Empty
+                    'dtsRes = objAlianza.ManejaAlianza(1)
 
+                    'If objAlianza.ErrorAlianza.Trim = String.Empty Then
+                    '    If (Not IsNothing(dtsRes) AndAlso dtsRes.Tables.Count > 0 AndAlso dtsRes.Tables(0).Rows.Count > 0) Then
+                    '        objCombo.LlenaCombos(dtsRes, "ALIANZA", "ID_ALIANZA", ddlAlianza, strErr, True)
+                    '    Else
+                    '        _str = ReplaceMSJ(strErr)
+                    '        MensajeError(_str)
+
+                    '    End If
+                    'Else
+                    '    _str = ReplaceMSJ(strErr)
+                    '    MensajeError(_str)
+                    'End If
 
                 Case 2
                     Session("dtsConsultaPaqProd") = Nothing
@@ -116,7 +137,7 @@ Partial Class aspx_relacionaPaquetesProductos
                     grvConsulta.DataSource = Nothing
 
                     objPaq.IDPaquete = cmbMarca.SelectedValue
-					'BBVA-P-412
+                    'BBVA-P-412
                     objPaq.IDPaquete = Val(Request("idPaq"))
                     objPaq.IDMarca = cmbMarca.SelectedValue
                     ''sprint1
@@ -131,6 +152,8 @@ Partial Class aspx_relacionaPaquetesProductos
                     objPaq.IDSubmarca = cmbSubmarca.SelectedValue
                     objPaq.IDClasificacionProd = cmbclasif.SelectedValue
                     objPaq.IDBroker = cmbBroker.SelectedValue
+                    'RQ-PC9: FILTRO ALIANZA
+                    'objPaq.IDAlianza = ddlAlianza.SelectedValue
 
                     dtsRes = objPaq.ManejaPaquete(11)
                     strErr = objPaq.ErrorPaquete
@@ -177,6 +200,16 @@ Partial Class aspx_relacionaPaquetesProductos
             CargaCombos = False
             MensajeError(ex.Message)
         End Try
+    End Function
+
+    Private Function ReplaceMSJ(ByVal strMsj As String) As String
+        strMsj = Replace(strMsj, "'", "")
+        strMsj = Replace(strMsj, """", "")
+        strMsj = Replace(strMsj, "(", "")
+        strMsj = Replace(strMsj, ")", "")
+
+        Return strMsj
+
     End Function
    'BBVA-P-412
     Protected Sub grvConsulta_PageIndexChanging(sender As Object, e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles grvConsulta.PageIndexChanging
@@ -309,6 +342,10 @@ Partial Class aspx_relacionaPaquetesProductos
     Protected Sub cmbBroker_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbBroker.SelectedIndexChanged
         CargaCombos(2)
     End Sub
+    'Protected Sub ddlAlianza_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlAlianza.SelectedIndexChanged
+    '    'RQ-PC9: FILTRO ALIANZA
+    '    CargaCombos(2)
+    'End Sub
     Protected Sub btnLimpiar_Click(sender As Object, e As System.EventArgs) Handles btnLimpiar.Click
         txtNom.Text = ""
         txtmodelo.Text = ""
@@ -316,6 +353,7 @@ Partial Class aspx_relacionaPaquetesProductos
         cmbSubmarca.SelectedValue = 0
         cmbBroker.SelectedValue = 0
         cmbclasif.SelectedValue = 0
+        'ddlAlianza.SelectedValue = 0 'RQ-PC9: FILTRO ALIANZA
         CargaCombos(3)
         CargaCombos(2)
     End Sub

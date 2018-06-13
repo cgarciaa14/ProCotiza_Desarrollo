@@ -1,4 +1,5 @@
 ﻿'RQ-PC5: JMENDIETA  27/01/2018: Se crea la clase para obtener datos de base de datos para Marsh Multicotizador.
+'BUG-PC-177: JMENDIETA: 16/04/2017 Se agrega opcion 8 y propiedad de codigo postal.
 Imports SDManejaBD
 Public Class clsDatosMarshMulti
 
@@ -26,6 +27,9 @@ Public Class clsDatosMarshMulti
     Private asegId As Integer
     Private idPaquete As Integer
     Private idParametro As Integer
+    Private _CodigoPostal As String
+
+
 
     Public Property IdBroker() As Integer
         Get
@@ -135,6 +139,15 @@ Public Class clsDatosMarshMulti
         End Set
     End Property
 
+    Public Property CodigoPostal() As String
+        Get
+            Return _CodigoPostal
+        End Get
+        Set(ByVal value As String)
+            _CodigoPostal = value
+        End Set
+    End Property
+
 #End Region
 
 
@@ -173,6 +186,8 @@ Public Class clsDatosMarshMulti
                     ArmaParametros(strParamStored, TipoDato.Entero, "idPaquete", idPaquete)
                 Case 7
                     ArmaParametros(strParamStored, TipoDato.Entero, "idParametro", idParametro)
+                Case 8
+                    ArmaParametros(strParamStored, TipoDato.Cadena, "codigoPostal", _CodigoPostal) 'BUG-PC-177
 
             End Select
 

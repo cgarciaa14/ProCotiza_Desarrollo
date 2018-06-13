@@ -150,6 +150,22 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="PER_SEG_DANIOS" msprop:Generator_TableClassName="PER_SEG_DANIOSDataTable" msprop:Generator_TableVarName="tablePER_SEG_DANIOS" msprop:Generator_RowChangedName="PER_SEG_DANIOSRowChanged" msprop:Generator_TablePropName="PER_SEG_DANIOS" msprop:Generator_RowDeletingName="PER_SEG_DANIOSRowDeleting" msprop:Generator_RowChangingName="PER_SEG_DANIOSRowChanging" msprop:Generator_RowEvHandlerName="PER_SEG_DANIOSRowChangeEventHandler" msprop:Generator_RowDeletedName="PER_SEG_DANIOSRowDeleted" msprop:Generator_RowClassName="PER_SEG_DANIOSRow" msprop:Generator_UserTableName="PER_SEG_DANIOS" msprop:Generator_RowEvArgName="PER_SEG_DANIOSRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DESC_COBERTURA" msprop:Generator_ColumnVarNameInTable="columnDESC_COBERTURA" msprop:Generator_ColumnPropNameInRow="DESC_COBERTURA" msprop:Generator_ColumnPropNameInTable="DESC_COBERTURAColumn" msprop:Generator_UserColumnName="DESC_COBERTURA" type="xs:string" minOccurs="0" />
+              <xs:element name="DESC_DEDUC_DANIOS" msprop:Generator_ColumnVarNameInTable="columnDESC_DEDUC_DANIOS" msprop:Generator_ColumnPropNameInRow="DESC_DEDUC_DANIOS" msprop:Generator_ColumnPropNameInTable="DESC_DEDUC_DANIOSColumn" msprop:Generator_UserColumnName="DESC_DEDUC_DANIOS" type="xs:string" minOccurs="0" />
+              <xs:element name="DESC_DEDUC_ROBO_TOTAL" msprop:Generator_ColumnVarNameInTable="columnDESC_DEDUC_ROBO_TOTAL" msprop:Generator_ColumnPropNameInRow="DESC_DEDUC_ROBO_TOTAL" msprop:Generator_ColumnPropNameInTable="DESC_DEDUC_ROBO_TOTALColumn" msprop:Generator_UserColumnName="DESC_DEDUC_ROBO_TOTAL" type="xs:string" minOccurs="0" />
+              <xs:element name="DESC_INDEMNIZACION" msprop:Generator_ColumnVarNameInTable="columnDESC_INDEMNIZACION" msprop:Generator_ColumnPropNameInRow="DESC_INDEMNIZACION" msprop:Generator_ColumnPropNameInTable="DESC_INDEMNIZACIONColumn" msprop:Generator_UserColumnName="DESC_INDEMNIZACION" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_BROKER" msprop:Generator_ColumnVarNameInTable="columnID_BROKER" msprop:Generator_ColumnPropNameInRow="ID_BROKER" msprop:Generator_ColumnPropNameInTable="ID_BROKERColumn" msprop:Generator_UserColumnName="ID_BROKER" type="xs:short" minOccurs="0" />
+              <xs:element name="NOMBRE_BROKER" msprop:Generator_ColumnVarNameInTable="columnNOMBRE_BROKER" msprop:Generator_ColumnPropNameInRow="NOMBRE_BROKER" msprop:Generator_ColumnPropNameInTable="NOMBRE_BROKERColumn" msprop:Generator_UserColumnName="NOMBRE_BROKER" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_AGENCIA" msprop:Generator_ColumnVarNameInTable="columnID_AGENCIA" msprop:Generator_ColumnPropNameInRow="ID_AGENCIA" msprop:Generator_ColumnPropNameInTable="ID_AGENCIAColumn" msprop:Generator_UserColumnName="ID_AGENCIA" type="xs:string" minOccurs="0" />
+              <xs:element name="NOMBRE_AGENCIA" msprop:Generator_ColumnVarNameInTable="columnNOMBRE_AGENCIA" msprop:Generator_ColumnPropNameInRow="NOMBRE_AGENCIA" msprop:Generator_ColumnPropNameInTable="NOMBRE_AGENCIAColumn" msprop:Generator_UserColumnName="NOMBRE_AGENCIA" type="xs:string" minOccurs="0" />
+              <xs:element name="ID_ALIANZA" msprop:Generator_ColumnVarNameInTable="columnID_ALIANZA" msprop:Generator_ColumnPropNameInRow="ID_ALIANZA" msprop:Generator_ColumnPropNameInTable="ID_ALIANZAColumn" msprop:Generator_UserColumnName="ID_ALIANZA" type="xs:string" minOccurs="0" />
+              <xs:element name="NOMBRE_ALIANZA" msprop:Generator_ColumnVarNameInTable="columnNOMBRE_ALIANZA" msprop:Generator_ColumnPropNameInRow="NOMBRE_ALIANZA" msprop:Generator_ColumnPropNameInTable="NOMBRE_ALIANZAColumn" msprop:Generator_UserColumnName="NOMBRE_ALIANZA" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="DatosKey1">

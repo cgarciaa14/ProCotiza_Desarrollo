@@ -5,6 +5,7 @@
 'BUG-PC-50 MARREDONDO 06/03/2017 SE CORRIGE INSERT Y DELETE DE ASIGNACION DE AGENCIAS MASIVO
 'RQADM2-04: ERODRIGUEZ: 13/09/2017: Se agrego busqueda por ID de agencia.
 'BUG-PC-160: CGARCIA: 26/02/2018: SE AGREGA FILTRADO POR ESQUEMA 
+'RQ-PC9: DCORNEJO: 18/05/2018: SE MODIFICA EL PAQUETE PARA AGREGAR VALIDACIONES AL FILTRAR POR ESQUEMA
 Imports System.Data
 Imports SNProcotiza
 
@@ -19,7 +20,8 @@ Partial Class aspx_relacionaPaquetesAgencias
 
         If Not IsPostBack Then
             CargaCombos(1)
-            objPaq.IDEsquema = -1
+            'RQ-PC9: DCORNEJO:
+            'objPaq.IDEsquema = -1
             CargaCombos(2)
 
         End If
@@ -153,7 +155,8 @@ Partial Class aspx_relacionaPaquetesAgencias
                     dtsRes = objEsquema.MAnejaEsquema(1)
                     If objEsquema.ErrorEsquemas = "" Then
                         If dtsRes.Tables(0).Rows.Count > 0 Then
-                            objCombo.LlenaCombos(dtsRes, "CDESCRIPCION", "ID_ESQUEMAS", ddlEsquem, strErr, True, , , -1)
+                            'RQ-PC9: DCORNEJO: SE LE QUITA EL VALOR -1 Y SE DEJA EN 0
+                            objCombo.LlenaCombos(dtsRes, "CDESCRIPCION", "ID_ESQUEMAS", ddlEsquem, strErr, True)
                             If strErr <> "" Then
                                 MensajeError("No se encontro información sobre esquemas.")
                             End If
@@ -191,7 +194,7 @@ Partial Class aspx_relacionaPaquetesAgencias
                         objPaq.IDAgencia = Nothing
                     End If
                     'BUG-PC-160: CGARCIA: 26/02/2018: SE AGREGA FILTRADO POR ESQUEMA 
-                    If ddlEsquem.SelectedValue >= 0 Then
+                    If ddlEsquem.SelectedValue > 0 Then
                         objPaq.IDEsquema = ddlEsquem.SelectedValue
                     End If
 
@@ -299,6 +302,10 @@ Partial Class aspx_relacionaPaquetesAgencias
         If ddlgrupo.SelectedValue >= 0 Then
             objPaq.IDGrupo = ddlgrupo.SelectedValue
         End If
+        'RQ-PC9: DCORNEJO:
+        If ddlEsquem.SelectedValue >= 0 Then
+            objPaq.IDEsquema = ddlEsquem.SelectedValue
+        End If
         If Not String.IsNullOrEmpty(Trim(txtId.Text)) Then
             If Integer.TryParse(Trim(txtId.Text), Nothing) Then
                 objPaq.IDAgencia = Trim(txtId.Text)
@@ -325,7 +332,10 @@ Partial Class aspx_relacionaPaquetesAgencias
         If ddlgrupo.SelectedValue >= 0 Then
             objPaq.IDGrupo = ddlgrupo.SelectedValue
         End If
-
+        'RQ-PC9: DCORNEJO:
+        If ddlEsquem.SelectedValue >= 0 Then
+            objPaq.IDEsquema = ddlEsquem.SelectedValue
+        End If
         If Not String.IsNullOrEmpty(Trim(txtId.Text)) Then
             If Integer.TryParse(Trim(txtId.Text), Nothing) Then
                 objPaq.IDAgencia = Trim(txtId.Text)
@@ -344,6 +354,8 @@ Partial Class aspx_relacionaPaquetesAgencias
         ddlalianza.SelectedValue = -1
         ddldivision.SelectedValue = -1
         ddlgrupo.SelectedValue = -1
+        'RQ-PC9: DCORNEJO:
+        ddlEsquem.SelectedValue = 0
         txtId.Text = ""
         CargaCombos(2)
     End Sub
@@ -357,6 +369,10 @@ Partial Class aspx_relacionaPaquetesAgencias
     End Sub
 
     Protected Sub ddlgrupo_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlgrupo.SelectedIndexChanged
+        CargaCombos(2)
+    End Sub
+    'RQ-PC9: DCORNEJO:
+    Protected Sub ddlEsquem_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlEsquem.SelectedIndexChanged
         CargaCombos(2)
     End Sub
 End Class

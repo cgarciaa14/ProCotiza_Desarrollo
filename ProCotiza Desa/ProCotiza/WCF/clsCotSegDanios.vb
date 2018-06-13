@@ -1,7 +1,9 @@
 ﻿'BUG-PC-148: JMENDIETA  29/01/2018: Se crea la clase que cotizara para seguros bancomer para el producto 15
 'BUG-PC-154: CGARCIA: 19/02/2018: SE ACTALIZA CLASE
-'BUG-PC-168: CGARCIA: 15/03/2018: SE MODIFICA SERVICO DE DAÑOS PARA MULTIMARCA
-'BUG-PC-171: CGARCIA: 27/03/2018: SE AGREGA EL CP
+'BUG-PC-168: CGARCIA: 02/04/2018: MODIFICA EL TIPO DE PRODUCTO
+'BUG-PC-190: JMENDIETA: 08/05/2018: Se agrega propiedad idagencia, cambio para el valor productPlan.
+'BUG-PC-193: JMENDIETA: 14/05/2018 : Validacion para codigo postal.
+'BUG-PC-199: CGARCIA: 30/05/2018: SE VALIDA  SI LA COTIZACION FUE EXITOSA.
 Imports System.Net
 Imports WCF.clsCotSegBBVA
 Imports System.Text
@@ -36,6 +38,7 @@ Public Class clsCotSegDanios
     Private idGenero As String
     Private strGenero As String
     Private _cp As String
+    Private _IdAgencia As String 'BUG-PC-190
 #End Region
 
 #Region "Propiedades"
@@ -256,6 +259,15 @@ Public Class clsCotSegDanios
         End Get
         Set(ByVal value As String)
             strGenero = value
+        End Set
+    End Property
+    'BUG-PC-190
+    Public Property ID_AGENCIA() As String
+        Get
+            Return _IdAgencia
+        End Get
+        Set(ByVal value As String)
+            _IdAgencia = value
         End Set
     End Property
 #End Region
@@ -616,6 +628,8 @@ Public Class clsCotSegDanios
                 Return Nothing
             End If
             clsDatosDanios.TipoProd = tipoprod
+            clsDatosDanios.IdBroker = brokerid
+            clsDatosDanios.IdAgencia = _IdAgencia 'BUG-PC-190
             dsDatosDanios = clsDatosDanios.ObtenDatosDanios(1)
 
             If String.IsNullOrEmpty(clsDatosDanios.ErrorSeguroDanios) AndAlso (Not IsNothing(dsDatosDanios)) AndAlso dsDatosDanios.Tables.Count > 0 Then
@@ -641,7 +655,14 @@ Public Class clsCotSegDanios
                     json.header.dateConsumerInvocation = DateTime.Now.ToString("dd-MM-yyyy") & " 00:00:00"
 
                     json.quote.idQuote = IIf(dsDatosDanios.Tables(0).Rows(0).Item("quote_idQuote").ToString = String.Empty, Nothing, dsDatosDanios.Tables(0).Rows(0).Item("quote_idQuote").ToString)
-                    json.quote.compensationPlan.id = _idIndemnizacion
+
+                    'BUG-PC-190
+                    If intTipoCotizacion Then
+                        json.quote.compensationPlan.id = _idIndemnizacion
+                    Else
+                        json.quote.compensationPlan.id = IIf(dsDatosDanios.Tables(0).Rows(0).Item("quote_compensationPlan_id").ToString = String.Empty, Nothing, dsDatosDanios.Tables(0).Rows(0).Item("quote_compensationPlan_id").ToString)
+                    End If
+
 
                     json.policy.validityPeriod.startDate = DateTime.Now.ToString("yyyy-MM-dd")
                     json.policy.validityPeriod.endDate = DateTime.Now.AddMonths(CInt(IIf(tipo_seg = 30 Or tipo_seg = 31, "12", dsPlazos.Tables(0).Rows(i).Item("VALOR").ToString))).ToString("yyyy-MM-dd")
@@ -650,7 +671,7 @@ Public Class clsCotSegDanios
                     json.policy.invoiceValue = precio.ToString().Replace(",", String.Empty)
                     json.policy.effectiveAdditionaldays = IIf(dsDatosDanios.Tables(0).Rows(0).Item("policy_effectiveAdditionaldays").ToString = String.Empty, Nothing, dsDatosDanios.Tables(0).Rows(0).Item("policy_effectiveAdditionaldays").ToString)
                     json.policy.agency.id = IIf(dsDatosDanios.Tables(0).Rows(0).Item("policy_agency_id").ToString = String.Empty, Nothing, dsDatosDanios.Tables(0).Rows(0).Item("policy_agency_id").ToString)
-                    json.policy.agency.description = dsDatosDanios.Tables(0).Rows(0).Item("policy_agency_description").ToString
+                    json.policy.agency.description = IIf(dsDatosDanios.Tables(0).Rows(0).Item("policy_agency_description").ToString = String.Empty, Nothing, dsDatosDanios.Tables(0).Rows(0).Item("policy_agency_description").ToString) 'BUG-PC-190
 
                     json.credit.validityPeriod.startDate = DateTime.Now.ToString("yyyy-MM-dd")
                     json.credit.validityPeriod.endDate = DateTime.Now.AddMonths(CInt(IIf(tipo_seg = 30 Or tipo_seg = 31, "12", dsPlazos.Tables(0).Rows(i).Item("VALOR").ToString))).ToString("yyyy-MM-dd")
@@ -670,8 +691,8 @@ Public Class clsCotSegDanios
                     json.paymentWay.catalogItemBase.name = tipopago
                     If intTipoCotizacion = True Then
                         json.productPlan.catalogItemBase.id = "015"
-                    Else
-                        json.productPlan.catalogItemBase.id = "003"
+                    Else 'BUG-PC-190
+                        json.productPlan.catalogItemBase.id = "014"
                     End If
 
                     json.productPlan.productCode = IIf(dsDatosDanios.Tables(0).Rows(0).Item("productPlan_productCode").ToString = String.Empty, Nothing, dsDatosDanios.Tables(0).Rows(0).Item("productPlan_productCode").ToString)
@@ -748,8 +769,12 @@ Public Class clsCotSegDanios
                         json.particularData.Add(particualData)
 
                     End If
-
-                    json.zipCode = _cp 'dsDatosDanios.Tables(0).Rows(0).Item("zipCode").ToString
+                    'BUG-PC-193
+                    If intTipoCotizacion Then
+                        json.zipCode = _cp
+                    Else
+                        json.zipCode = String.Empty
+                    End If
                     json.internalTelemarketingCellId = IIf(dsDatosDanios.Tables(0).Rows(0).Item("internalTelemarketingCellId").ToString = String.Empty, Nothing, dsDatosDanios.Tables(0).Rows(0).Item("internalTelemarketingCellId").ToString)
 
                     Dim userID As String
@@ -789,43 +814,61 @@ Public Class clsCotSegDanios
 
                         Throw New Exception(_strError)
                     Else
+
                         Dim row1 As DataRow = dtb.NewRow
                         Dim row2 As DataRow = dtrec.NewRow
                         Dim res As JsonResponse = serializer.Deserialize(Of JsonResponse)(jsonResult)
-                        For ds As Integer = 0 To res.rate.Count - 1
-                            If res.rate(ds).paymentWay.id.ToString = "A" Then
-                                row1("ID_PAQUETE") = dsPlazos.Tables(0).Rows(i).Item("VALOR").ToString
-                                row1("PRIMA NETA") = Math.Truncate((CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) / 1.16) * 100) / 100
-                                row1("RECARGO") = 0
-                                row1("DERECHO") = 0 'Math.Truncate((CDbl(res.rightPolicy.amount.ToString)) * 100) / 100 ESTE NO
-                                row1("IVA") = (Math.Truncate(CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) * 100) / 100) - (Math.Truncate((CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) / 1.16) * 100) / 100)
-                                row1("PRIMA TOTAL") = Math.Truncate(CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) * 100) / 100
-                                row1("ASEGURADORA") = descAseguradora
-                                row1("PAQUETE") = nombreCobertura
-                                row1("USO") = ""
-                                row1("URL_COTIZACION") = ""
-                                row1("PRIMA_NETA_GAP") = ""
-                                row1("IVA_GAP") = ""
-                                row1("SEGURO_GAP") = ""
-                                row1("SEGURO_VIDA") = "NO APLICA"
-                                row1("ID_COTIZACION") = res.quote.idQuote
-                                row1("OBSERVACIONES") = ""
-                                row1("PRIMA_TOTAL_SG") = 0
-                                dtb.Rows.Add(row1)
-
-
-                                row2("idRequest") = res.quote.idQuote
-                                row2("startDate") = DateTime.Now.ToString("dd-MM-yyyy") '"2016-02-01"
-                                row2("endDate") = DateTime.Now.AddMonths(CInt(dsPlazos.Tables(0).Rows(i).Item("VALOR"))).ToString("dd-MM-yyyy") '"2017-02-01"
-                                row2("shippingCosts") = Math.Truncate((CDbl(res.rightPolicy.amount.ToString)) * 100) / 100
-                                row2("tax") = (Math.Truncate(CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) * 100) / 100) - (Math.Truncate((CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) / 1.16) * 100) / 100)
-                                row2("realPremium") = Math.Truncate((CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) / 1.16) * 100) / 100
-                                row2("totalPremium") = Math.Truncate(CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) * 100) / 100
-                                row2("lateFee") = 0
-                                row2("serialNumber") = "1/1"
-                                dtrec.Rows.Add(row2)
+                        Dim blCotValida As Boolean = False
+                        'BUG-PC-199
+                        For index As Integer = 0 To res.coverages.Count - 1 Step 1
+                            If res.coverages(index).catalogItemBase.id = "DAMA" Then
+                                blCotValida = True
+                                Exit For
+                            Else
+                                blCotValida = False
                             End If
                         Next
+
+                        If blCotValida = True Then  'BUG-PC-199
+
+                            For ds As Integer = 0 To res.rate.Count - 1
+                                If res.rate(ds).paymentWay.id.ToString = "A" Then
+                                    row1("ID_PAQUETE") = dsPlazos.Tables(0).Rows(i).Item("VALOR").ToString
+                                    row1("PRIMA NETA") = Math.Truncate((CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) / 1.16) * 100) / 100
+                                    row1("RECARGO") = 0
+                                    row1("DERECHO") = 0 'Math.Truncate((CDbl(res.rightPolicy.amount.ToString)) * 100) / 100 ESTE NO
+                                    row1("IVA") = (Math.Truncate(CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) * 100) / 100) - (Math.Truncate((CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) / 1.16) * 100) / 100)
+                                    row1("PRIMA TOTAL") = Math.Truncate(CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) * 100) / 100
+                                    row1("ASEGURADORA") = descAseguradora
+                                    row1("PAQUETE") = nombreCobertura
+                                    row1("USO") = ""
+                                    row1("URL_COTIZACION") = ""
+                                    row1("PRIMA_NETA_GAP") = ""
+                                    row1("IVA_GAP") = ""
+                                    row1("SEGURO_GAP") = ""
+                                    row1("SEGURO_VIDA") = "NO APLICA"
+                                    row1("ID_COTIZACION") = res.quote.idQuote
+                                    row1("OBSERVACIONES") = ""
+                                    row1("PRIMA_TOTAL_SG") = 0
+                                    dtb.Rows.Add(row1)
+
+
+                                    row2("idRequest") = res.quote.idQuote
+                                    row2("startDate") = DateTime.Now.ToString("dd-MM-yyyy") '"2016-02-01"
+                                    row2("endDate") = DateTime.Now.AddMonths(CInt(dsPlazos.Tables(0).Rows(i).Item("VALOR"))).ToString("dd-MM-yyyy") '"2017-02-01"
+                                    row2("shippingCosts") = Math.Truncate((CDbl(res.rightPolicy.amount.ToString)) * 100) / 100
+                                    row2("tax") = (Math.Truncate(CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) * 100) / 100) - (Math.Truncate((CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) / 1.16) * 100) / 100)
+                                    row2("realPremium") = Math.Truncate((CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) / 1.16) * 100) / 100
+                                    row2("totalPremium") = Math.Truncate(CDbl(res.rate(ds).totalPaymentWithTax.amount.ToString()) * 100) / 100
+                                    row2("lateFee") = 0
+                                    row2("serialNumber") = "1/1"
+                                    dtrec.Rows.Add(row2)
+                                End If
+                            Next
+                        Else  'BUG-PC-199
+                            _strError = ("Tipo de vehículo seleccionado no corresponde.")
+                            Throw New Exception(_strError)
+                        End If
                     End If
                 Next
                 resulbbva.Tables.Add(dtb)

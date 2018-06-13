@@ -40,6 +40,8 @@
 <%--'BUG-PC-154: CGARCIA: 19/02/2018: se actualiza evento de coberturas--%>
    <%--BUG-PC-172: DJUAREZ: 02/04/2018: Correccion de blur en codigo postal para evitar que salgan muchos alerts con el valor vacio --%>
 <%--BUG-PC-173: NUEVAS ALIANZAS Y MEJORAS DE SEGURO A TU MEDIDA--%>
+<%--BUG-PC-180: DJUAREZ: 17/04/2018: Reacomodo de codigo postal en cotizacion --%>
+<%--BUG-PC-181 : EGONZALEZ : 20/04/2018 : Se cambia el número de caracteres requeridos en nombre y apellido paterno de 3 a 2 caratéres.--%>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style type="text/css">
         @import url(../css/procotiza.css);
@@ -151,8 +153,8 @@
                 $("#ContentPlaceHolder1_txtnombrecte").val($("#ContentPlaceHolder1_txtnombrectepf").val());
             }
 
-            if (large.length < 3) {
-                alert("Debe ingresar al menos 3 caracteres.")
+            if (large.length < 2) {
+                alert("Debe ingresar al menos 2 caracteres.")
             }
 
         }
@@ -172,8 +174,8 @@
 
         if (large.length > 0) {
 
-            if (large.length < 3) {
-                alert("Debe ingresar al menos 3 caracteres.")
+            if (large.length < 2) {
+                alert("Debe ingresar al menos 2 caracteres.")
             }
 
         }
@@ -1151,7 +1153,7 @@
                         <td>
                             <div id="divmtogarantia" runat="server">
                                 <asp:TextBox runat="server" ID="txtmtogarantia" CssClass="txt2BBVA" Onkeypress="return newcheckDecimals(event, this.value, 6, 2)"
-                                    AutoPostBack="true"></asp:TextBox>
+                                    AutoPostBack="true" style="width: 94%;"></asp:TextBox>
                             </div>
                         </td>
                     </tr>
@@ -1163,20 +1165,20 @@
                         <legend>Personaliza tu Seguro de daños</legend>
                         <table class="resulbbva" style="width: 100%;" id="tblDeducible" runat="server" visible="true">
                             <tr align="left">
-                                <td>Deducible Daños Materiales<span style="color: Red;">*</span>
+                                <td style="width: 11.4%;">Deducible Daños Materiales<span style="color: Red;">*</span>
                                 </td>
                                 <td>
                                     <asp:DropDownList ID="cmbDedusibleDaños" runat="server" CssClass="select2BBVA">
                                     </asp:DropDownList>
                                     
                                 </td>                             
-                                <td>Deducible Robo Total<span style="color:red;">*</span>
+                                <td style="text-align: right;width: 12.9%;">Deducible Robo Total<span style="color:red;">*</span>
                                 </td>
                                 <td>
                                     <asp:DropDownList ID="cmbDeducibleRoboTotal" runat="server" CssClass="select2BBVA">
                                     </asp:DropDownList>
                                 </td>
-                                <td>Indemnización <span style="color:red;">*</span>
+                                <td style="text-align: right;">Indemnización <span style="color:red;">*</span>
                                 </td>
                                 <td>
                                 <asp:DropDownList ID="cmbIndemnizacion" runat="server" CssClass="select2BBVA">                                
@@ -1189,36 +1191,29 @@
                 <center>
                     <table class="resulbbva" style="width: 100%; padding-top: 5px;">
                     <tr id="dvrecurrecte" runat="server">
-                            <td style="width: 85px;">
+                        <td >
                             <div class="tooltip" id="div21" runat="server">
                                 Edad<span style="color: Red;">*</span>: <span class="tooltiptext">Edad del conductor
                                     habitual del vehículo</span>
                             </div>
                         </td>
-                            <td style="width: 30px;">
-                            <asp:TextBox runat="server" ID="txtedad" CssClass="txt3BBVA" Width="20px" Height="16px"
+                        <td >
+                            <asp:TextBox runat="server" ID="txtedad" style="width: 116px;height:20px;"
                                 onblur="valedad();"></asp:TextBox>
                         </td>
-                            <td style="text-align: right; width: 50px;">
+                        <td style="text-align: right;">
                             <div class="tooltip" id="div22" runat="server">
                                 Género<span style="color: Red;">*</span>: <span class="tooltiptext">Género del conductor
                                     habitual del vehículo</span>
                             </div>
                         </td>
-                            <td style="width: 70px;">
+                        <td>
+                            <div style="width:145px;height:24px;">
                                 <asp:RadioButton runat="server" ID="rdbsexh" GroupName="rdbtnsexo" Text="H" />
                                 <asp:RadioButton runat="server" ID="rdbsexm" GroupName="rdbtnsexo" Text="M" />
+                            </div>
                         </td>
-                            <td style="text-align: right; width: 80px;">
-                                <div class="tooltip" id="div27" runat="server">
-                                    Código Postal<span style="color: Red;">*</span>: <span class="tooltiptext">99999</span>
-                                </div>
-                            </td>
-                            <td style="width: 30px;">
-                                <asp:TextBox runat="server" ID="txtcprecurrente" CssClass="txtBBVA" MaxLength="5"
-                                    Onkeypress="return ValCarac(event,7)" onblur="valcp(this.id);" Width="35px"></asp:TextBox>
-                            </td>
-                            <td style="text-align: right; width: 50px;">
+                            <td style="text-align: right;">
                             <div class="tooltip" id="div28" runat="server">
                             Nombre<span style="color: Red;">*</span>:
                             </div>
@@ -1226,10 +1221,21 @@
                         <td>
                                 <%--BUG-PC-68:MPUESTO:26/05/2017:Correccion del campo Nombre de Conductor recurrente para no permitir números, simbolos y letras acentuadas--%>
                                 <%--<asp:TextBox runat="server" ID="txtconductor" CssClass="txt3BBVA" Width="250px" Style="text-transform: uppercase"></asp:TextBox>--%>
-                                <asp:TextBox runat="server" ID="txtconductor" CssClass="txt3BBVA" Width="250px" Onkeypress="return ValCarac(event,18)"
+                                <asp:TextBox runat="server" ID="txtconductor" Onkeypress="return ValCarac(event,18)" style="width: 140px;height:20px;"
                                     Onblur="valnombre(this.id,0);" onkeyup="ReemplazaAcentos(event, this.id, this.value);"
                                     AutoPostBack="true"></asp:TextBox>
 
+                        </td>
+                    </tr>
+                    <tr id="dvcodpostal" runat="server">
+                        <td style="text-align:left;width:12.4%;">
+                            <div class="tooltip" id="div27" runat="server" style="left:9%">
+                                Código Postal<span style="color: Red;">*</span>: <span class="tooltiptext">99999</span>
+                            </div>
+                        </td>
+                        <td>
+                            <asp:TextBox runat="server" ID="txtcprecurrente" MaxLength="5" style="width: 140px;height:20px;"
+                                Onkeypress="return ValCarac(event,7)" onblur="valcp(this.id);"></asp:TextBox>
                         </td>
                     </tr>
                 </table>

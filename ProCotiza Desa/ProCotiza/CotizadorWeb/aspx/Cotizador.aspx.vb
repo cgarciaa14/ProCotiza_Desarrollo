@@ -83,8 +83,24 @@
 'BUG-PC-166: JMENDIETA: 09/03/2018: Se valida que cuando se tenga información de deducibles esta se almacene en base de datos.
 'BUG-PC-168: CGARCIA: 15/03/2018: SE MODIFICA SERVICO DE DAÑOS PARA MULTIMARCA
 'BUG-PC-171: CGARCIA: 27/03/2018: SE MODIFICA LA CONSULTA DEL SERVICO DE DEDUCIBLE.	
- 'RQ-PC5: JMENDIETA: 27/01/2018: Se agrega el broker 4 (MARSH) para mostrar el codigo postal y se agrega el metodo para la multicotizacion de Marsh.
+'RQ-PC5: JMENDIETA: 27/01/2018: Se agrega el broker 4 (MARSH) para mostrar el codigo postal y se agrega el metodo para la multicotizacion de Marsh.
 'BUG-PC-173: CGARCIA: 05/04/2018: SE MODIFICAN ALIANZAS PARA SEGURO A TU MEDIDA
+'BUG-PC-175: JMENDIETA: 09/04/2017 Se envia el plazo seleccionado al multicotizador de Marsh.
+'BUG-PC-179: DJUAREZ: 16/04/2018: Se agrega validacion Suzuki, Axa al cotizar cuando se agregan accesorios.
+'BUG-PC-177: JMENDIETA: 16/04/2017 En la seccion de Financiamiento del Seguro se deshabilita el combo de Estado y se guarda el codigo postal enviado a la cotizacion.
+'BUG-PC-180: DJUAREZ: 17/04/2018: Reacomodo de codigo postal en cotizacion.
+'BUG-PC-183: JMENDIETA: 20/04/2017 Se corrige validacion de codigo postal al momento de guardar una cotizacion para Marsh.
+'BUG-PC-185: JMENDIETA: 26/04/2017 Cambio de validacion para guardar datos de deducibles y guardar codigo postal en broker 5 y 9 (Bancomer).
+'BUG-PC-187: JMENDIETA: 26/04/2017 Se guarda el recargo de los recibos en el detalle del seguro para broker 4(Marsh) y cuando multicotizacion esta activada.
+'BUG-PC-181 : EGONZALEZ : 20/04/2018 : Se cambia el número de caracteres requeridos en nombre y apellido paterno de 3 a 2 caratéres.
+'Bug-PC-189 : EGONZALEZ : 04/05/2018 : Se agrega al reporte de cotización la sección de datos de "Personalización tu Seguro de daños" sólo para seguros Bancomer.
+'BUG-PC-191 : JMENDIETA : 09/05/2018 : Cambio en validaciones para broker 4 (Marsh) y alianzas de broker 2(Ordas) para mostrar los datos de conductor.
+'BUG-PC-190 : JMENDIETA : 10/05/2018 : Para cotizacion con broker 5 y 9 se envia el id de agencia.
+'BUG-PC-192 : DCORNEJO : 08/05/2018 : Se utiliza ddlagencia para validacion automik
+'BUG-PC-193 : JMENDIETA : 14/05/2018 : Para el borker 9 se elimina el poder visualizar el codigo postal.
+'BUG-PC-195: RHERNANDEZ: 18/05/2018: Se corrigue problema al guardar cotizacion por factor
+'BUG-PC-196 : JMENDIETA : 22/04/2018 : Para los productos se obtendran unicamente los activos y se agrega validacion en carga cargacombos2 cuando el tipo seguro es 32 o 168
+
 Imports System.Data
 Imports System.Configuration
 Imports Microsoft.Reporting.WebForms
@@ -227,11 +243,14 @@ Partial Class aspx_Cotizador
                     idbroker = obten_broker()
                     'btncotizaseg.Enabled = True 'JRHM Se comenta desactivacion de boton de cotizar cuando la pagina carga la primera vez
                     ''BUG-PC-30
-                    'RQ-PC5
-                    If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (idbroker = 5 Or idbroker = 9 Or idbroker = 4) Then
+                    'RQ-PC5 
+                    'BUG-PC-191 BUG-PC-193
+                    If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) OrElse (idbroker = 5) OrElse (usaMulticotiza = 1 AndAlso idbroker = 4) Then
                         dvrecurrecte.Visible = True
+                        dvcodpostal.Visible = True
                     Else
                         dvrecurrecte.Visible = False
+                        dvcodpostal.Visible = False
                     End If
                     'BUG-PC-24 MAUT 14/12/2016 Se selecciona el usuario que ingresa
                     ddlvendedor.SelectedValue = objUsuFirma.IDUsuario
@@ -242,10 +261,13 @@ Partial Class aspx_Cotizador
                     btncotizaseg.Enabled = False
                     finseg.Visible = False
                     'RQ-PC5
-                    If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (idbroker = 5 Or idbroker = 9 Or idbroker = 4) Then
+                    'BUG-PC-191 BUG-PC-193
+                    If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) OrElse (idbroker = 5) OrElse (usaMulticotiza = 1 AndAlso idbroker = 4) Then
                         dvrecurrecte.Visible = True
+                        dvcodpostal.Visible = True
                     Else
                         dvrecurrecte.Visible = False
+                        dvcodpostal.Visible = False
                     End If
                     Dim brokerid As Integer = obten_broker()
                     If brokerid <> 2 Then
@@ -1351,6 +1373,7 @@ Partial Class aspx_Cotizador
 
 
         ''Combo Uso / Seguros
+        brokerid = obten_broker()
         objCot.IDAlianza = ddlalianza.SelectedValue
         dtsRes = objCot.ManejaCotizacion(22)
         If objCot.ErrorCotizacion = "" Then
@@ -1427,6 +1450,54 @@ Partial Class aspx_Cotizador
             If bolLlena = False Then
                 'Combo Cobertura / Seguros
                 objCot.IDAlianza = ddlalianza.SelectedValue
+                objCot.IDClasificacionProd = ddlclasif.SelectedValue
+                dtsRes = objCot.ManejaCotizacion(28)
+                If objCot.ErrorCotizacion = "" Then
+                    If dtsRes.Tables(0).Rows.Count > 0 Then
+                        objCombo.LlenaCombos(dtsRes, "NOMBRE", "ID_COBERTURA", ddlcobertura, strErr, True)
+                        If strErr <> "" Then
+                            MensajeError(strErr)
+
+                            'ddlcobertura.DataTextField = ""
+                            'ddlcobertura.DataValueField = "35"
+                            'ddlcobertura.DataMember
+
+                            'ddlcobertura.DataSource = "nombre data"
+                            'ddlcobertura.DataBind()
+
+                            Dim str1 As String = ddlcobertura.DataMember
+                            Exit Function
+                        End If
+                    Else
+                        MensajeError("No se encontro información de Cobertura")
+                        ddlcobertura.Items.Clear()
+                        Exit Function
+                    End If
+                Else
+                    MensajeError(objCot.ErrorCotizacion)
+                    Exit Function
+                End If
+            End If
+
+        Else
+
+            Dim bolLlena As Boolean = False
+            Dim intValue As Integer
+            'BUG-PC-173: CGARCIA: 05/04/2018: SE MODIFICAN ALIANZAS PARA SEGURO A TU MEDIDA
+            For index As Integer = 0 To dsDatos.Tables(0).Rows.Count - 1 Step 1
+                intValue = dsDatos.Tables(0).Rows(index).Item("ID_BROKER").ToString()
+                If obten_broker() = intValue Then
+                    ObtenSubplan()
+                    bolLlena = True
+                    ViewState("vwsCobertura") = 0
+                    Exit For
+                Else
+                    ViewState("vwsCobertura") = 1
+                End If
+            Next
+            If ViewState("vwsCobertura") <> 0 Then
+                objCot.IDAlianza = ddlalianza.SelectedValue
+                objCot.IDClasificacionProd = ddlclasif.SelectedValue
                 dtsRes = objCot.ManejaCotizacion(28)
                 If objCot.ErrorCotizacion = "" Then
                     If dtsRes.Tables(0).Rows.Count > 0 Then
@@ -1444,7 +1515,9 @@ Partial Class aspx_Cotizador
                     MensajeError(objCot.ErrorCotizacion)
                     Exit Function
                 End If
+
             End If
+
         End If
 
 
@@ -1529,10 +1602,13 @@ Partial Class aspx_Cotizador
         End If
 
         'RQ-PC5
-        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5 Or brokerid = 9) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+        'BUG-PC-191 BUG-PC-193
+        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
             dvrecurrecte.Visible = True
+            dvcodpostal.Visible = True
         Else
             dvrecurrecte.Visible = False
+            dvcodpostal.Visible = False
         End If
 
         If chkPagosEsp.Checked = True Then
@@ -1558,9 +1634,19 @@ Partial Class aspx_Cotizador
             txtedad.Text = ""
             txtcprecurrente.Enabled = False
             txtcprecurrente.Text = ""
+            cmbIndemnizacion.Enabled = False
+            cmbDedusibleDaños.Enabled = False
+            cmbDeducibleRoboTotal.Enabled = False
+            'BUG-PC-196
+            If brokerid = 5 OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+                dvrecurrecte.Visible = False
+                dvrecurrecte.Style("display") = "none"
         Else
-            'RQ-PC5
-            If brokerid = 5 Or brokerid = 9 OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+               dvrecurrecte.Style("display") = "contents"
+            End If
+        Else
+            'RQ-PC5 BUG-PC-193
+            If brokerid = 5 OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
                 txtcprecurrente.Enabled = True
                 txtcprecurrente.Text = ""
                 txtedad.Visible = False
@@ -1574,6 +1660,11 @@ Partial Class aspx_Cotizador
                 div21.Visible = False
                 div22.Visible = False
                 div28.Visible = False
+                dvrecurrecte.Visible = False
+                dvrecurrecte.Style("display") = "none"
+                cmbIndemnizacion.Enabled = True
+                cmbDedusibleDaños.Enabled = True
+                cmbDeducibleRoboTotal.Enabled = True
             Else
                 finseg.Visible = True
                 btncotizaseg.Enabled = True
@@ -1593,9 +1684,14 @@ Partial Class aspx_Cotizador
                 txtedad.Text = ""
                 txtcprecurrente.Enabled = True
                 txtcprecurrente.Text = ""
+                txtedad.Visible = True
+                rdbsexh.Visible = True
+                rdbsexm.Visible = True
+                txtconductor.Visible = True
                 div21.Visible = True
                 div22.Visible = True
                 div28.Visible = True
+                dvrecurrecte.Style("display") = "contents"
             End If
         End If
 
@@ -1720,7 +1816,7 @@ Partial Class aspx_Cotizador
             objCotiza.Broker = broker
             objCotiza.Params = params
             objCotiza.MtoGarantia = mtogarantia
-            objCotiza.IDAplicacionSeguroVida = ddlsegvida.SelectedValue
+            objCotiza.IDAplicacionSeguroVida = IIf(String.IsNullOrEmpty(ddlsegvida.SelectedValue), 0, ddlsegvida.SelectedValue)
             objCotiza.IDProducto = id_prod
 
 
@@ -3210,7 +3306,7 @@ Partial Class aspx_Cotizador
 
         Dim intbroker As Integer = obten_broker()
 
-        If intbroker = 2 OrElse intbroker = 4 Then 'RQ-PC5
+        If intbroker = 2 OrElse (usaMulticotiza = 1 AndAlso intbroker = 4) Then 'RQ-PC5 BUG-PC-191
             If grvSeguro.Rows.Count > 0 Then
                 For i As Integer = 0 To grvSeguro.Rows.Count - 1
                     If ddlaseguradora.SelectedItem.Text = grvSeguro.Rows(i).Cells(7).Text Then
@@ -3284,9 +3380,9 @@ Partial Class aspx_Cotizador
             Dim id_prod As Integer = ObtenProducto()
             LlenaGrvMultiplazos(ddlplan.SelectedValue, CDbl(txtprecio.Text.Trim), CDbl(txtenganche.Text.Trim), ddlpj.SelectedValue, ddltoperacion.SelectedValue,
                                 ddlclasif.SelectedValue, txtUniProd.Text.Trim, ddliva.SelectedValue, CDbl(lblAccFinan.Text.Trim), CDbl(lblAccConta.Text.Trim),
-                                objPlazos.Valor, IIf(Val(Session("band")) = 0, 0, CDbl(txtporeng.Text.Trim)), Val(Session("band")), ddlversion.SelectedValue, 0, 0, 0, 0, 0, 0, mtosegvida, 0, 0, 0, 0, "", 0, ddlsegvida.SelectedValue, id_prod)
+                                objPlazos.Valor, IIf(Val(Session("band")) = 0, 0, CDbl(txtporeng.Text.Trim)), Val(Session("band")), ddlversion.SelectedValue, 0, 0, 0, 0, 0, 0, mtosegvida, 0, 0, 0, 0, "", 0, IIf(String.IsNullOrEmpty(ddlsegvida.SelectedValue), 0, ddlsegvida.SelectedValue), id_prod)
         Else
-            If intbroker = 2 OrElse intbroker = 4 Then 'RQ-PC5
+            If intbroker = 2 OrElse (usaMulticotiza = 1 AndAlso intbroker = 4) Then 'RQ-PC5 BUG-PC-191
                 If (ddltiposeg.SelectedValue <> 32 AndAlso ddltiposeg.SelectedValue <> 168) Then
                     For j As Integer = 0 To grvSeguro.Rows.Count - 1
                         If ddlaseguradora.SelectedItem.Text = grvSeguro.Rows(j).Cells(7).Text Then
@@ -3705,6 +3801,17 @@ Partial Class aspx_Cotizador
         Dim dsDatos As New DataSet()
         dsDatos = objParam.ManejaParametro(10)
 
+        If ddlalianza.SelectedValue = 2225 And ddlaseguradora.SelectedValue = 117 Then
+            If CDbl(Replace(lbltotalacc.Text, "$", "")) > 0 Then
+                MensajeError("No se puede realizar la cotizacion con accesorios.")
+                Exit Sub
+            End If
+            If ddltiposeg.SelectedValue = 76 Or ddltiposeg.SelectedValue = 188 Then
+                MensajeError("No se puede realizar la cotizacion con Seguros Multianual.")
+                Exit Sub
+            End If
+        End If
+
         If ddltiposeg.SelectedValue = 32 Or ddltiposeg.SelectedValue = 168 Then
             ViewState("MulPlazos") = Nothing
         Else
@@ -3899,6 +4006,7 @@ Partial Class aspx_Cotizador
                                             End If
                                         End If
 
+                                        Dim brokerid As String = obten_broker()
                                         ''Personas
                                         If chkdatoscte.Checked = True Then
                                             If GuardaPersonas(IDCotizacion) = True Then
@@ -3928,24 +4036,34 @@ Partial Class aspx_Cotizador
                                         End If
 
                                         'BUG-PC-166 INI
-                                        'Dim brokerid As String = obten_broker()
-                                        'If (brokerid = 5) Then
-                                        '    If MuestraDeducible = 1 Then
-                                        '        Dim daniosDatos As New clsDaniosDinamico
-                                        '        daniosDatos.CotizacionId = IDCotizacion
-                                        '        daniosDatos.CoberturaId = ddlcobertura.SelectedValue
-                                        '        daniosDatos.CoberturaDesc = ddlcobertura.SelectedItem.Text
-                                        '        daniosDatos.DeducDaniosId = cmbDedusibleDaños.SelectedValue
-                                        '        daniosDatos.DeducDaniosDesc = cmbDedusibleDaños.SelectedItem.Text
-                                        '        daniosDatos.DeducDaniosRoboId = cmbDeducibleRoboTotal.SelectedValue
-                                        '        daniosDatos.DeducDaniosRoboDesc = cmbDeducibleRoboTotal.SelectedItem.Text
-                                        '        daniosDatos.IndemnizacionId = cmbIndemnizacion.SelectedValue
-                                        '        daniosDatos.IndemnizacionDesc = cmbIndemnizacion.SelectedItem.Text
-                                        '        daniosDatos.ManeDaniosDinamico(1)
-
-                                        '    End If
-                                        'End If
+                                        If (brokerid = 5) Then
+                                            If MuestraDeducible = 1 Then
+                                            Dim daniosdatos As New clsDaniosDinamico
+                                            daniosdatos.CotizacionId = IDCotizacion
+                                            daniosdatos.CoberturaId = ddlcobertura.SelectedValue
+                                            daniosdatos.CoberturaDesc = ddlcobertura.SelectedItem.Text
+                                            daniosdatos.DeducDaniosId = cmbDedusibleDaños.SelectedValue
+                                            daniosdatos.DeducDaniosDesc = cmbDedusibleDaños.SelectedItem.Text
+                                            daniosdatos.DeducDaniosRoboId = cmbDeducibleRoboTotal.SelectedValue
+                                            daniosdatos.DeducDaniosRoboDesc = cmbDeducibleRoboTotal.SelectedItem.Text
+                                            daniosdatos.IndemnizacionId = cmbIndemnizacion.SelectedValue
+                                            daniosdatos.IndemnizacionDesc = cmbIndemnizacion.SelectedItem.Text
+                                            daniosdatos.ManeDaniosDinamico(1)
+                                        End If
                                         'BUG-PC-166 FIN
+
+
+                                        'BUG-PC-177 INI                                   
+                                        'BUG-PC-185 BUG-PC-193
+                                        If (usaMulticotiza = 1 AndAlso brokerid = 4) OrElse ((brokerid = 5) AndAlso (divDeducible.Visible = True)) Then
+                                            Dim _ObjSeg As New SNProcotiza.clsSeguro
+                                            _ObjSeg.CodigoPostal = Me.txtcprecurrente.Text.Trim
+                                            _ObjSeg._intClaveCotizacion = IDCotizacion
+                                            _ObjSeg.ManejaSeguro(7)
+                                        End If
+                                        'BUG-PC-177 FIN
+
+
 
                                         objCot.IDCotizacion = IDCotizacion
                                         objCot.IDEmpresa = 1
@@ -3981,7 +4099,7 @@ Partial Class aspx_Cotizador
             Else
                 MensajeError(strErr)
             End If
-
+            End If
 
             'BBVA-P-412 RQ WSC AVH:
             Dim MulPlazos As DataSet
@@ -4447,10 +4565,13 @@ Partial Class aspx_Cotizador
         If CargaCombos2() Then
             Dim brokerid As String = obten_broker()
             'RQ-PC5
-            If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5 Or brokerid = 9) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+            'BUG-PC-191 BUG-PC-193
+            If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) OrElse (brokerid = 5) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
                 dvrecurrecte.Visible = True
+                dvcodpostal.Visible = True
             Else
                 dvrecurrecte.Visible = False
+                dvcodpostal.Visible = False
             End If
         Else
             finseg.Visible = False
@@ -4540,10 +4661,19 @@ Partial Class aspx_Cotizador
         'datos(1) = ddledo.SelectedValue
         'objCombo.LlenaObjs(ddlagencia, datos)
 
+        'BUG-PC-196 INI 
         objage.IDEstatus = 2
         objage.IDEstado = ddledo.SelectedValue
         objage.IDUsuario = iduser
         dtsRes = objage.ManejaAgencia(26)
+
+        'objage.IDAlianza = ddlalianza.SelectedValue
+        'objage.IDGrupo = -1
+        'objage.IDDivision = -1
+        'objage.IDUsuario = iduser
+        'objage.IDEstado = ddledo.SelectedValue
+        'dtsRes = objage.ManejaAgencia(30)
+        'BUG-PC-196 FIN
         If objage.ErrorAgencia = "" Then
             If dtsRes.Tables(0).Rows.Count > 0 Then
                 objCombo.LlenaCombos(dtsRes, "NOMBRE", "ID_AGENCIA", ddlagencia, strErr)
@@ -4935,10 +5065,13 @@ Partial Class aspx_Cotizador
         CargaCombos2()
         Dim brokerid As String = obten_broker()
         'RQ-PC5
-        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5 Or brokerid = 9) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+        'BUG-PC-191
+        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) OrElse (brokerid = 5) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
             dvrecurrecte.Visible = True
+            dvcodpostal.Visible = True
         Else
             dvrecurrecte.Visible = False
+            dvcodpostal.Visible = False
         End If
 
     End Sub
@@ -5325,10 +5458,13 @@ Partial Class aspx_Cotizador
         If CargaCombos2() Then
             Dim brokerid As String = obten_broker()
             'RQ-PC5
-            If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5 Or brokerid = 9) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+            'BUG-PC-191 BUG-PC-193
+            If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) OrElse (brokerid = 5) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
                 dvrecurrecte.Visible = True
+                dvcodpostal.Visible = True
             Else
                 dvrecurrecte.Visible = False
+                dvcodpostal.Visible = False
             End If
         Else
             finseg.Visible = False
@@ -5523,7 +5659,7 @@ Partial Class aspx_Cotizador
                                                  IIf(rdbsexh.Checked = True, 2, 1), totacc, ddlcobertura.SelectedValue, ddluso.SelectedValue,
                                                  CDbl(txtprecio.Text.Trim), ddlpj.SelectedValue, ddledoseg.SelectedValue,
                                                  txtcprecurrente.Text.Trim, ddlaseguradora.SelectedValue, ddlmonedafact.SelectedValue,
-                                                 ddltiposeg.SelectedValue, ddlplan.SelectedValue)
+                                                 ddltiposeg.SelectedValue, ddlplan.SelectedValue, ddlagencia.SelectedValue)
 
                 If objcotOrdas.StrError <> "" Then
                     strErr = "Respuesta del Servicio Web: " & objcotOrdas.StrError
@@ -5629,11 +5765,18 @@ Partial Class aspx_Cotizador
             Case 3 ''EIKOS
                 Dim objcotEikos As New WCF.clsCotSegEikos()
                 Dim objprod As New SNProcotiza.clsProductos()
+                Dim intBrokerABA As Integer = 0
                 objprod.IDMarca = ddlmarca.SelectedValue
                 objprod.IDSubmarca = ddlmodelo.SelectedValue
                 objprod.IDVersion = ddlversion.SelectedValue
                 objprod.IDAnio = ddlanio.SelectedValue
                 objprod.CargaProducto()
+
+                If ddlaseguradora.SelectedValue = 122 Then
+                    intBrokerABA = 105
+                End If
+
+                objcotEikos.BrokerABA = intBrokerABA
 
                 dtsRes = objcotEikos.CotizaEikos(intbroker, ddlanio.SelectedValue, ddltipounidad.SelectedValue, ddluso.SelectedValue, objprod.IDExterno,
                                                 ddlclasif.SelectedValue, ddledoseg.SelectedValue, CDbl(txtenganche.Text.Trim), CDbl(Replace(lbltotalacc.Text, "$", "")),
@@ -5700,6 +5843,7 @@ Partial Class aspx_Cotizador
             Case 4 ''MARSH
                 If usaMulticotiza = 1 Then
                     Dim objcotMarhs As New WCF.clsCotSegMarshMulti()
+                    objcotMarhs.IdPlazo = ddlplazos.SelectedValue 'BUG-PC-175
                     dtsRes = objcotMarhs.CotizaMultiMarsh(intbroker, ddluso.SelectedValue, ddlanio.SelectedValue, ddltipounidad.SelectedValue, ddlclasif.SelectedValue,
                                                      CDbl(txtprecio.Text.Trim), ddledoseg.SelectedValue, CDbl(Replace(lbltotalacc.Text, "$", "")), ddlcobertura.SelectedValue,
                                                      ddltiposeg.SelectedItem.Text,
@@ -5717,6 +5861,7 @@ Partial Class aspx_Cotizador
                     grvSeguro.DataBind()
 
                     ViewState("dtsREcibos") = dtsRes.Tables(1)
+                    ViewState("cotCodigoPostal") = Me.txtcprecurrente.Text.Trim
 
                     Dim checkCotizacion = False
 
@@ -5907,6 +6052,7 @@ Partial Class aspx_Cotizador
                         clsSegDanios1.STR_DEDUCROT = cmbDeducibleRoboTotal.SelectedItem.Text.Trim({" "c, "%"c})
 
                         clsSegDanios1.CP = txtcprecurrente.Text.Trim
+                        clsSegDanios1.ID_AGENCIA = ddlagencia.SelectedValue.ToString() 'BUG-PC-190
 
                         ds_getRateCarQuote = ViewState("vws_getRateCarQuote")
 
@@ -5945,7 +6091,8 @@ Partial Class aspx_Cotizador
                         clsSegDanios1.User = Session("usrreg")
                         clsSegDanios1.IdSesion = ViewState("wvsUsr")
                         clsSegDanios1.MontoCredito = Regex.Replace(txtprecio.Text.Trim, ",", "")
-                        clsSegDanios1.IdIndeImnizacion = "001"
+                        'clsSegDanios1.IdIndeImnizacion = "001"
+                        clsSegDanios1.ID_AGENCIA = ddlagencia.SelectedValue.ToString() 'BUG-PC-190 
 
                         dtsRes = clsSegDanios1.CotizaDanios(5, ddlanio.SelectedValue, idveh, ddlversion.SelectedItem.Text.ToString, txtprecio.Text.ToString, ddlplan.SelectedValue, ddlaseguradora.SelectedItem.Text,
                                                              ddlcobertura.SelectedValue, ddledoseg.SelectedValue, ddledoseg.SelectedItem.Text, ddltiposeg.SelectedValue, ddlcobertura.SelectedItem.Text, SoloAccesorios,
@@ -5962,7 +6109,7 @@ Partial Class aspx_Cotizador
                 'dtsRes = clssegbbva.CotizaBBVADaños2(5, ddlanio.SelectedValue, idveh, ddlversion.SelectedItem.Text.ToString, txtprecio.Text.ToString, ddlplan.SelectedValue, ddlaseguradora.SelectedValue,
                 '                                         ddlcobertura.SelectedValue, ddledoseg.SelectedValue, ddledoseg.SelectedItem.Text, ddltiposeg.SelectedValue, ddlcobertura.SelectedValue, SoloAccesorios, ddltipounidad.SelectedValue)
                 If clsSegDanios1.StrError <> "" Then
-                    strErr = "Respuesta del Servicio Web: " & clssegbbva.StrError
+                    strErr = "Respuesta del Servicio Web: " & clsSegDanios1.StrError
                     Exit Function
                 End If
 
@@ -6174,7 +6321,8 @@ Partial Class aspx_Cotizador
                 clsSegDanios1.User = Session("usrreg")
                 clsSegDanios1.IdSesion = ViewState("wvsUsr")
                 clsSegDanios1.MontoCredito = Regex.Replace(txtprecio.Text.Trim, ",", "")
-                clsSegDanios1.IdIndeImnizacion = "001"
+                'clsSegDanios1.IdIndeImnizacion = "001"
+                clsSegDanios1.ID_AGENCIA = ddlagencia.SelectedValue.ToString() 'BUG-PC-190
 
                 dtsRes = clsSegDanios1.CotizaDanios(9, ddlanio.SelectedValue, idveh, ddlversion.SelectedItem.Text.ToString, txtprecio.Text.ToString, ddlplan.SelectedValue, ddlaseguradora.SelectedItem.Text,
                                                      ddlcobertura.SelectedValue, ddledoseg.SelectedValue, ddledoseg.SelectedItem.Text, ddltiposeg.SelectedValue, ddlcobertura.SelectedItem.Text, SoloAccesorios,
@@ -6316,7 +6464,8 @@ Partial Class aspx_Cotizador
                     MensajeError("El plazo seleccionado no aplica para la promoción " & objPromocte.DESCRIPCION & ".")
                     Exit Function
                 End If
-
+                _ObjSeg.intProducto = ObtenProducto()
+                _ObjSeg._IntSegDanios = ddltiposeg.SelectedValue
                 _ObjSeg.ManejaSeguro(6)
 
                 If _ObjSeg.ErrorSeguro = "" Then
@@ -6331,14 +6480,22 @@ Partial Class aspx_Cotizador
                             Exit Function
                         End If
                     End If
+                    Dim cad As String = String.Empty
+                    If (ddltiposeg.SelectedValue <> 32 AndAlso ddltiposeg.SelectedValue <> 168) Then
+                        For j As Integer = 0 To grvSeguro.Rows.Count - 1
+                            cad = cad & grvSeguro.Rows(j).Cells(1).Text & "," & IIf(grvSeguro.Rows(j).Cells(2).Text = "", "0", grvSeguro.Rows(j).Cells(2).Text) & "," & IIf(grvSeguro.Rows(j).Cells(4).Text = "", "0", grvSeguro.Rows(j).Cells(4).Text) & "," & IIf(grvSeguro.Rows(j).Cells(6).Text = "", "0", grvSeguro.Rows(j).Cells(6).Text) & "|"
+                        Next
+                    End If
+
+                    Dim mtosegvida As Double = IIf(Session("montoSegVida").ToString() = "0.00", 0, CType(Session("montoSegVida").ToString(), Double))
                     Dim id_prod As Integer = ObtenProducto()
                     LlenaGrvMultiplazos(ddlplan.SelectedValue, CDbl(txtprecio.Text.Trim), CDbl(txtenganche.Text.Trim), ddlpj.SelectedValue,
                         ddltoperacion.SelectedValue, ddlclasif.SelectedValue, txtUniProd.Text.Trim, ddliva.SelectedValue,
                         CDbl(lblAccFinan.Text.Trim.Trim), CDbl(lblAccConta.Text.Trim.Trim), objPlazos.Valor,
                         IIf(Val(Session("band")) = 0, 0, CDbl(txtporeng.Text.Trim)), Val(Session("band")), ddlversion.SelectedValue,
                         ddltipounidad.SelectedValue, ddltiposeg.SelectedValue, ddlcobertura.SelectedValue, ddluso.SelectedValue,
-                        _ObjSeg._decSegPrimaNeta, _ObjSeg._decSegPrimaTotalGap, _ObjSeg._decSegVida, _ObjSeg._decSegDerecho,
-                        ddlaseguradora.SelectedValue, ddledoseg.SelectedValue, 0, "", 0, ddlsegvida.SelectedValue, id_prod)
+                                    0, 0, mtosegvida, 0, ddlaseguradora.SelectedValue,
+                                  ddledoseg.SelectedValue, intbroker, cad, CDbl(IIf(txtmtogarantia.Text.Trim = "", 0, txtmtogarantia.Text.Trim)), ddlsegvida.SelectedValue, id_prod)
                     Exit Function
                 Else
                     strErr = _ObjSeg.ErrorSeguro
@@ -6598,6 +6755,7 @@ Partial Class aspx_Cotizador
         objProdID.IDVersion = ddlversion.SelectedValue
         objProdID.IDAnio = ddlanio.SelectedValue
         objProdID.IDClasificacion = ddlclasif.SelectedValue
+        objProdID.IDEstatus = 2 'BUG-PC-196
         dts = objProdID.ManejaProducto(1)
 
         If objProdID.ErrorProducto = "" Then
@@ -6622,6 +6780,7 @@ Partial Class aspx_Cotizador
         objProdID.IDVersion = ddlversion.SelectedValue
         objProdID.IDAnio = ddlanio.SelectedValue
         objProdID.IDClasificacion = ddlclasif.SelectedValue
+        objProdID.IDEstatus = 2 'BUG-PC-196
         dts = objProdID.ManejaProducto(1)
 
         If objProdID.ErrorProducto <> "" Then
@@ -7411,10 +7570,13 @@ Partial Class aspx_Cotizador
         CargaCombos2()
         Dim brokerid As String = obten_broker()
         'RQ-PC5
-        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5 Or brokerid = 9) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+        'BUG-PC-191 BUG-PC-193
+        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) OrElse (brokerid = 5) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
             dvrecurrecte.Visible = True
+            dvcodpostal.Visible = True
         Else
             dvrecurrecte.Visible = False
+            dvcodpostal.Visible = False
         End If
 
     End Sub
@@ -7773,8 +7935,58 @@ Partial Class aspx_Cotizador
                 limpiaobjs("textbox", ddlplazos)
                 limpiaobjs("label", ddlplazos)
                 MensajeError("No existen plazos para el paquete " & ddlplan.SelectedItem.Text & ".")
-                Exit Sub
+            Exit Sub
+        End If
+        VerificaSubsidio(objPaq)
+
+        'Compra Inteligente
+        objPaq = New clsPaquetes
+        objPaq.CargaPaquete(ddlplan.SelectedValue)
+        If objPaq.IDTipoCalculo = 167 Then
+
+            div17.Visible = True
+            tdlblresidual.Visible = True
+            tdtxtresidual.Visible = True
+            txtenganche.Enabled = False
+            txtporeng.Enabled = False
+            tdEngancheCI.Visible = True
+            ddlengancheCI.Visible = True
+
+            ReDim datos(3)
+            datos(0) = ddlversion.SelectedValue
+            datos(1) = ddlplazos.SelectedValue
+            objCombo.LlenaObjs(ddlengancheCI, datos)
+            If ddlengancheCI.SelectedValue <> "" And ddlengancheCI.SelectedValue <> 0 Then
+                txtporeng.Text = ddlengancheCI.SelectedItem.Text
+                lblengmin.Text = ddlengancheCI.SelectedItem.Text
+                Dim dtsResver As New DataSet
+                Dim clsver As New clsVersiones
+                clsver.IDVersion = ddlversion.SelectedValue
+                clsver.Plazo = ddlplazos.SelectedValue
+                clsver.Enganche = CDbl(ddlengancheCI.SelectedItem.Text)
+                dtsResver = clsver.ManejaVersion(9)
+                txtporresidual.Text = CDbl(dtsResver.Tables(0).Rows(0).Item("PORC_BALLOON")).ToString("###,##0.00")
+                txtresidual.Text = Val((CDbl(dtsResver.Tables(0).Rows(0).Item("PORC_BALLOON")) / 100) * CDbl(txtprecio.Text.Trim)).ToString("###,##0.00")
+            Else
+                ddlengancheCI.Enabled = False
+                Dim dtsPlazo As New DataSet
+                objPaq.IDPlazo = Val(ddlplazos.SelectedValue)
+                objPaq.IDPaquete = Val(ddlplan.SelectedValue)
+                objPaq.IDEstatusPlazo = 2
+                dtsPlazo = objPaq.ManejaPaquete(7)
+                txtporresidual.Text = CDbl(dtsPlazo.Tables(0).Rows(0).Item("PTJ_BLIND_DISCOUNT")).ToString("###,##0.00")
+                txtresidual.Text = Val((CDbl(dtsPlazo.Tables(0).Rows(0).Item("PTJ_BLIND_DISCOUNT")) / 100) * CDbl(txtprecio.Text.Trim)).ToString("###,##0.00")
             End If
+        Else
+            div17.Visible = False
+            tdlblresidual.Visible = False
+            tdtxtresidual.Visible = False
+            txtenganche.Enabled = True
+            txtporeng.Enabled = True
+            tdEngancheCI.Visible = False
+            ddlengancheCI.Visible = False
+
+        End If
 
             ''TextBox's Monto Enganche, % Enganche, Enganche Minimo, Tasa de Interes
             ObtenTasa()
@@ -8104,6 +8316,26 @@ Partial Class aspx_Cotizador
             End If
         End If
 
+        'BUG-PC-183 INI
+        Dim brokerid As String = obten_broker()
+        If usaMulticotiza = 1 AndAlso brokerid = 4 AndAlso Me.txtcprecurrente.Enabled = True Then
+            If Not IsNothing(ViewState("cotCodigoPostal")) AndAlso (Not (ViewState("cotCodigoPostal").ToString().Trim() = Me.txtcprecurrente.Text.Trim)) Then
+                strErr = "El Código Postal no corresponde con la cotización del seguro."
+                Exit Function
+            End If
+        End If
+        'BUG-PC-183 FIN
+
+        'BUG-PC-183 INI
+        'Dim brokerid As String = obten_broker()
+        If usaMulticotiza = 1 AndAlso brokerid = 4 AndAlso Me.txtcprecurrente.Enabled = True Then
+            If Not IsNothing(ViewState("cotCodigoPostal")) AndAlso (Not (ViewState("cotCodigoPostal").ToString().Trim() = Me.txtcprecurrente.Text.Trim)) Then
+                strErr = "El Código Postal no corresponde con la cotización del seguro."
+                Exit Function
+            End If
+        End If
+        'BUG-PC-183 FIN
+
         ValidaCotizarSeg = True
     End Function
 
@@ -8242,7 +8474,6 @@ Partial Class aspx_Cotizador
 
         Dim dts As New DataSet
         Dim datos(5) As Integer
-        Dim brokerid As String = obten_broker()
 
        
 
@@ -8532,10 +8763,14 @@ Partial Class aspx_Cotizador
         divfinadic.Visible = True
         CargaCombos2()
         'RQ-PC5
-        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5 Or brokerid = 9) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+        Dim brokerid As String = obten_broker() 'BUG-PC-191 
+        'BUG-PC-193
+        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
             dvrecurrecte.Visible = True
+            dvcodpostal.Visible = True
         Else
             dvrecurrecte.Visible = False
+            dvcodpostal.Visible = False
         End If
 
     End Sub
@@ -9083,11 +9318,13 @@ Partial Class aspx_Cotizador
         divfinadic.Visible = True
         CargaCombos2()
         Dim brokerid As String = obten_broker()
-        'RQ-PC5
-        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5 Or brokerid = 9) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+        'RQ-PC5 'BUG-PC-193
+        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
             dvrecurrecte.Visible = True
+            dvcodpostal.Visible = True
         Else
             dvrecurrecte.Visible = False
+            dvcodpostal.Visible = False
         End If
 
     End Sub
@@ -9380,11 +9617,13 @@ Partial Class aspx_Cotizador
         divfinadic.Visible = True
         CargaCombos2()
         Dim brokerid As String = obten_broker()
-        'RQ-PC5
-        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5 Or brokerid = 9) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
+        'RQ-PC5 'BUG-PC-193
+        If (ddlalianza.SelectedValue = 2224 Or ddlalianza.SelectedValue = 2232) Or (brokerid = 5) OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then
             dvrecurrecte.Visible = True
+            dvcodpostal.Visible = True
         Else
             dvrecurrecte.Visible = False
+            dvcodpostal.Visible = False
         End If
 
     End Sub
@@ -9514,6 +9753,8 @@ Partial Class aspx_Cotizador
             dtsDatos.Tables(6).TableName = "LeyendaComparativo"
             dtsDatos.Tables(7).TableName = "Tabla_Amort_6"
         End If
+
+        dtsDatos.Tables(8).TableName = "PER_SEG_DANIOS"
 
         crReportDocument = New ReportDocument
         crReportDocument.Load(strRuta)
@@ -10224,8 +10465,8 @@ Partial Class aspx_Cotizador
                     Exit Function
                 End If
             Else
-                If (Len(txtnombrecte.Text)) < 3 Then
-                    strErr = "Debe ingresar al menos 3 caracteres."
+                If (Len(txtnombrecte.Text)) < 2 Then
+                    strErr = "Debe ingresar al menos 2 caracteres."
                     txtnombrectepf.Focus()
                     Exit Function
                 End If
@@ -10358,6 +10599,23 @@ Partial Class aspx_Cotizador
                     objrecibos.ManejaDetalleSeg(2)
                 End If
             Next
+        ElseIf (usaMulticotiza = 1 AndAlso brokerid = 4) Then 'BUG-PC-187
+            For i As Integer = 0 To dtrecibos.Rows.Count - 1
+
+                If dtrecibos.Rows(i).Item("idRequest") = Request.ToString Then
+                    objrecibos.SEG_FL_CVE = IDSeg
+                    Dim idrecibo() As String = Split(dtrecibos.Rows(i).Item("serialNumber"))
+                    objrecibos.ID_RECIBO = Val(idrecibo(0))
+                    objrecibos.SEG_NO_PRIMANETA = dtrecibos.Rows(i).Item("realPremium")
+                    objrecibos.SEG_NO_RECARGO = dtrecibos.Rows(i).Item("lateFee")
+                    objrecibos.SEG_NO_DERECHO = dtrecibos.Rows(i).Item("shippingCosts")
+                    objrecibos.SEG_NO_IVA = dtrecibos.Rows(i).Item("tax")
+                    objrecibos.SEG_NO_PRIMATOTAL = dtrecibos.Rows(i).Item("totalPremium")
+                    objrecibos.SEG_TIPO_SEGURO = 2
+
+                    objrecibos.ManejaDetalleSeg(2)
+                End If
+            Next
         Else
             For i As Integer = 0 To dtrecibos.Rows.Count - 1
 
@@ -10366,7 +10624,7 @@ Partial Class aspx_Cotizador
                     Dim idrecibo() As String = Split(dtrecibos.Rows(i).Item("serialNumber"))
                     objrecibos.ID_RECIBO = Val(idrecibo(0))
                     objrecibos.SEG_NO_PRIMANETA = dtrecibos.Rows(i).Item("realPremium")
-                    objrecibos.SEG_NO_RECARGO = 0.00
+                    objrecibos.SEG_NO_RECARGO = 0.0
                     objrecibos.SEG_NO_DERECHO = dtrecibos.Rows(i).Item("shippingCosts")
                     objrecibos.SEG_NO_IVA = dtrecibos.Rows(i).Item("tax")
                     objrecibos.SEG_NO_PRIMATOTAL = dtrecibos.Rows(i).Item("totalPremium")
@@ -11255,7 +11513,7 @@ Partial Class aspx_Cotizador
             Return
         End If
 
-        If brokerid = 2 OrElse brokerid = 4 Then 'RQ-PC5
+        If brokerid = 2 OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then 'RQ-PC5 BUG-PC-191
 
             For i As Integer = 0 To grvSeguro.Rows.Count - 1
                 If ddlaseguradora.SelectedItem.Text = grvSeguro.Rows(i).Cells(7).Text Then
@@ -11270,7 +11528,7 @@ Partial Class aspx_Cotizador
 
             If contAseg = 0 Or contPlazo = 0 Then
                 If grvSeguro.Visible = True Then
-                strErr = "La combinación de Aseguradora y/o plazo seleccionado no es válido."
+                    strErr = "La combinación de Aseguradora y/o plazo seleccionado no es válido."
                 End If
             End If
 
@@ -11298,7 +11556,7 @@ Partial Class aspx_Cotizador
         Dim cad As String = String.Empty
         If strErr.Length = 0 Then
             If grvSeguro.Rows.Count > 0 Then
-                If brokerid = 2 OrElse brokerid = 4 Then 'RQ-PC5
+                If brokerid = 2 OrElse (usaMulticotiza = 1 AndAlso brokerid = 4) Then 'RQ-PC5 BUG-PC-191
                     If (ddltiposeg.SelectedValue <> 32 AndAlso ddltiposeg.SelectedValue <> 168) Then
                         For j As Integer = 0 To grvSeguro.Rows.Count - 1
                             If ddlaseguradora.SelectedItem.Text = grvSeguro.Rows(j).Cells(7).Text Then
@@ -11410,7 +11668,7 @@ Partial Class aspx_Cotizador
                                          IIf(rdbsexh.Checked = False And rdbsexm.Checked = False, 1, IIf(rdbsexh.Checked = True, 1, 2)), totacc, ddlcobertura.SelectedValue, ddluso.SelectedValue,
                                          CDbl(txtprecio.Text.Trim), ddlpj.SelectedValue, ddledoseg.SelectedValue,
                                          txtcprecurrente.Text.Trim, 32, ddlmonedafact.SelectedValue,
-                                         IIf(ddltiposeg.SelectedValue = 188, 1, 9), ddlplan.SelectedValue, cover)
+                                         IIf(ddltiposeg.SelectedValue = 188, 1, 9), ddlplan.SelectedValue, cover, ddlagencia.SelectedValue)
 
         If objcotOrdas.StrError <> "" Then
             ViewState("dtsGarantia") = Nothing
@@ -11622,6 +11880,7 @@ Partial Class aspx_Cotizador
                     If ddlalianza.SelectedValue = intValue Then
                         'ObtenSubplan()
                         bolLlena = True
+                        Exit For
                     End If
                 Next
                 If bolLlena = True Then
@@ -11665,6 +11924,12 @@ Partial Class aspx_Cotizador
         Else
             MensajeError("Error al consultar parámetro de seguro de daños.")
         End If
+
+        'BUG-PC-177 INI
+        If usaMulticotiza = 1 AndAlso brokerid = 4 Then
+            ddledoseg.Enabled = False
+        End If
+
     End Sub
     'RQ-PI7-PC7: CGARCIA: 27/12/2017: CREACION DE LOS SERVICIOS DE SUBPLANES, INDEMNIZACION Y DEDUCIBLES (comobo de coberturas es subplan) unicamente para seguros bancomer
     'BUG-PC-168: CGARCIA: 15/03/2018: SE MODIFICA SERVICO DE DAÑOS PARA MULTIMARCA

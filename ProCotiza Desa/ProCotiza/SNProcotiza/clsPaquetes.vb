@@ -13,11 +13,15 @@
 'RQ-MN2-2: ERODRIGUEZ: 21/08/2017 Requerimiento para agregar Tasa Nominal Dos, Comision Dos, para cuando el tipo de calculo sea igual a Balloon .
 'RQ-MN2-2.2 ERODRIGUEZ: 27/09/2017 Se elimina porcentaje de refinanciamiento
 'BUG-PC-160: CGARCIA: 26/02/2018: SE AGREGA FILTRADO POR ESQUEMA A LA OPCION 35 
+'RQ-PC9: DCORNEJO: 18/05/2018: SE MODIFICA EL PAQUETE PARA AGREGAR VALIDACIONES AL FILTRAR POR ESQUEMA OPCION 35,36,37
+'BUG-PC-204: CGARCIA: 06/06/2018: SE REVERSA FILTRO RQ-PC9
 Imports SDManejaBD
 Imports System.Text
 
 Public Class clsPaquetes
     Inherits clsSession
+
+#Region "VARIABLES"
 
     Private strErrPaquete As String = ""
 
@@ -81,7 +85,6 @@ Public Class clsPaquetes
     Private dblPtjBlindDiscount As Double = 0
     Private dblTasaPCP As Double = 0
     Private dblIncentivoVtas As Double = 0
-
     Private strNombre As String = ""
     Private strUsuReg As String = ""
     Private strIniVig As String = ""
@@ -120,8 +123,11 @@ Public Class clsPaquetes
     Private intidDivision As Integer = -1
     Private intidGrupo As Integer = -1
     Private intidversion As Integer = 0
-    Private intidEsquema As Integer = -1
+    'Private intidEsquema As Integer = -1
+    'RQ-PC9: DCORNEJO
+    Private intidEsquema As Integer = 0
     Private intidsubmarca As Integer = 0
+#End Region
 
     Sub New()
     End Sub
@@ -129,6 +135,7 @@ Public Class clsPaquetes
         CargaPaquete(intCvePaquete)
     End Sub
 
+#Region "PROPIEDADES"
     Public ReadOnly Property ErrorPaquete() As String
         Get
             Return strErrPaquete
@@ -144,7 +151,6 @@ Public Class clsPaquetes
             strUsuReg = value
         End Set
     End Property
-
     Public Property IDPaquete() As Integer
         Get
             Return intPaquete
@@ -171,7 +177,6 @@ Public Class clsPaquetes
             intProducto = value
         End Set
     End Property
-
     Public Property IDTipoProducto() As Integer
         Get
             Return intTipoProducto
@@ -198,7 +203,6 @@ Public Class clsPaquetes
             intTipoCalcSeg = value
         End Set
     End Property
-
     Public Property IDEstatusOtro() As Integer
         Get
             Return intEstatusOtro
@@ -225,7 +229,6 @@ Public Class clsPaquetes
             intTipoOper = value
         End Set
     End Property
-
     Public Property IDPlazo() As Integer
         Get
             Return intPlazo
@@ -252,7 +255,6 @@ Public Class clsPaquetes
             intEstatusPlazo = value
         End Set
     End Property
-
     Public Property IDCalendario() As Integer
         Get
             Return intCalendario
@@ -791,7 +793,7 @@ Public Class clsPaquetes
             dblptjsubsidioArmadora = value
         End Set
     End Property
-  
+
 
     Public Property PorSubsidioAgencia As Double
         Get
@@ -998,8 +1000,10 @@ Public Class clsPaquetes
             intidsubmarca = value
         End Set
     End Property
+#End Region
 
 
+#Region "METODOS"
     Public Sub CargaPaquete(Optional ByVal intPaq As Integer = 0)
         Dim dtsRes As New DataSet
         Try
@@ -1300,6 +1304,7 @@ Public Class clsPaquetes
                     If intidsubmarca > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idsubmarca", intidsubmarca.ToString)
                     If intClasifProd > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idClasif", intClasifProd.ToString)
                     If intIdBroker > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idbroker", intIdBroker.ToString) 'BBVA-P-412
+                    'If intidAlianza > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idAlianza", IDAlianza)
                 Case 12 ' borra relacion paquete - paquete seguro
                     If intPaquete > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idPaquete", intPaquete.ToString)
                 Case 13 ' inserta relacion paquete - paquete seguro
@@ -1366,7 +1371,8 @@ Public Class clsPaquetes
                     If intidAlianza > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idAlianza", intidAlianza.ToString)
                     If intidDivision > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idDivision", intidDivision.ToString)
                     If intidGrupo > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idGrupo", intidGrupo.ToString)
-                    If intidEsquema > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idEsquema", intidEsquema.ToString)
+                    'RQ-PC9: DCORNEJO
+                    If intidEsquema > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idEsquema", intidEsquema.ToString)
                 Case 36 'Inserta relación Paquetes - Agencias
                     ArmaParametros(strParamStored, TipoDato.Entero, "idPaquete", intPaquete.ToString)
                     If intIdAgencia > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idAgencia", intIdAgencia.ToString)
@@ -1375,6 +1381,8 @@ Public Class clsPaquetes
                     If intidAlianza > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idAlianza", intidAlianza.ToString)
                     If intidDivision > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idDivision", intidDivision.ToString)
                     If intidGrupo > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idGrupo", intidGrupo.ToString)
+                    'RQ-PC9: DCORNEJO
+                    If intidEsquema > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idEsquema", intidEsquema.ToString)
                 Case 37 'Borra relación Paquetes - Agencias
                     ArmaParametros(strParamStored, TipoDato.Entero, "idPaquete", intPaquete.ToString)
                     If intIdAgencia > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idAgencia", intIdAgencia.ToString)
@@ -1382,6 +1390,8 @@ Public Class clsPaquetes
                     If intidAlianza > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idAlianza", intidAlianza.ToString)
                     If intidDivision > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idDivision", intidDivision.ToString)
                     If intidGrupo > -1 Then ArmaParametros(strParamStored, TipoDato.Entero, "idGrupo", intidGrupo.ToString)
+                    'RQ-PC9: DCORNEJO
+                    If intidEsquema > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idEsquema", intidEsquema.ToString)
                 Case 38 'Consulta Cotizador
                     If intMoneda > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idMoneda", intMoneda.ToString)
                     If intTipoOper > 0 Then ArmaParametros(strParamStored, TipoDato.Entero, "idTipOper", intTipoOper.ToString)
@@ -1455,6 +1465,7 @@ Public Class clsPaquetes
         End Try
     End Function
 
+
     Public Function consultaWS(opc As Integer) As DataSet
 
         Try
@@ -1477,4 +1488,10 @@ Public Class clsPaquetes
             Return Nothing
         End Try
     End Function
+#End Region
+
+
+
+
+
 End Class

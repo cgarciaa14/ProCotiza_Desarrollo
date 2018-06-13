@@ -13,6 +13,8 @@
 'RQ-MN2-2 ERODRIGUEZ 14/09/2017 Se agregaron tasas para compra inteligente .
 'RQ-MN2-2.3 ERODRIGUEZ 14/09/2017 Se agregaron tablas para CI.
 'BUG-PC-126: ERODRIGUEZ: 16/11/2017 Se agrego parametro para etiqueta de periodo
+'Bug-PC-189 : EGONZALEZ : 04/05/2018 : Se agrega al reporte de cotización la sección de datos de "Personalización tu Seguro de daños" sólo para seguros Bancomer.
+'BUG-PC-191 : JMENDIETA : 09/05/2018 : Se corrige el redirect de cotizador.aspx a Cotizador.aspx
 Imports System.Data
 Imports SNProcotiza
 Imports System.Configuration
@@ -41,7 +43,7 @@ Partial Class aspx_consultaFoliosCotizacion
         Dim objCombo As New clsProcGenerales
 
         'If objUsuFirma.ErrorUsuario = "Sesion Terminada" Then
-            'Response.Redirect("../login.aspx", True)
+        'Response.Redirect("../login.aspx", True)
         'End If
 
         LimpiaError()
@@ -128,7 +130,7 @@ Partial Class aspx_consultaFoliosCotizacion
                 End If
             End If
 
-          
+
 
 
             'Combo Agencias
@@ -461,7 +463,8 @@ Partial Class aspx_consultaFoliosCotizacion
         End If
 
         If e.CommandName = "EditId" Then
-            Response.Redirect("cotizador.aspx?idCotizacion=" & Val(e.CommandArgument).ToString() & "&idCotSeguro=" & Val(Request("IdCotSeguro")) & "&Propuesta=" & 0)
+            'BUG-PC-191
+            Response.Redirect("Cotizador.aspx?idCotizacion=" & Val(e.CommandArgument).ToString() & "&idCotSeguro=" & Val(Request("IdCotSeguro")) & "&Propuesta=" & 0)
         End If
 
     End Sub
@@ -630,7 +633,6 @@ Partial Class aspx_consultaFoliosCotizacion
         dtsDatos.Tables(2).TableName = "Leyendas"
         dtsDatos.Tables(3).TableName = "TablaPorc"
 
-
         If dtsDatos.Tables.Count > 0 Then
             If dtsDatos.Tables(0).Rows.Count > 0 Then
             Else
@@ -652,6 +654,9 @@ Partial Class aspx_consultaFoliosCotizacion
 
 
         End If
+
+        dtsDatos.Tables(8).TableName = "PER_SEG_DANIOS"
+
         crReportDocument = New ReportDocument
         crReportDocument.Load(strRuta)
 

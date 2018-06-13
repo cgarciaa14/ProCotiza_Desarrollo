@@ -126,6 +126,13 @@ SNProcotiza
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:SNProcotiza.clsSeguro._IntSegDanios">
+	<summary>
+ Id Tipo Seguro de Danios
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:SNProcotiza.clsSeguro._decSegPrimaNeta1">
 	<summary>
  Prima neta del seguro Plazo 1
